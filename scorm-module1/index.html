@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1: Introduction to AI Automation</title>
+<style>
+/* ═══ RESET & BASE ═══ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;min-height:100vh}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+img{max-width:100%;height:auto;display:block;border-radius:12px}
+
+/* ═══ VARIABLES ═══ */
+:root{
+  --cyan:#0891b2;--cyan-light:#ecfeff;--cyan-border:#a5f3fc;
+  --emerald:#059669;--emerald-light:#ecfdf5;
+  --violet:#7c3aed;--violet-light:#f5f3ff;
+  --amber:#d97706;--amber-light:#fffbeb;
+  --red:#dc2626;--red-light:#fef2f2;
+  --slate:#64748b;--slate-light:#f1f5f9;
+  --white:#fff;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.1);
+}
+[dir="rtl"] body{font-family:'Segoe UI',system-ui,sans-serif}
+
+/* ═══ LAYOUT ═══ */
+.app{max-width:900px;margin:0 auto;padding:12px}
+.card{background:var(--white);border:1px solid #e2e8f0;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.card-header{padding:12px 16px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-body{padding:16px;min-height:400px}
+.card-footer{padding:10px 16px;border-top:1px solid #e2e8f0;background:#f8fafc;display:flex;align-items:center;justify-content:space-between}
+
+/* ═══ HEADER / TOOLBAR ═══ */
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.toolbar h1{font-size:14px;font-weight:700;color:#0f172a;flex:1}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600}
+.badge-cyan{background:var(--cyan-light);color:var(--cyan)}
+.badge-emerald{background:var(--emerald-light);color:var(--emerald)}
+.badge-amber{background:var(--amber-light);color:var(--amber)}
+.badge-violet{background:var(--violet-light);color:var(--violet)}
+.lang-btn{padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;border:1px solid #e2e8f0;background:var(--white);color:var(--slate);transition:.2s}
+.lang-btn:hover{background:var(--slate-light)}
+
+/* ═══ PROGRESS BAR ═══ */
+.progress-bar{height:6px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#06b6d4,#0284c7);transition:width .5s ease}
+
+/* ═══ NAV DOTS ═══ */
+.nav-dots{display:flex;gap:3px;justify-content:center;margin-bottom:8px;flex-wrap:wrap}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;border:none;transition:.2s;cursor:pointer}
+.nav-dot.active{background:var(--cyan);transform:scale(1.3)}
+.nav-dot.visited{background:#a5f3fc}
+.nav-dot.section-slide{background:#e2e8f0}
+.nav-dot.section-activity{background:#fde68a}
+.nav-dot.section-quiz{background:#a7f3d0}
+
+/* ═══ BUTTONS ═══ */
+.btn{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--cyan);color:var(--white);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.btn-primary:hover{background:#0e7490}
+.btn-primary:disabled{background:#94a3b8;cursor:not-allowed}
+.btn-outline{border:1px solid #e2e8f0;color:var(--slate);background:var(--white)}
+.btn-outline:hover{background:var(--slate-light)}
+.btn-outline:disabled{opacity:.4;cursor:not-allowed}
+.btn-success{background:var(--emerald);color:var(--white)}
+.btn-amber{background:var(--amber);color:var(--white)}
+
+/* ═══ GRID ═══ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:640px){.grid-3{grid-template-columns:1fr}}
+
+/* ═══ SLIDE ELEMENTS ═══ */
+.slide-title{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:6px;line-height:1.3}
+.slide-subtitle{font-size:14px;color:var(--slate);margin-bottom:12px}
+.info-box{padding:12px;border-radius:var(--radius);margin-bottom:12px;font-size:13px;line-height:1.7}
+.info-box.cyan{background:var(--cyan-light);border:1px solid var(--cyan-border);color:#155e75}
+.info-box.violet{background:var(--violet-light);border:1px solid #c4b5fd;color:#5b21b6}
+.info-box.amber{background:var(--amber-light);border:1px solid #fcd34d;color:#92400e}
+.info-box.emerald{background:var(--emerald-light);border:1px solid #6ee7b7;color:#065f46}
+.info-box.red{background:var(--red-light);border:1px solid #fca5a5;color:#991b1b}
+.info-box.slate{background:var(--slate-light);border:1px solid #cbd5e1;color:#334155}
+
+.chip{display:inline-flex;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:500;background:var(--slate-light);color:var(--slate);border:1px solid #e2e8f0;margin:3px}
+.tag{display:inline-flex;padding:4px 14px;background:var(--slate-light);border-radius:12px;font-size:12px;font-weight:500;color:var(--slate);border:1px solid #e2e8f0}
+
+/* ═══ INTERACTIVE CARDS ═══ */
+.click-card{padding:12px;border-radius:var(--radius);border:2px solid #e2e8f0;cursor:pointer;transition:.2s;text-align:left}
+[dir="rtl"] .click-card{text-align:right}
+.click-card:hover{border-color:var(--cyan);box-shadow:var(--shadow)}
+.click-card.active{background:var(--cyan-light);border-color:var(--cyan)}
+.click-card .card-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:4px}
+.click-card .card-desc{font-size:11px;color:var(--slate);line-height:1.5;overflow:hidden;max-height:0;transition:.3s}
+.click-card.active .card-desc{max-height:100px}
+
+.icon-box{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--white);flex-shrink:0}
+
+/* Flip card */
+.flip-card-btn{padding:10px;border-radius:var(--radius);border:2px solid #e2e8f0;cursor:pointer;transition:.3s;text-align:center;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.flip-card-btn.flipped{background:var(--cyan);border-color:var(--cyan);color:var(--white)}
+.flip-card-btn .flip-icon{font-size:22px;margin-bottom:4px}
+.flip-card-btn .flip-label{font-size:11px;font-weight:600}
+.flip-card-btn .flip-desc{font-size:11px}
+
+/* Process steps */
+.step-row{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.step-box{flex:1;min-width:60px;padding:6px;border-radius:8px;text-align:center;font-size:10px;font-weight:600;transition:.4s;background:#e2e8f0;color:var(--slate)}
+.step-box.active{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.step-box.done{opacity:.85}
+.step-arrow{font-size:12px;color:#cbd5e1}
+
+/* Flow selector */
+.flow-tab{flex:1;padding:6px;border-radius:8px;font-size:11px;font-weight:700;transition:.2s;background:var(--slate-light);color:var(--slate);text-align:center}
+.flow-tab.active{background:var(--violet);color:var(--white)}
+
+/* ═══ MATCH ACTIVITY ═══ */
+.match-pool{display:flex;flex-direction:column;gap:6px}
+.match-item{padding:10px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:.2s;border:2px solid transparent;user-select:none}
+.match-item.left{background:#f0f9ff;border-color:#bae6fd;color:#0c4a6e}
+.match-item.left.selected{background:#06b6d4;color:#fff;border-color:#06b6d4}
+.match-item.right{background:#faf5ff;border-color:#d8b4fe;color:#581c87}
+.match-item.right.selected{background:#7c3aed;color:#fff;border-color:#7c3aed}
+.match-item.correct{background:var(--emerald-light)!important;border-color:var(--emerald)!important;color:#065f46!important}
+.match-item.wrong{background:var(--red-light)!important;border-color:var(--red)!important;color:#991b1b!important}
+.match-item:disabled,.match-item[disabled]{cursor:default;opacity:.7}
+
+/* ═══ FLASHCARD ═══ */
+.flashcard-container{perspective:800px;margin:0 auto;max-width:400px}
+.flashcard{width:100%;min-height:200px;position:relative;cursor:pointer;transition:transform .6s;transform-style:preserve-3d}
+.flashcard.flipped{transform:rotateY(180deg)}
+[dir="rtl"] .flashcard.flipped{transform:rotateY(-180deg)}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.flashcard-front{background:linear-gradient(135deg,#06b6d4,#0284c7);color:var(--white);font-size:20px;font-weight:700}
+.flashcard-back{background:var(--white);border:2px solid var(--cyan);color:#0f172a;transform:rotateY(180deg);font-size:14px;line-height:1.7}
+[dir="rtl"] .flashcard-back{transform:rotateY(-180deg)}
+.flashcard-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px}
+.flashcard-counter{font-size:13px;font-weight:600;color:var(--slate)}
+
+/* ═══ QUIZ ═══ */
+.quiz-option{width:100%;text-align:left;padding:10px 14px;border-radius:8px;border:2px solid #e2e8f0;font-size:13px;transition:.2s;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+[dir="rtl"] .quiz-option{text-align:right}
+.quiz-option:hover:not(:disabled){border-color:var(--cyan);background:var(--cyan-light)}
+.quiz-option.selected{border-color:var(--cyan);background:var(--cyan-light);font-weight:600}
+.quiz-option.correct{border-color:var(--emerald);background:var(--emerald-light);color:#065f46}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:#991b1b}
+.quiz-option:disabled{cursor:default}
+.quiz-radio{width:16px;height:16px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.quiz-option.selected .quiz-radio{border-color:var(--cyan);background:var(--cyan)}
+.quiz-option.selected .quiz-radio::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%}
+.quiz-result{text-align:center;padding:16px;border-radius:var(--radius);margin-top:12px;font-weight:700;font-size:15px}
+.quiz-result.pass{background:var(--emerald-light);border:1px solid #6ee7b7;color:#065f46}
+.quiz-result.fail{background:var(--red-light);border:1px solid #fca5a5;color:#991b1b}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeIn .4s ease forwards}
+.hidden{display:none!important}
+
+/* ═══ SCORM STATUS ═══ */
+.scorm-status{position:fixed;bottom:8px;right:8px;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600;z-index:999}
+[dir="rtl"] .scorm-status{right:auto;left:8px}
+.scorm-status.connected{background:#d1fae5;color:#065f46}
+.scorm-status.disconnected{background:#fee2e2;color:#991b1b}
+</style>
+</head>
+<body>
+
+<div class="app" id="app"></div>
+<div class="scorm-status" id="scormStatus"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SCORM 1.2 API WRAPPER
+   ═══════════════════════════════════════════════════════════════ */
+const SCORM = (() => {
+  let API = null;
+  let connected = false;
+
+  function findAPI(win) {
+    let tries = 0;
+    while (win && !win.API && tries < 10) {
+      tries++;
+      if (win.parent && win.parent !== win) { win = win.parent; }
+      else if (win.opener) { win = win.opener; }
+      else break;
+    }
+    return win?.API || null;
+  }
+
+  function init() {
+    API = findAPI(window);
+    if (!API && window.opener) API = findAPI(window.opener);
+    if (API) {
+      const r = API.LMSInitialize('');
+      connected = (r === 'true' || r === true);
+    }
+    updateStatusUI();
+    return connected;
+  }
+
+  function setValue(key, val) {
+    if (!API) return;
+    API.LMSSetValue(key, String(val));
+    API.LMSCommit('');
+  }
+
+  function getValue(key) {
+    if (!API) return '';
+    return API.LMSGetValue(key);
+  }
+
+  function setScore(score, max, min) {
+    setValue('cmi.core.score.raw', score);
+    setValue('cmi.core.score.max', max || 100);
+    setValue('cmi.core.score.min', min || 0);
+  }
+
+  function setStatus(status) {
+    // status: 'completed', 'incomplete', 'passed', 'failed', 'not attempted'
+    setValue('cmi.core.lesson_status', status);
+  }
+
+  function setLocation(loc) {
+    setValue('cmi.core.lesson_location', loc);
+  }
+
+  function getLocation() {
+    return getValue('cmi.core.lesson_location') || '';
+  }
+
+  function setSuspendData(data) {
+    setValue('cmi.suspend_data', typeof data === 'string' ? data : JSON.stringify(data));
+  }
+
+  function getSuspendData() {
+    const d = getValue('cmi.suspend_data');
+    try { return JSON.parse(d); } catch(e) { return d || null; }
+  }
+
+  function finish() {
+    if (API) {
+      API.LMSCommit('');
+      API.LMSFinish('');
+    }
+  }
+
+  function updateStatusUI() {
+    const el = document.getElementById('scormStatus');
+    if (el) {
+      el.textContent = connected ? 'SCORM Connected' : 'SCORM: Standalone';
+      el.className = 'scorm-status ' + (connected ? 'connected' : 'disconnected');
+    }
+  }
+
+  return { init, setValue, getValue, setScore, setStatus, setLocation, getLocation, setSuspendData, getSuspendData, finish, get connected(){ return connected; } };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   APPLICATION STATE
+   ═══════════════════════════════════════════════════════════════ */
+const STATE = {
+  lang: 'en',
+  currentPage: 0,
+  visitedPages: new Set(),
+  // Slide-specific
+  slide3Active: null,
+  slide4Selected: null,
+  slide5Active: 0,
+  slide6Flipped: new Set(),
+  slide7Flow: 0,
+  slide7Step: 0,
+  slide8Result: null,
+  slide8Processing: false,
+  slide9Answers: {},
+  // Match activity
+  matchSelected: { left: null, right: null },
+  matchPairs: [],
+  matchDone: false,
+  // Flashcard activity
+  flashIdx: 0,
+  flashFlipped: false,
+  // Module quiz
+  quizAnswers: {},
+  quizSubmitted: false,
+  quizScore: 0,
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTENT DATA (BILINGUAL)
+   ═══════════════════════════════════════════════════════════════ */
+const T = {
+  en: {
+    moduleLabel: 'Module 1',
+    title: 'Introduction to AI Automation',
+    subtitle: 'Fundamentals, Types, and the Difference Between Traditional and AI Systems',
+    next: 'Next', previous: 'Previous', of: 'of',
+    submit: 'Submit', tryAgain: 'Try Again', checkAnswers: 'Check Answers',
+    answered: 'answered', score: 'Score',
+    passMsg: 'Congratulations! You passed the module quiz!',
+    failMsg: 'You need at least 80% to pass. Review the material and try again.',
+    passThreshold: 'Pass Threshold: 80%',
+    moduleQuiz: 'Module Quiz',
+    quizDesc: 'Answer all 5 questions. You need 80% or higher to pass.',
+    clickToLearn: 'Click each item to learn more',
+    clickToCompare: 'Click each side to compare',
+    flipCards: 'Flip the cards to see examples',
+    trySelect: 'Try: Select an input to see how AI processes it',
+    aiAnalyzing: 'AI analyzing...',
+    priority: 'Priority',
+    example: 'Example',
+    keyMsg: 'Key Message',
+    sectionSummary: 'Section Summary',
+    testUnderstanding: 'Test your understanding',
+    quickQuiz: 'Quick Quiz',
+    excellent: 'Excellent! All answers correct!',
+    matchTitle: 'Traditional vs AI Automation',
+    matchDesc: 'Match each concept to the correct automation type. Click a left item, then click its match on the right.',
+    matchComplete: 'All matched!',
+    matchReset: 'Reset',
+    flashTitle: 'Automation Types Flashcards',
+    flashDesc: 'Click the card to flip it. Use arrows to navigate.',
+    flashTap: 'Tap to flip',
+    tags: ['Efficiency','Intelligence','Workflow','Scalability'],
+    // Slide titles
+    slideTitles: ['Introduction to AI Automation','What is Automation?','Why Automation Matters','Traditional vs AI Automation','Types of Automation: Overview','Task Automation','Process Automation','Intelligent Automation','Section Summary & Quiz'],
+    // Slide 2
+    s2title: 'What is Automation?',
+    s2desc: 'Automation means using technology to perform tasks with <strong>minimal human intervention</strong>.',
+    s2quote: '"Instead of completing each step manually, the system processes work automatically"',
+    s2manual: 'Manual Process',
+    s2auto: 'Automated Workflow',
+    s2manualSteps: ['Receive request manually','Enter data into system','Review data','Send confirmation email','Update records'],
+    s2autoSteps: ['Receive request automatically','Enter + Review + Confirm + Update (automatic)'],
+    s2manualNote: '⏱ 5 manual steps',
+    s2autoNote: '⚡ Only 2 steps!',
+    // Slide 3
+    s3title: 'Why Does Automation Matter?',
+    s3reasons: [
+      {icon:'⏱',title:'Save Time',desc:'Reduce manual effort, allowing tasks to be completed instantly.',color:'#3b82f6'},
+      {icon:'⚠️',title:'Reduce Errors',desc:'Eliminate human mistakes such as typos or missed steps.',color:'#ef4444'},
+      {icon:'✅',title:'Improve Consistency',desc:'Ensure every process follows the same standards precisely.',color:'#059669'},
+      {icon:'📈',title:'Speed Up Processes',desc:'Accelerate workflows by removing bottlenecks and delays.',color:'#d97706'},
+      {icon:'💡',title:'Focus on Value',desc:'Enable people to focus on strategy, creativity, and problem-solving.',color:'#7c3aed'},
+    ],
+    s3quote: '"Automation is not just about getting work done faster — it\'s about improving efficiency, reliability, and scalability."',
+    // Slide 4
+    s4title: 'Traditional vs AI Automation',
+    s4trad: {title:'Traditional Automation',sub:'Rule-based logic',items:['Follows fixed rules ("if X, then Y")','Best for structured, repetitive tasks','Limited ability to handle ambiguity'],example:'If form submitted → Send email'},
+    s4ai: {title:'AI Automation',sub:'Context-aware',items:['Uses intelligence for decision-making','Handles unstructured data (text/images)','Adapts to changing context'],example:'1. Read & understand request → 2. Determine best response'},
+    s4tip: '<strong>💡 Predictable tasks</strong> use rules. <strong>Diverse, complex tasks</strong> require AI.',
+    // Slide 5
+    s5title: 'Types of Automation: Overview',
+    s5sub: 'Understand the three levels of complexity and intelligence in automation',
+    s5simple: 'Simple', s5advanced: 'Advanced',
+    s5types: [
+      {num:1,title:'Task Automation',desc:'Focuses on a single isolated action or specific task.',badge:'Single step',color:'#0891b2',grad:'linear-gradient(135deg,#06b6d4,#0891b2)'},
+      {num:2,title:'Process Automation',desc:'Links multiple steps together into a unified workflow.',badge:'Multi-step flow',color:'#7c3aed',grad:'linear-gradient(135deg,#8b5cf6,#7c3aed)'},
+      {num:3,title:'Intelligent Automation',desc:'Combines automation with AI capabilities for decision-making.',badge:'Automation + AI',color:'#d97706',grad:'linear-gradient(135deg,#f59e0b,#d97706)'},
+    ],
+    // Slide 6
+    s6title: 'Task Automation',
+    s6type: 'Type 1 of 3',
+    s6desc: 'Focuses on executing a <strong>single action</strong> or specific task. It is the simplest form of automation.',
+    s6chips: ['Single-step execution','Clearly defined scope','Easy & fast to implement','Triggered by a simple event'],
+    s6examples: [
+      {icon:'📧',title:'Send Confirmation Email',desc:'Auto-reply when form is submitted'},
+      {icon:'📊',title:'Save to Spreadsheet',desc:'Log responses instantly'},
+      {icon:'📅',title:'Create Calendar Event',desc:'Schedule meetings automatically'},
+      {icon:'📄',title:'Generate Report',desc:'Compile daily metrics into PDF'},
+    ],
+    // Slide 7
+    s7title: 'Process Automation',
+    s7type: 'Type 2 of 3',
+    s7desc: 'Links <strong>multiple steps</strong> into a unified workflow, instead of automating a single task in isolation.',
+    s7flows: [
+      {title:'HR Workflow',steps:['Submit Form','Approval','Notification','Update Record'],colors:['#7c3aed','#3b82f6','#d97706','#059669']},
+      {title:'Order Processing',steps:['Receive Order','Confirm Payment','Send Invoice','Start Delivery'],colors:['#0891b2','#4f46e5','#ea580c','#059669']},
+    ],
+    s7key: 'Process automation improves end-to-end workflow efficiency.',
+    // Slide 8
+    s8title: 'Intelligent Automation',
+    s8type: 'Type 3 of 3',
+    s8desc: 'Combines automation with AI capabilities like <strong>understanding, predicting, classifying</strong>, and generating outputs.',
+    s8inputs: [{icon:'📧',label:'Unstructured Email',type:'email'},{icon:'📷',label:'Medical Image',type:'image'},{icon:'💬',label:'Patient Message',type:'message'}],
+    s8outputs: {email:{action:'Classify & Route',priority:'High',icon:'🏷️'},image:{action:'Analyze & Detect Anomaly',priority:'Critical',icon:'🔬'},message:{action:'Summarize & Suggest Action',priority:'Medium',icon:'📝'}},
+    s8chips: ['Includes AI decision-making','Handles complex inputs','Suitable when rules are not enough','Combines execution, understanding & intelligence'],
+    // Slide 9 summary
+    s9keyPoints: [
+      {title:'What is Automation?',desc:'Using technology to perform tasks with minimal human intervention.',color:'#0891b2'},
+      {title:'Traditional vs Intelligent',desc:'Traditional follows fixed rules, while intelligent uses context.',color:'#7c3aed'},
+      {title:'Three Types',desc:'1. Task  2. Process  3. Intelligent',color:'#d97706'},
+    ],
+    s9quiz: [
+      {q:'Automation means:',opts:['Writing code manually','Using technology to perform tasks with minimal human intervention','Eliminating technology'],correct:1},
+      {q:'Traditional automation relies on:',opts:['Context and adaptation','Fixed rules (if/then)','Deep learning'],correct:1},
+      {q:'Intelligent automation combines:',opts:['Automation + AI','Automation + Manual work','Email + Calendar'],correct:0},
+    ],
+    // Match pairs
+    matchPairs: [
+      {left:'Fixed rules: If X, do Y',right:'Traditional Automation'},
+      {left:'Context-aware processing',right:'AI Automation'},
+      {left:'Handles only structured data',right:'Traditional Automation'},
+      {left:'Processes unstructured text & images',right:'AI Automation'},
+      {left:'Adaptive decision logic',right:'AI Automation'},
+      {left:'Rigid predefined workflows',right:'Traditional Automation'},
+    ],
+    // Flashcards
+    flashcards: [
+      {front:'Task Automation',back:'Automates a single, isolated action. Examples: Send confirmation email, create calendar entry, save to spreadsheet.'},
+      {front:'Process Automation',back:'Connects multiple steps into a unified workflow. Examples: HR onboarding flow, order processing pipeline.'},
+      {front:'Intelligent Automation',back:'Combines automation with AI capabilities like predicting, classifying, and recommending.'},
+      {front:'Traditional Automation',back:'Uses fixed, rule-based logic (If X, do Y). Works well for structured, predictable tasks but cannot handle exceptions.'},
+      {front:'AI Automation',back:'Context-aware automation that can handle unstructured data, adapt to new situations, and make intelligent decisions.'},
+    ],
+    // Module quiz
+    moduleQuizQs: [
+      {question:'What is the main purpose of automation?',options:['To replace all human workers','To use technology to perform tasks with minimal human intervention','To eliminate technology from workflows','To slow down processes for better quality'],correct:1},
+      {question:'Which type of automation focuses on a single isolated action?',options:['Process Automation','Intelligent Automation','Task Automation','Manual Automation'],correct:2},
+      {question:'What distinguishes AI automation from traditional automation?',options:['AI automation is slower','AI automation uses context-aware, adaptive logic','AI automation only follows fixed rules','AI automation requires no technology'],correct:1},
+      {question:'Which is an example of Process Automation?',options:['Sending a confirmation email','An HR onboarding workflow connecting multiple steps','Classifying support tickets using AI','Saving data to a spreadsheet'],correct:1},
+      {question:'Intelligent Automation combines automation with:',options:['Manual labor only','Fixed rule-based logic only','AI capabilities like understanding, predicting, and classifying','Hardware upgrades'],correct:2},
+    ],
+  },
+  ar: {
+    moduleLabel: 'الوحدة الأولى',
+    title: 'مدخل إلى أتمتة الذكاء الاصطناعي',
+    subtitle: 'الأساسيات، الأنواع، والفرق بين الأنظمة التقليدية والذكاء الاصطناعي',
+    next: 'التالي', previous: 'السابق', of: 'من',
+    submit: 'إرسال', tryAgain: 'حاول مرة أخرى', checkAnswers: 'تحقق من الإجابات',
+    answered: 'تمت الإجابة', score: 'النتيجة',
+    passMsg: 'تهانينا! لقد اجتزت اختبار الوحدة!',
+    failMsg: 'تحتاج إلى 80% على الأقل للنجاح. راجع المادة وحاول مرة أخرى.',
+    passThreshold: 'حد النجاح: 80%',
+    moduleQuiz: 'اختبار الوحدة',
+    quizDesc: 'أجب على جميع الأسئلة الخمسة. تحتاج إلى 80% أو أكثر للنجاح.',
+    clickToLearn: 'اضغط على كل سبب لمعرفة المزيد',
+    clickToCompare: 'اضغط على كل جانب للمقارنة',
+    flipCards: '🔄 اقلب البطاقات لرؤية الأمثلة',
+    trySelect: '🧪 جرّب: اختر مدخلاً لترى كيف يعالجه الذكاء الاصطناعي',
+    aiAnalyzing: 'الذكاء الاصطناعي يحلل...',
+    priority: 'الأولوية',
+    example: 'مثال',
+    keyMsg: 'الرسالة الرئيسية',
+    sectionSummary: 'ملخص القسم',
+    testUnderstanding: 'اختبر فهمك بالإجابة على الأسئلة',
+    quickQuiz: 'اختبار سريع',
+    excellent: '🎉 ممتاز! إجابات صحيحة بالكامل!',
+    matchTitle: 'الأتمتة التقليدية مقابل أتمتة الذكاء الاصطناعي',
+    matchDesc: 'طابق كل مفهوم مع نوع الأتمتة الصحيح. اضغط على عنصر من اليسار، ثم اضغط على تطابقه من اليمين.',
+    matchComplete: 'تم المطابقة بالكامل!',
+    matchReset: 'إعادة',
+    flashTitle: 'بطاقات أنواع الأتمتة',
+    flashDesc: 'اضغط على البطاقة لقلبها. استخدم الأسهم للتنقل.',
+    flashTap: 'اضغط للقلب',
+    tags: ['الكفاءة','الذكاء','سير العمل','التوسع'],
+    slideTitles: ['مدخل إلى أتمتة الذكاء الاصطناعي','ما هي الأتمتة؟','أهمية الأتمتة','التقليدية vs الذكاء الاصطناعي','أنواع الأتمتة','أتمتة المهام','أتمتة العمليات','الأتمتة الذكية','ملخص واختبار'],
+    s2title: 'ما هي الأتمتة؟',
+    s2desc: 'الأتمتة تعني استخدام التكنولوجيا لأداء المهام <strong>بأقل تدخل بشري</strong>.',
+    s2quote: '"بدلاً من إكمال كل خطوة يدوياً، يقوم النظام بمعالجة العمل تلقائياً"',
+    s2manual: 'العملية اليدوية', s2auto: 'سير العمل المؤتمت',
+    s2manualSteps: ['استقبال الطلب يدوياً','إدخال البيانات في النظام','مراجعة البيانات','إرسال تأكيد بالبريد','تحديث السجل'],
+    s2autoSteps: ['استقبال الطلب تلقائياً','إدخال + مراجعة + تأكيد + تحديث (تلقائي)'],
+    s2manualNote: '⏱ 5 خطوات يدوية', s2autoNote: '⚡ خطوتان فقط!',
+    s3title: 'لماذا الأتمتة مهمة؟',
+    s3reasons: [
+      {icon:'⏱',title:'توفير الوقت',desc:'تقليل الجهد اليدوي، مما يسمح بإنجاز المهام بشكل فوري.',color:'#3b82f6'},
+      {icon:'⚠️',title:'تقليل الأخطاء',desc:'القضاء على الأخطاء البشرية مثل الأخطاء المطبعية أو نسيان الخطوات.',color:'#ef4444'},
+      {icon:'✅',title:'تحسين الاتساق',desc:'ضمان أن كل عملية تتبع نفس المعايير بدقة.',color:'#059669'},
+      {icon:'📈',title:'تسريع العمليات',desc:'تسريع سير العمل عن طريق إزالة نقاط الاختناق والتأخير.',color:'#d97706'},
+      {icon:'💡',title:'التركيز على القيمة',desc:'تمكين الأفراد من التركيز على الاستراتيجية، والإبداع، وحل المشكلات.',color:'#7c3aed'},
+    ],
+    s3quote: '"الأتمتة لا تقتصر على إنجاز العمل بشكل أسرع، بل تهدف إلى تحسين الكفاءة، وزيادة الاعتمادية، وتعزيز قابلية التوسع."',
+    s4title: 'الأتمتة التقليدية مقابل أتمتة الذكاء الاصطناعي',
+    s4trad: {title:'الأتمتة التقليدية',sub:'منطق قائم على القواعد',items:['تتبع قواعد ثابتة ("إذا حدث س، افعل ص")','الأفضل للمهام الهيكلية والمكررة','قدرة محدودة على التعامل مع الغموض'],example:'إذا تم تقديم النموذج ← أرسل بريداً'},
+    s4ai: {title:'أتمتة الذكاء الاصطناعي',sub:'مدركة للسياق',items:['تستخدم الذكاء لاتخاذ القرار','تتعامل مع البيانات غير المهيكلة (نصوص/صور)','تتكيف مع تغير السياق'],example:'1. قراءة وفهم الطلب → 2. تحديد أفضل استجابة'},
+    s4tip: '<strong>💡 المهام المتوقعة</strong> تستخدم القواعد. <strong>المهام المتنوعة والمعقدة</strong> تتطلب الذكاء الاصطناعي.',
+    s5title: 'أنواع الأتمتة: نظرة عامة', s5sub: 'فهم مستويات التعقيد والذكاء الثلاثة في الأتمتة',
+    s5simple: 'بسيط', s5advanced: 'متقدم',
+    s5types: [
+      {num:1,title:'أتمتة المهام',desc:'تركز على إجراء واحد معزول أو مهمة محددة.',badge:'خطوة واحدة',color:'#0891b2',grad:'linear-gradient(135deg,#06b6d4,#0891b2)'},
+      {num:2,title:'أتمتة العمليات',desc:'تربط خطوات متعددة معاً في سير عمل موحد.',badge:'تدفق متعدد الخطوات',color:'#7c3aed',grad:'linear-gradient(135deg,#8b5cf6,#7c3aed)'},
+      {num:3,title:'الأتمتة الذكية',desc:'تجمع بين الأتمتة وقدرات الذكاء الاصطناعي لاتخاذ القرارات.',badge:'أتمتة + ذكاء اصطناعي',color:'#d97706',grad:'linear-gradient(135deg,#f59e0b,#d97706)'},
+    ],
+    s6title: 'أتمتة المهام', s6type: 'النوع 1 من 3',
+    s6desc: 'تركز على تنفيذ <strong>إجراء واحد</strong> أو مهمة محددة. تُعدّ أبسط أشكال الأتمتة.',
+    s6chips: ['تنفيذ خطوة واحدة','نطاق محدد بوضوح','سهلة وسريعة التنفيذ','تُفعّل بواسطة حدث بسيط'],
+    s6examples: [
+      {icon:'📧',title:'إرسال بريد تأكيد',desc:'رد تلقائي عند إرسال النموذج'},
+      {icon:'📊',title:'حفظ في جدول البيانات',desc:'تسجيل الردود فورياً'},
+      {icon:'📅',title:'إنشاء موعد في التقويم',desc:'جدولة الاجتماعات تلقائياً'},
+      {icon:'📄',title:'إنشاء تقرير',desc:'تجميع المقاييس اليومية في PDF'},
+    ],
+    s7title: 'أتمتة العمليات', s7type: 'النوع 2 من 3',
+    s7desc: 'تربط <strong>عدة خطوات</strong> ضمن سير عمل متكامل، بدلاً من أتمتة مهمة واحدة فقط بشكل منعزل.',
+    s7flows: [
+      {title:'سير عمل الموارد البشرية',steps:['إرسال نموذج','موافقة','إشعار','تحديث السجل'],colors:['#7c3aed','#3b82f6','#d97706','#059669']},
+      {title:'معالجة الطلبات',steps:['استلام طلب','تأكيد الدفع','إرسال فاتورة','بدء التوصيل'],colors:['#0891b2','#4f46e5','#ea580c','#059669']},
+    ],
+    s7key: 'أتمتة العمليات تُحسّن كفاءة سير العمل من البداية إلى النهاية.',
+    s8title: 'الأتمتة الذكية', s8type: 'النوع 3 من 3',
+    s8desc: 'تجمع بين الأتمتة وقدرات الذكاء الاصطناعي مثل <strong>الفهم، والتنبؤ، والتصنيف</strong>، وتوليد المخرجات.',
+    s8inputs: [{icon:'📧',label:'بريد غير مهيكل',type:'email'},{icon:'📷',label:'صورة طبية',type:'image'},{icon:'💬',label:'رسالة مريض',type:'message'}],
+    s8outputs: {email:{action:'تصنيف وتوجيه',priority:'عالية',icon:'🏷️'},image:{action:'تحليل واكتشاف شذوذ',priority:'حرجة',icon:'🔬'},message:{action:'تلخيص واقتراح إجراء',priority:'متوسطة',icon:'📝'}},
+    s8chips: ['تتضمن اتخاذ القرار بالذكاء الاصطناعي','تتعامل مع مدخلات معقدة','مناسبة حيث لا تكفي القواعد','تجمع بين التنفيذ والفهم والذكاء'],
+    s9keyPoints: [
+      {title:'ما هي الأتمتة؟',desc:'استخدام التكنولوجيا لأداء المهام بأقل تدخل بشري.',color:'#0891b2'},
+      {title:'التقليدية vs الذكية',desc:'التقليدية تتبع قواعد ثابتة، بينما الذكية تستخدم السياق.',color:'#7c3aed'},
+      {title:'الأنواع الثلاثة',desc:'1. المهام  2. العمليات  3. الذكية',color:'#d97706'},
+    ],
+    s9quiz: [
+      {q:'الأتمتة تعني:',opts:['كتابة الكود يدوياً','استخدام التكنولوجيا لأداء المهام بأقل تدخل بشري','إلغاء التكنولوجيا'],correct:1},
+      {q:'الأتمتة التقليدية تعتمد على:',opts:['السياق والتكيف','قواعد ثابتة (إذا/إذن)','التعلم العميق'],correct:1},
+      {q:'الأتمتة الذكية تجمع بين:',opts:['الأتمتة + الذكاء الاصطناعي','الأتمتة + العمل اليدوي','البريد + التقويم'],correct:0},
+    ],
+    matchPairs: [
+      {left:'قواعد ثابتة: إذا حدث X، افعل Y',right:'الأتمتة التقليدية'},
+      {left:'معالجة واعية للسياق',right:'أتمتة الذكاء الاصطناعي'},
+      {left:'تتعامل مع البيانات المنظمة فقط',right:'الأتمتة التقليدية'},
+      {left:'تعالج النصوص والصور غير المنظمة',right:'أتمتة الذكاء الاصطناعي'},
+      {left:'منطق قرار تكيفي',right:'أتمتة الذكاء الاصطناعي'},
+      {left:'سير عمل جامد محدد مسبقًا',right:'الأتمتة التقليدية'},
+    ],
+    flashcards: [
+      {front:'أتمتة المهام',back:'أتمتة إجراء واحد منفصل. أمثلة: إرسال بريد تأكيد، إنشاء إدخال في التقويم، الحفظ في جدول بيانات.'},
+      {front:'أتمتة العمليات',back:'ربط خطوات متعددة في سير عمل موحد. أمثلة: تدفق تهيئة الموارد البشرية، خط معالجة الطلبات.'},
+      {front:'الأتمتة الذكية',back:'تجمع بين الأتمتة وقدرات الذكاء الاصطناعي مثل التنبؤ والتصنيف والتوصية.'},
+      {front:'الأتمتة التقليدية',back:'تستخدم منطقًا ثابتًا قائمًا على القواعد (إذا حدث X، افعل Y). تعمل بشكل جيد للمهام المنظمة والمتوقعة.'},
+      {front:'أتمتة الذكاء الاصطناعي',back:'أتمتة واعية للسياق يمكنها التعامل مع البيانات غير المنظمة والتكيف مع المواقف الجديدة.'},
+    ],
+    moduleQuizQs: [
+      {question:'ما هو الهدف الرئيسي للأتمتة؟',options:['استبدال جميع العاملين البشريين','استخدام التكنولوجيا لأداء المهام بأقل تدخل بشري','إلغاء التكنولوجيا من سير العمل','إبطاء العمليات لجودة أفضل'],correct:1},
+      {question:'أي نوع من الأتمتة يركز على إجراء واحد معزول؟',options:['أتمتة العمليات','الأتمتة الذكية','أتمتة المهام','الأتمتة اليدوية'],correct:2},
+      {question:'ما الذي يميز أتمتة الذكاء الاصطناعي عن الأتمتة التقليدية؟',options:['أتمتة الذكاء الاصطناعي أبطأ','أتمتة الذكاء الاصطناعي تستخدم منطقاً تكيفياً واعياً للسياق','أتمتة الذكاء الاصطناعي تتبع قواعد ثابتة فقط','أتمتة الذكاء الاصطناعي لا تحتاج تكنولوجيا'],correct:1},
+      {question:'أي مما يلي مثال على أتمتة العمليات؟',options:['إرسال بريد تأكيد','سير عمل تهيئة الموارد البشرية يربط خطوات متعددة','تصنيف تذاكر الدعم باستخدام الذكاء الاصطناعي','حفظ البيانات في جدول بيانات'],correct:1},
+      {question:'الأتمتة الذكية تجمع بين الأتمتة و:',options:['العمل اليدوي فقط','المنطق الثابت القائم على القواعد فقط','قدرات الذكاء الاصطناعي مثل الفهم والتنبؤ والتصنيف','ترقيات الأجهزة'],correct:2},
+    ],
+  }
+};
+
+function t() { return T[STATE.lang]; }
+function isRTL() { return STATE.lang === 'ar'; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TOTAL PAGES: 9 slides + 2 activities + 1 quiz = 12
+   ═══════════════════════════════════════════════════════════════ */
+const TOTAL_PAGES = 12;
+const PAGE_TYPES = ['slide','slide','slide','slide','slide','slide','slide','slide','slide','activity-match','activity-flash','module-quiz'];
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER ENGINE
+   ═══════════════════════════════════════════════════════════════ */
+function render() {
+  const dir = isRTL() ? 'rtl' : 'ltr';
+  document.documentElement.dir = dir;
+  document.documentElement.lang = STATE.lang;
+  const tt = t();
+  const p = STATE.currentPage;
+  const pType = PAGE_TYPES[p];
+
+  // Track visit
+  STATE.visitedPages.add(p);
+
+  let headerLabel = '';
+  let headerColor = 'badge-cyan';
+  if (pType === 'slide') { headerLabel = tt.slideTitles[p]; }
+  else if (pType === 'activity-match') { headerLabel = tt.matchTitle; headerColor = 'badge-amber'; }
+  else if (pType === 'activity-flash') { headerLabel = tt.flashTitle; headerColor = 'badge-amber'; }
+  else if (pType === 'module-quiz') { headerLabel = tt.moduleQuiz; headerColor = 'badge-emerald'; }
+
+  const prevBtn = `<button class="btn btn-outline" ${p===0?'disabled':''} onclick="goTo(${p-1})">${isRTL()?'→':'←'} ${tt.previous}</button>`;
+  const nextBtn = p < TOTAL_PAGES-1
+    ? `<button class="btn btn-primary" onclick="goTo(${p+1})">${tt.next} ${isRTL()?'←':'→'}</button>`
+    : `<button class="btn btn-success" disabled>✓ ${tt.score}</button>`;
+
+  let dots = '';
+  for (let i = 0; i < TOTAL_PAGES; i++) {
+    const cls = ['nav-dot'];
+    if (i === p) cls.push('active');
+    else if (STATE.visitedPages.has(i)) cls.push('visited');
+    if (PAGE_TYPES[i].startsWith('activity')) cls.push('section-activity');
+    else if (PAGE_TYPES[i] === 'module-quiz') cls.push('section-quiz');
+    dots += `<button class="${cls.join(' ')}" onclick="goTo(${i})" title="${i+1}/${TOTAL_PAGES}"></button>`;
+  }
+
+  let bodyHTML = '';
+  if (pType === 'slide') bodyHTML = renderSlide(p);
+  else if (pType === 'activity-match') bodyHTML = renderMatchActivity();
+  else if (pType === 'activity-flash') bodyHTML = renderFlashcardActivity();
+  else if (pType === 'module-quiz') bodyHTML = renderModuleQuiz();
+
+  document.getElementById('app').innerHTML = `
+    <div class="toolbar">
+      <h1>${tt.moduleLabel}: ${tt.title}</h1>
+      <button class="lang-btn" onclick="toggleLang()">${STATE.lang==='en'?'العربية':'English'}</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(((p+1)/TOTAL_PAGES)*100)}%"></div></div>
+    <div class="nav-dots">${dots}</div>
+    <div class="card">
+      <div class="card-header">
+        <span class="badge ${headerColor}">${headerLabel}</span>
+        <span style="font-size:11px;color:#94a3b8;font-weight:600">${p+1} ${tt.of} ${TOTAL_PAGES}</span>
+      </div>
+      <div class="card-body animate-in" id="pageBody">${bodyHTML}</div>
+      <div class="card-footer">${prevBtn}<span style="font-size:11px;color:#94a3b8;font-weight:600">${p+1} / ${TOTAL_PAGES}</span>${nextBtn}</div>
+    </div>
+  `;
+}
+
+/* ═══ SLIDE RENDERERS ═══ */
+function renderSlide(idx) {
+  const tt = t();
+  switch(idx) {
+    case 0: return renderSlide1();
+    case 1: return renderSlide2();
+    case 2: return renderSlide3();
+    case 3: return renderSlide4();
+    case 4: return renderSlide5();
+    case 5: return renderSlide6();
+    case 6: return renderSlide7();
+    case 7: return renderSlide8();
+    case 8: return renderSlide9();
+    default: return '';
+  }
+}
+
+function renderSlide1() {
+  const tt = t();
+  return `<div style="text-align:center">
+    <div class="badge badge-cyan" style="margin-bottom:12px">📦 ${tt.moduleLabel}</div>
+    <h2 class="slide-title">${tt.title}</h2>
+    <p class="slide-subtitle">${tt.subtitle}</p>
+    <div style="max-width:400px;margin:0 auto 16px"><img src="images/slide-automation-concept.png" alt="Automation Concept"></div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px">${tt.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+  </div>`;
+}
+
+function renderSlide2() {
+  const tt = t();
+  return `<div class="info-box cyan"><h3 style="font-size:16px;font-weight:700;margin-bottom:4px">${tt.s2title}</h3><p>${tt.s2desc}</p></div>
+    <div class="info-box slate" style="text-align:center;font-style:italic">${tt.s2quote}</div>
+    <div class="grid-2">
+      <div class="info-box red">
+        <h4 style="font-weight:700;margin-bottom:8px">⏱ ${tt.s2manual}</h4>
+        ${tt.s2manualSteps.map((s,i)=>`<div style="display:flex;align-items:center;gap:6px;padding:6px;margin-bottom:4px;background:#fff;border:1px solid #fca5a5;border-radius:8px;font-size:11px"><span style="width:22px;height:22px;border-radius:50%;background:#fecaca;color:#991b1b;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>${s}</div>`).join('')}
+        <p style="text-align:center;font-size:10px;color:#ef4444;margin-top:6px">${tt.s2manualNote}</p>
+      </div>
+      <div class="info-box emerald">
+        <h4 style="font-weight:700;margin-bottom:8px">⚡ ${tt.s2auto}</h4>
+        ${tt.s2autoSteps.map((s,i)=>`<div style="display:flex;align-items:center;gap:6px;padding:6px;margin-bottom:4px;background:#fff;border:1px solid #6ee7b7;border-radius:8px;font-size:11px"><span style="width:22px;height:22px;border-radius:50%;background:#a7f3d0;color:#065f46;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>${s}</div>`).join('')}
+        <p style="text-align:center;font-size:10px;color:#059669;margin-top:6px">${tt.s2autoNote}</p>
+      </div>
+    </div>`;
+}
+
+function renderSlide3() {
+  const tt = t();
+  const reasons = tt.s3reasons;
+  return `<h2 class="slide-title" style="text-align:center">${tt.s3title}</h2>
+    <p class="slide-subtitle" style="text-align:center">${tt.clickToLearn}</p>
+    <div class="grid-2">
+      <div>${reasons.map((r,i)=>`<button class="click-card ${STATE.slide3Active===i?'active':''}" onclick="setState('slide3Active',${STATE.slide3Active===i?'null':i})" style="width:100%;margin-bottom:6px;display:flex;gap:10px;align-items:flex-start">
+        <div class="icon-box" style="background:${r.color}">${r.icon}</div>
+        <div style="flex:1"><div class="card-title">${r.title}</div><div class="card-desc">${r.desc}</div></div>
+      </button>`).join('')}</div>
+      <div style="display:flex;align-items:center;justify-content:center"><img src="images/slide-why-automation.png" alt="Why Automation"></div>
+    </div>
+    <div class="info-box cyan" style="text-align:center;margin-top:12px;font-size:12px">${tt.s3quote}</div>`;
+}
+
+function renderSlide4() {
+  const tt = t();
+  function side(data, key) {
+    const isSel = STATE.slide4Selected === key;
+    const isT = key === 'trad';
+    const bg = isT ? 'var(--violet-light)' : 'var(--cyan-light)';
+    const bc = isT ? '#c4b5fd' : '#a5f3fc';
+    const tc = isT ? '#5b21b6' : '#155e75';
+    const ib = isT ? '#7c3aed' : '#0891b2';
+    const icon = isT ? '⚙️' : '🧠';
+    return `<button class="click-card ${isSel?'active':''}" onclick="setState('slide4Selected','${STATE.slide4Selected===key?'null':key}')" style="width:100%;${isSel?`background:${bg};border-color:${bc}`:''}" >
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><div class="icon-box" style="background:${ib}">${icon}</div><div><div style="font-weight:700;font-size:13px;color:${tc}">${data.title}</div><div style="font-size:10px;color:#94a3b8">${data.sub}</div></div></div>
+      <ul style="list-style:none;padding:0;margin:0 0 8px">${data.items.map(it=>`<li style="font-size:11px;margin-bottom:4px;color:${isSel?tc:'#64748b'}">• ${it}</li>`).join('')}</ul>
+      <div style="padding:6px;border-radius:6px;font-size:10px;font-family:monospace;${isSel?`background:${isT?'#ede9fe':'#e0f2fe'};color:${tc}`:'background:#f1f5f9;color:#64748b'}"><strong>${tt.example}: </strong>${data.example}</div>
+    </button>`;
+  }
+  return `<h2 class="slide-title" style="text-align:center">${tt.s4title}</h2>
+    <p class="slide-subtitle" style="text-align:center">${tt.clickToCompare}</p>
+    <div class="grid-2">${side(tt.s4trad,'trad')}${side(tt.s4ai,'ai')}</div>
+    <div style="max-width:360px;margin:12px auto"><img src="images/slide-trad-vs-ai.png" alt="Traditional vs AI"></div>
+    <div class="info-box amber" style="text-align:center">${tt.s4tip}</div>`;
+}
+
+function renderSlide5() {
+  const tt = t();
+  const types = tt.s5types;
+  const active = STATE.slide5Active;
+  return `<h2 class="slide-title" style="text-align:center">${tt.s5title}</h2>
+    <p class="slide-subtitle" style="text-align:center">${tt.s5sub}</p>
+    <div style="display:flex;align-items:center;gap:4px;margin-bottom:12px;padding:0 16px">
+      <span style="font-size:10px;color:#94a3b8">${tt.s5simple}</span>
+      <div style="flex:1;height:10px;background:#e2e8f0;border-radius:999px;display:flex;overflow:hidden">
+        ${types.map((tp,i)=>`<button onclick="setState('slide5Active',${i})" style="flex:1;border:none;cursor:pointer;transition:.3s;${active===i?`background:${tp.grad};transform:scaleY(1.2)`:'background:#cbd5e1'};${i===0?'border-radius:999px 0 0 999px':i===2?'border-radius:0 999px 999px 0':''}"></button>`).join('')}
+      </div>
+      <span style="font-size:10px;color:#94a3b8">${tt.s5advanced}</span>
+    </div>
+    <div class="grid-2">
+      <div>${types.map((tp,i)=>{
+        const isA = active===i;
+        return `<button onclick="setState('slide5Active',${i})" style="width:100%;margin-bottom:8px;padding:10px;border-radius:12px;border:2px solid ${isA?'transparent':'#e2e8f0'};cursor:pointer;transition:.3s;display:flex;align-items:center;gap:10px;text-align:${isRTL()?'right':'left'};${isA?`background:${tp.grad};color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15)`:'background:#fff'}">
+          <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;${isA?'background:rgba(255,255,255,.2)':'background:#f1f5f9'}"><span style="font-size:16px">${['📄','📊','🧠'][i]}</span></div>
+          <div style="flex:1"><div style="display:flex;gap:4px;margin-bottom:2px"><span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;${isA?'background:rgba(255,255,255,.2)':'background:#f1f5f9;color:#64748b'}">${STATE.lang==='ar'?'النوع':'Type'} ${tp.num}</span><span style="font-size:9px;padding:2px 6px;border-radius:4px;${isA?'background:rgba(255,255,255,.2)':'background:#f1f5f9;color:#64748b'}">${tp.badge}</span></div><div style="font-weight:700;font-size:13px;margin-bottom:2px">${tp.title}</div><div style="font-size:11px;${isA?'color:rgba(255,255,255,.8)':'color:#64748b'}">${tp.desc}</div></div>
+        </button>`;}).join('')}</div>
+      <div style="display:flex;align-items:center;justify-content:center"><img src="images/slide-automation-types.png" alt="Types"></div>
+    </div>`;
+}
+
+function renderSlide6() {
+  const tt = t();
+  return `<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><div class="icon-box" style="background:#0891b2">📄</div><div><span style="font-size:10px;color:#0891b2;font-weight:700">${tt.s6type}</span><h2 style="font-size:18px;font-weight:700">${tt.s6title}</h2></div></div>
+    <div class="info-box cyan">${tt.s6desc}</div>
+    <div class="grid-2">
+      <div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">${tt.s6chips.map(c=>`<span class="chip">✓ ${c}</span>`).join('')}</div>
+        <p style="font-size:11px;color:#94a3b8;text-align:center;margin-bottom:8px">${tt.flipCards}</p>
+        <div class="grid-2">${tt.s6examples.map((ex,i)=>{
+          const fl = STATE.slide6Flipped.has(i);
+          return `<button class="flip-card-btn ${fl?'flipped':''}" onclick="toggleFlip6(${i})">
+            ${!fl ? `<span class="flip-icon">${ex.icon}</span><span class="flip-label">${ex.title}</span>` : `<span class="flip-desc">${ex.desc}</span>`}
+          </button>`;}).join('')}</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center"><img src="images/slide-task-automation.png" alt="Task Automation"></div>
+    </div>`;
+}
+
+function renderSlide7() {
+  const tt = t();
+  const flows = tt.s7flows;
+  const af = STATE.slide7Flow;
+  const st = STATE.slide7Step;
+  return `<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><div class="icon-box" style="background:#7c3aed">📊</div><div><span style="font-size:10px;color:#7c3aed;font-weight:700">${tt.s7type}</span><h2 style="font-size:18px;font-weight:700">${tt.s7title}</h2></div></div>
+    <div class="info-box violet">${tt.s7desc}</div>
+    <div class="grid-2">
+      <div>
+        <div style="display:flex;gap:6px;margin-bottom:10px">${flows.map((f,i)=>`<button class="flow-tab ${af===i?'active':''}" onclick="setState('slide7Flow',${i});setState('slide7Step',0)">${f.title}</button>`).join('')}</div>
+        <div style="padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff">
+          <div class="step-row">${flows[af].steps.map((s,i)=>{
+            const arrow = isRTL() ? '\u2190' : '\u2192';
+            const arrowHTML = i > 0 ? '<span class="step-arrow">' + arrow + '</span>' : '';
+            const stepCls = 'step-box' + (st>i?' done':'') + (st===i?' active':'');
+            const stepStyle = st>=i ? 'background:'+flows[af].colors[i]+';color:#fff' : '';
+            return arrowHTML + '<div class="' + stepCls + '" style="' + stepStyle + '">' + s + '</div>';
+          }).join('')}
+          </div>
+        </div>
+        <div class="info-box violet" style="text-align:center;margin-top:8px"><strong>${tt.keyMsg}:</strong> ${tt.s7key}</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center"><img src="images/slide-process-automation.png" alt="Process Automation"></div>
+    </div>`;
+}
+
+function renderSlide8() {
+  const tt = t();
+  let resultHTML = '';
+  if (STATE.slide8Processing) {
+    resultHTML = `<div style="text-align:center;padding:16px"><div style="width:30px;height:30px;border:3px solid #d97706;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 8px"></div><span style="font-size:13px;color:#d97706;font-weight:500">${tt.aiAnalyzing}</span></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
+  } else if (STATE.slide8Result) {
+    const r = STATE.slide8Result;
+    resultHTML = `<div class="info-box emerald" style="display:flex;align-items:center;gap:12px"><span style="font-size:28px">${r.icon}</span><div><div style="font-weight:700;font-size:14px">${r.action}</div><div style="font-size:12px">${tt.priority}: <strong>${r.priority}</strong></div></div></div>`;
+  }
+  return `<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><div class="icon-box" style="background:#d97706">🧠</div><div><span style="font-size:10px;color:#d97706;font-weight:700">${tt.s8type}</span><h2 style="font-size:18px;font-weight:700">${tt.s8title}</h2></div></div>
+    <div class="info-box amber">${tt.s8desc}</div>
+    <div class="grid-2">
+      <div>
+        <div style="padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;margin-bottom:8px">
+          <p style="font-size:11px;color:#94a3b8;text-align:center;margin-bottom:8px">${tt.trySelect}</p>
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px">${tt.s8inputs.map(inp=>`<button onclick="processAI8('${inp.type}')" style="padding:10px;border-radius:12px;border:2px solid #e2e8f0;cursor:pointer;text-align:center;min-width:80px;transition:.2s" onmouseover="this.style.borderColor='#d97706';this.style.background='#fffbeb'" onmouseout="this.style.borderColor='#e2e8f0';this.style.background=''"><span style="font-size:22px;display:block;margin-bottom:4px">${inp.icon}</span><span style="font-size:10px;color:#64748b;font-weight:500">${inp.label}</span></button>`).join('')}</div>
+          ${resultHTML}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${tt.s8chips.map(c=>`<span style="padding:3px 8px;background:#fffbeb;color:#92400e;border-radius:6px;font-size:10px;font-weight:500;border:1px solid #fcd34d">✓ ${c}</span>`).join('')}</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center"><img src="images/slide-intelligent-automation.png" alt="Intelligent Automation"></div>
+    </div>`;
+}
+
+function renderSlide9() {
+  const tt = t();
+  const quiz = tt.s9quiz;
+  const ans = STATE.slide9Answers;
+  const allDone = Object.keys(ans).length === quiz.length;
+  const score = allDone ? Object.keys(ans).filter(k=>ans[k]===quiz[k].correct).length : 0;
+
+  return `<h2 class="slide-title" style="text-align:center">${tt.sectionSummary}</h2>
+    <p class="slide-subtitle" style="text-align:center">${tt.testUnderstanding}</p>
+    <div class="grid-3" style="margin-bottom:12px">${tt.s9keyPoints.map(kp=>`<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px"><div style="width:28px;height:28px;border-radius:8px;background:${kp.color};display:flex;align-items:center;justify-content:center;margin-bottom:6px"><span style="color:#fff;font-size:12px">✓</span></div><h4 style="font-size:12px;font-weight:700;margin-bottom:2px">${kp.title}</h4><p style="font-size:10px;color:#64748b;line-height:1.4">${kp.desc}</p></div>`).join('')}</div>
+    <div class="info-box slate" style="padding:12px">
+      <h3 style="font-size:13px;font-weight:700;margin-bottom:8px">✨ ${tt.quickQuiz}</h3>
+      ${quiz.map((q,qi)=>`<div style="margin-bottom:10px"><p style="font-size:12px;font-weight:700;margin-bottom:6px">${qi+1}. ${q.q}</p><div style="display:flex;flex-wrap:wrap;gap:4px">${q.opts.map((o,oi)=>{
+        const answered = ans[qi] !== undefined;
+        const isCorrect = oi === q.correct;
+        const isSel = ans[qi] === oi;
+        let cls = 'padding:5px 10px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid #e2e8f0;cursor:pointer;transition:.2s;';
+        if (answered && isCorrect) cls += 'background:#ecfdf5;border-color:#059669;color:#065f46;';
+        else if (answered && isSel && !isCorrect) cls += 'background:#fef2f2;border-color:#dc2626;color:#991b1b;';
+        else if (!answered) cls += 'background:#fff;';
+        else cls += 'background:#f1f5f9;color:#94a3b8;';
+        return `<button style="${cls}" onclick="${answered?'':(`answerS9(${qi},${oi})`)}" ${answered?'disabled':''}>${answered && isCorrect ? '✓ ':'' }${answered && isSel && !isCorrect ? '✗ ':''}${o}</button>`;
+      }).join('')}</div></div>`).join('')}
+      ${allDone ? `<div style="margin-top:8px;padding:8px;border-radius:8px;text-align:center;font-size:13px;font-weight:700;${score===quiz.length?'background:#ecfdf5;color:#065f46':'background:#fffbeb;color:#92400e'}">${score===quiz.length ? tt.excellent : `${tt.score}: ${score}/${quiz.length}`}</div>` : ''}
+    </div>`;
+}
+
+/* ═══ ACTIVITY: MATCH ═══ */
+function renderMatchActivity() {
+  const tt = t();
+  const pairs = tt.matchPairs;
+  const matched = STATE.matchPairs;
+  const done = STATE.matchDone;
+
+  // Shuffle right items (stable shuffle based on lang)
+  const leftItems = pairs.map((p,i)=>({text:p.left,idx:i}));
+  const rightItems = pairs.map((p,i)=>({text:p.right,idx:i}));
+  // Shuffle right: deterministic by reversing + shifting
+  const rightShuffled = [...rightItems].sort((a,b) => (a.idx+3)%6 - (b.idx+3)%6);
+
+  const isLeftMatched = (i) => matched.some(m=>m.left===i);
+  const isRightMatched = (i) => matched.some(m=>m.right===i);
+
+  return `<div style="max-width:700px;margin:0 auto">
+    <h2 class="slide-title">${tt.matchTitle}</h2>
+    <p class="slide-subtitle">${tt.matchDesc}</p>
+    ${done?`<div class="info-box emerald" style="text-align:center;font-weight:700">✅ ${tt.matchComplete}</div>`:''}
+    <div class="grid-2">
+      <div class="match-pool">${leftItems.map((item,i)=>{
+        const m = isLeftMatched(i);
+        const sel = STATE.matchSelected.left === i;
+        return `<button class="match-item left ${m?'correct':''} ${sel?'selected':''}" ${m?'disabled':''} onclick="matchSelect('left',${i})">${item.text}</button>`;
+      }).join('')}</div>
+      <div class="match-pool">${rightShuffled.map(item=>{
+        const m = isRightMatched(item.idx);
+        const sel = STATE.matchSelected.right === item.idx;
+        return `<button class="match-item right ${m?'correct':''} ${sel?'selected':''}" ${m?'disabled':''} onclick="matchSelect('right',${item.idx})">${item.text}</button>`;
+      }).join('')}</div>
+    </div>
+    ${done?`<div style="text-align:center;margin-top:12px"><button class="btn btn-outline" onclick="resetMatch()">🔄 ${tt.matchReset}</button></div>`:''}
+  </div>`;
+}
+
+/* ═══ ACTIVITY: FLASHCARDS ═══ */
+function renderFlashcardActivity() {
+  const tt = t();
+  const cards = tt.flashcards;
+  const idx = STATE.flashIdx;
+  const flipped = STATE.flashFlipped;
+
+  return `<div style="max-width:500px;margin:0 auto;text-align:center">
+    <h2 class="slide-title">${tt.flashTitle}</h2>
+    <p class="slide-subtitle">${tt.flashDesc}</p>
+    <div class="flashcard-container">
+      <div class="flashcard ${flipped?'flipped':''}" onclick="toggleFlash()">
+        <div class="flashcard-face flashcard-front">
+          <div style="font-size:28px;margin-bottom:8px">${['📄','📊','🧠','⚙️','🤖'][idx]}</div>
+          ${cards[idx].front}
+          <div style="font-size:11px;margin-top:8px;opacity:.7">${tt.flashTap}</div>
+        </div>
+        <div class="flashcard-face flashcard-back">${cards[idx].back}</div>
+      </div>
+    </div>
+    <div class="flashcard-nav">
+      <button class="btn btn-outline" onclick="flashPrev()" ${idx===0?'disabled':''}>${isRTL()?'→':'←'}</button>
+      <span class="flashcard-counter">${idx+1} / ${cards.length}</span>
+      <button class="btn btn-outline" onclick="flashNext()" ${idx===cards.length-1?'disabled':''}>${isRTL()?'←':'→'}</button>
+    </div>
+  </div>`;
+}
+
+/* ═══ MODULE QUIZ ═══ */
+function renderModuleQuiz() {
+  const tt = t();
+  const qs = tt.moduleQuizQs;
+  const ans = STATE.quizAnswers;
+  const submitted = STATE.quizSubmitted;
+
+  let qHTML = qs.map((q,qi) => {
+    return `<div style="margin-bottom:16px">
+      <p style="font-size:13px;font-weight:600;margin-bottom:8px"><span style="color:#0891b2;font-weight:700">Q${qi+1}.</span> ${q.question}</p>
+      <div style="padding-left:${isRTL()?'0':'20px'};padding-right:${isRTL()?'20px':'0'}">
+        ${q.options.map((opt,oi)=>{
+          const sel = ans[qi] === oi;
+          const isCorrect = submitted && q.correct === oi;
+          const isWrong = submitted && sel && q.correct !== oi;
+          let cls = 'quiz-option';
+          if (isCorrect) cls += ' correct';
+          else if (isWrong) cls += ' wrong';
+          else if (sel && !submitted) cls += ' selected';
+          return `<button class="${cls}" onclick="${submitted?'':`selectQuizAns(${qi},${oi})`}" ${submitted?'disabled':''}><div class="quiz-radio"></div>${submitted && isCorrect ? '✓ ':''}${submitted && isWrong ? '✗ ':''}${opt}</button>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  let resultHTML = '';
+  if (submitted) {
+    const pct = STATE.quizScore;
+    const pass = pct >= 80;
+    resultHTML = `<div class="quiz-result ${pass?'pass':'fail'}">${pass?'✅':'❌'} ${tt.score}: ${pct}%<br><span style="font-size:13px;font-weight:400">${pass ? tt.passMsg : tt.failMsg}</span></div>`;
+  }
+
+  const answeredCount = Object.keys(ans).length;
+  const allAnswered = answeredCount === qs.length;
+
+  return `<div style="max-width:700px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:16px">
+      <div class="badge badge-emerald" style="margin-bottom:8px">📝 ${tt.moduleQuiz}</div>
+      <h2 class="slide-title">${tt.title}</h2>
+      <p class="slide-subtitle">${tt.quizDesc}</p>
+      <div class="badge badge-amber">${tt.passThreshold}</div>
+    </div>
+    ${qHTML}
+    <div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #e2e8f0">
+      ${submitted
+        ? `<span style="font-size:12px;color:#64748b">${STATE.quizScore >= 80 ? '✓' : ''} ${tt.score}: ${STATE.quizScore}%</span><button class="btn btn-outline" onclick="resetQuiz()">🔄 ${tt.tryAgain}</button>`
+        : `<span style="font-size:11px;color:#94a3b8">${answeredCount} ${tt.of} ${qs.length} ${tt.answered}</span><button class="btn btn-primary" onclick="submitQuiz()" ${allAnswered?'':'disabled'}>${tt.checkAnswers}</button>`
+      }
+    </div>
+    ${resultHTML}
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EVENT HANDLERS
+   ═══════════════════════════════════════════════════════════════ */
+function goTo(page) {
+  if (page < 0 || page >= TOTAL_PAGES) return;
+  STATE.currentPage = page;
+  SCORM.setLocation(String(page));
+  saveProgress();
+  render();
+  // Start slide 7 animation when navigating to it
+  if (page === 6) startS7Anim();
+}
+
+function toggleLang() {
+  STATE.lang = STATE.lang === 'en' ? 'ar' : 'en';
+  // Reset slide-specific state on lang change
+  STATE.slide3Active = null;
+  STATE.slide4Selected = null;
+  STATE.matchSelected = {left:null,right:null};
+  STATE.matchPairs = [];
+  STATE.matchDone = false;
+  STATE.flashIdx = 0;
+  STATE.flashFlipped = false;
+  render();
+}
+
+function setState(key, val) {
+  if (val === 'null' || val === null) val = null;
+  else if (typeof val === 'string' && !isNaN(val)) val = Number(val);
+  if (key === 'slide4Selected') {
+    STATE.slide4Selected = STATE.slide4Selected === val ? null : val;
+  } else {
+    STATE[key] = val;
+  }
+  render();
+}
+
+function toggleFlip6(i) {
+  if (STATE.slide6Flipped.has(i)) STATE.slide6Flipped.delete(i);
+  else STATE.slide6Flipped.add(i);
+  render();
+}
+
+function answerS9(qi, oi) {
+  STATE.slide9Answers[qi] = oi;
+  render();
+}
+
+// Slide 7 auto-animate
+let s7Timer = null;
+function startS7Anim() {
+  clearInterval(s7Timer);
+  s7Timer = setInterval(() => {
+    if (STATE.currentPage === 6) {
+      STATE.slide7Step = (STATE.slide7Step + 1) % 4;
+      render();
+    } else {
+      clearInterval(s7Timer);
+    }
+  }, 1200);
+}
+
+function processAI8(type) {
+  STATE.slide8Processing = true;
+  STATE.slide8Result = null;
+  render();
+  setTimeout(() => {
+    STATE.slide8Processing = false;
+    STATE.slide8Result = t().s8outputs[type];
+    render();
+  }, 1500);
+}
+
+// Match activity
+function matchSelect(side, idx) {
+  if (STATE.matchDone) return;
+  STATE.matchSelected[side] = idx;
+  // Check if both selected
+  if (STATE.matchSelected.left !== null && STATE.matchSelected.right !== null) {
+    const pairs = t().matchPairs;
+    const l = STATE.matchSelected.left;
+    const r = STATE.matchSelected.right;
+    // l = left item original index, r = right item original index
+    // A correct match means the left item's expected right answer === the right item's label
+    if (pairs[l].right === pairs[r].right) {
+      STATE.matchPairs.push({left: l, right: r});
+    }
+    // Check unique matched lefts
+    const uniqueLefts = new Set(STATE.matchPairs.map(m => m.left));
+    if (uniqueLefts.size === pairs.length) {
+      STATE.matchDone = true;
+    }
+    STATE.matchSelected = {left:null, right:null};
+    setTimeout(render, 100);
+  } else {
+    render();
+  }
+}
+
+function resetMatch() {
+  STATE.matchSelected = {left:null,right:null};
+  STATE.matchPairs = [];
+  STATE.matchDone = false;
+  render();
+}
+
+// Flashcard
+function toggleFlash() { STATE.flashFlipped = !STATE.flashFlipped; render(); }
+function flashPrev() { if (STATE.flashIdx > 0) { STATE.flashIdx--; STATE.flashFlipped = false; render(); } }
+function flashNext() { const max = t().flashcards.length - 1; if (STATE.flashIdx < max) { STATE.flashIdx++; STATE.flashFlipped = false; render(); } }
+
+// Module Quiz
+function selectQuizAns(qi, oi) {
+  if (STATE.quizSubmitted) return;
+  STATE.quizAnswers[qi] = oi;
+  render();
+}
+
+function submitQuiz() {
+  const qs = t().moduleQuizQs;
+  let correct = 0;
+  qs.forEach((q,i) => { if (STATE.quizAnswers[i] === q.correct) correct++; });
+  const pct = Math.round((correct / qs.length) * 100);
+  STATE.quizScore = pct;
+  STATE.quizSubmitted = true;
+
+  // Report to SCORM
+  SCORM.setScore(pct, 100, 0);
+  if (pct >= 80) {
+    SCORM.setStatus('passed');
+  } else {
+    SCORM.setStatus('failed');
+  }
+  saveProgress();
+  render();
+}
+
+function resetQuiz() {
+  STATE.quizAnswers = {};
+  STATE.quizSubmitted = false;
+  STATE.quizScore = 0;
+  render();
+}
+
+/* ═══ PROGRESS SAVE/LOAD ═══ */
+function saveProgress() {
+  const data = {
+    lang: STATE.lang,
+    page: STATE.currentPage,
+    visited: Array.from(STATE.visitedPages),
+    quizAnswers: STATE.quizAnswers,
+    quizSubmitted: STATE.quizSubmitted,
+    quizScore: STATE.quizScore,
+  };
+  SCORM.setSuspendData(data);
+}
+
+function loadProgress() {
+  const data = SCORM.getSuspendData();
+  if (data && typeof data === 'object') {
+    if (data.lang) STATE.lang = data.lang;
+    if (data.page !== undefined) STATE.currentPage = data.page;
+    if (data.visited) data.visited.forEach(v => STATE.visitedPages.add(v));
+    if (data.quizAnswers) STATE.quizAnswers = data.quizAnswers;
+    if (data.quizSubmitted) STATE.quizSubmitted = data.quizSubmitted;
+    if (data.quizScore) STATE.quizScore = data.quizScore;
+  } else {
+    // Try lesson_location
+    const loc = SCORM.getLocation();
+    if (loc) STATE.currentPage = parseInt(loc) || 0;
+  }
+}
+
+/* ═══ INITIALIZATION ═══ */
+window.addEventListener('load', () => {
+  SCORM.init();
+  loadProgress();
+  if (!STATE.quizSubmitted) {
+    SCORM.setStatus('incomplete');
+  }
+  render();
+  startS7Anim();
+});
+
+window.addEventListener('beforeunload', () => {
+  saveProgress();
+  SCORM.finish();
+});
+
+// Keyboard navigation
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    goTo(STATE.currentPage + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    goTo(STATE.currentPage - 1);
+  }
+});
+</script>
+</body>
+</html>

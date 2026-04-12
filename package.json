@@ -13,10 +13,13 @@
     "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@hello-pangea/dnd": "^18.0.1",
+    "canvas-confetti": "^1.9.4",
+    "chart.js": "^4.5.1",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.7.0",
     "pdfjs-dist": "^3.11.174",
     "react": "^19.2.4",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.2"
   },

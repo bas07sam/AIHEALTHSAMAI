@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل تدريب Replit - مولّد التقارير السريرية | أكاديمية الصحة بالذكاء الاصطناعي</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, 'Tahoma', sans-serif; color: #1e293b; line-height: 1.8; background: #f8fafc; direction: rtl; }
+  .page { max-width: 850px; margin: 0 auto; padding: 40px 32px; background: white; }
+  @media print { body { background: white; } .page { padding: 20px; } .no-print { display: none !important; } .prompt-card, .info-box, .exercise-box, .challenge-box, .tip-box, .step-box { break-inside: avoid; } }
+  @media (max-width: 640px) { .page { padding: 20px 16px; } h1 { font-size: 22px !important; } h2 { font-size: 18px !important; } }
+
+  .header { text-align: center; padding-bottom: 32px; border-bottom: 3px solid #f97316; margin-bottom: 32px; }
+  .header .badge { display: inline-block; background: linear-gradient(135deg, #f97316, #ef4444); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; color: #0f172a; margin-bottom: 8px; }
+  .header .subtitle { font-size: 16px; color: #64748b; }
+  .header .tool-name { font-size: 20px; color: #f97316; font-weight: 600; margin-top: 8px; }
+  .header .meta { display: flex; justify-content: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .header .meta span { font-size: 12px; color: #94a3b8; }
+
+  h2 { font-size: 20px; color: #0f172a; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #f97316; color: white; border-radius: 50%; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  h3 { font-size: 16px; color: #334155; margin: 20px 0 10px; }
+  h4 { font-size: 15px; color: #334155; margin: 16px 0 8px; }
+  p { margin-bottom: 12px; color: #475569; }
+
+  .objective-box { background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1px solid #fdba74; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .objective-box h4 { color: #c2410c; font-size: 14px; margin: 0 0 12px; }
+  .objective-box ul { margin: 0; padding-right: 20px; }
+  .objective-box li { color: #7c2d12; margin-bottom: 6px; font-size: 14px; }
+
+  .info-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .info-box h4 { color: #c2410c; font-size: 14px; margin-bottom: 8px; }
+  .info-box p { color: #7c2d12; margin-bottom: 0; }
+  .info-box ul { padding-right: 20px; margin: 8px 0 0; }
+  .info-box li { color: #7c2d12; margin-bottom: 4px; font-size: 14px; }
+
+  .prompt-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px 20px 20px; margin: 20px 0; position: relative; }
+  .prompt-card::before { content: attr(data-label); position: absolute; top: -10px; right: 20px; background: #f59e0b; color: white; padding: 2px 14px; border-radius: 10px; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+  .prompt-card h4 { color: #92400e; font-size: 15px; margin-bottom: 6px; margin-top: 4px; }
+  .prompt-card .prompt-context { font-size: 13px; color: #a16207; margin-bottom: 10px; font-style: italic; }
+  .prompt-card .prompt-text { background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; color: #78350f; white-space: pre-wrap; direction: ltr; text-align: left; position: relative; }
+  .prompt-card .copy-btn { position: absolute; top: 8px; left: 8px; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .prompt-card .copy-btn:hover { background: #fde68a; }
+  .prompt-card .prompt-note { font-size: 12px; color: #b45309; margin-top: 8px; }
+
+  .step-list { list-style: none; padding: 0; margin: 12px 0; }
+  .step-list li { padding: 10px 32px 10px 0; position: relative; color: #475569; font-size: 14px; }
+  .step-list li::before { content: ''; position: absolute; right: 4px; top: 16px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #f97316; background: white; }
+
+  .step-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .step-box h4 { color: #0f172a; font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .step-box .step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #f97316; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; }
+
+  .expect-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .expect-box h5 { color: #059669; font-size: 13px; margin-bottom: 8px; }
+  .expect-box ul { padding-right: 20px; margin: 0; }
+  .expect-box li { color: #065f46; font-size: 13px; margin-bottom: 4px; }
+
+  .exercise-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .exercise-box h4 { color: #1d4ed8; font-size: 14px; margin-bottom: 10px; }
+  .exercise-box p { color: #1e40af; margin-bottom: 8px; font-size: 14px; }
+  .exercise-box .prompt-text { background: white; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #1e3a5f; white-space: pre-wrap; margin: 8px 0; direction: ltr; text-align: left; }
+
+  .challenge-box { background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .challenge-box h4 { color: #be185d; font-size: 14px; margin-bottom: 10px; }
+  .challenge-box p { color: #9d174d; font-size: 14px; }
+  .challenge-box .prompt-text { background: white; border: 1px solid #fbcfe8; border-radius: 8px; padding: 14px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #831843; white-space: pre-wrap; margin: 8px 0; direction: ltr; text-align: left; }
+
+  .compare-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .compare-box h4 { color: #15803d; font-size: 14px; margin-bottom: 10px; }
+  .compare-box table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .compare-box th, .compare-box td { padding: 8px 12px; text-align: right; border: 1px solid #bbf7d0; font-size: 13px; }
+  .compare-box th { background: #dcfce7; color: #15803d; font-weight: 600; }
+  .compare-box td { color: #166534; }
+
+  .workspace-box { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .workspace-box h4 { color: #7c3aed; font-size: 14px; margin-bottom: 10px; }
+  .workspace-box p { color: #5b21b6; font-size: 14px; }
+  .workspace-box .area { display: inline-block; background: #ede9fe; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #6d28d9; margin: 2px 4px 2px 0; }
+
+  .tip-box { background: #fefce8; border-right: 4px solid #eab308; padding: 14px 16px; margin: 12px 0; border-radius: 8px 0 0 8px; }
+  .tip-box strong { color: #a16207; }
+  .tip-box p { color: #713f12; margin: 0; font-size: 14px; }
+
+  .warning-box { background: #fef2f2; border-right: 4px solid #ef4444; padding: 14px 16px; margin: 12px 0; border-radius: 8px 0 0 8px; }
+  .warning-box strong { color: #dc2626; }
+  .warning-box p { color: #991b1b; margin: 0; font-size: 14px; }
+
+  .checklist { list-style: none; padding: 0; margin: 12px 0; }
+  .checklist li { padding: 6px 28px 6px 0; position: relative; color: #475569; font-size: 14px; }
+  .checklist li::before { content: '\2610'; position: absolute; right: 2px; top: 6px; font-size: 16px; color: #94a3b8; }
+
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 2px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 13px; }
+
+  .print-btn { display: inline-flex; align-items: center; gap: 8px; background: #f97316; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+  .print-btn:hover { background: #ea580c; }
+
+  .duration-badge { display: inline-block; background: #ffedd5; color: #c2410c; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+</style>
+<script>
+  function copyPrompt(btn) {
+    const text = btn.parentElement.querySelector('.prompt-inner').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'تم النسخ!';
+      btn.style.background = '#a7f3d0';
+      setTimeout(() => { btn.textContent = 'نسخ'; btn.style.background = ''; }, 2000);
+    });
+  }
+</script>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="badge">دليل تدريب تكميلي</div>
+    <h1>Replit - تدريب عملي</h1>
+    <div class="subtitle">أتمتة الذكاء الاصطناعي والبرمجة الوصفية للرعاية الصحية</div>
+    <div class="tool-name">بناء مولّد التقارير السريرية</div>
+    <div class="meta">
+      <span>المدة: ٣٠-٤٥ دقيقة</span>
+      <span>المستوى: مبتدئ</span>
+      <span>الوحدة ٤: البرمجة الوصفية</span>
+      <span>تطوير بمساعدة الذكاء الاصطناعي</span>
+    </div>
+    <button class="print-btn no-print" onclick="window.print()">طباعة / حفظ كـ PDF</button>
+  </div>
+
+  <!-- القسم ١ -->
+  <h2><span class="num">١</span> ما هو Replit؟</h2>
+  <div class="info-box">
+    <h4>التعريف</h4>
+    <p>Replit هو <strong>منصة تطوير بمساعدة الذكاء الاصطناعي</strong> تتيح للمستخدمين إنشاء وتحرير وتشغيل واختبار التطبيقات في المتصفح. يجمع بين مساحة عمل البرمجة ودعم الذكاء الاصطناعي ومعاينة التطبيق والنماذج الأولية السريعة &mdash; كل ذلك من متصفحك بدون تثبيت.</p>
+  </div>
+
+  <h4>الميزات الرئيسية</h4>
+  <ul class="step-list">
+    <li><strong>تطوير سحابي</strong> - لا حاجة لتثبيت أي شيء</li>
+    <li><strong>توليد كود بالذكاء الاصطناعي</strong> - صف ما تريده والذكاء الاصطناعي يكتب الكود</li>
+    <li><strong>معاينة فورية</strong> - شاهد تطبيقك يعمل في الوقت الفعلي</li>
+    <li><strong>دعم لغات متعددة</strong> - يعمل مع Python و JavaScript و HTML وغيرها</li>
+    <li><strong>تطوير تعاوني</strong> - شارك مساحة العمل وابنِ مع الآخرين</li>
+    <li><strong>مساعد AI للدردشة</strong> - اسأل الذكاء الاصطناعي لشرح الكود أو إصلاح الأخطاء</li>
+  </ul>
+
+  <div class="tip-box">
+    <p><strong>ما الفرق بين Lovable و Replit؟</strong> بينما Lovable يعتمد بالكامل على الأوامر النصية (لا ترى الكود أبداً)، Replit يعطيك مساعد AI <em>وأيضاً</em> وصولاً للكود الأساسي. هذا يعني أنه يمكنك ترك الذكاء الاصطناعي يقوم بالعمل الثقيل مع إمكانية تعديل الكود يدوياً إذا لزم الأمر.</p>
+  </div>
+
+  <!-- القسم ٢ -->
+  <h2><span class="num">٢</span> ما ستتعلمه</h2>
+  <div class="objective-box">
+    <h4>أهداف التعلم</h4>
+    <ul>
+      <li>كيفية استخدام Replit كأداة تطوير بمساعدة الذكاء الاصطناعي لإنشاء تطبيقات ويب صحية</li>
+      <li>كيفية إنشاء حساب والتنقل في مساحة عمل Replit</li>
+      <li>كيفية استخدام أوامر الذكاء الاصطناعي لتوليد تطبيق كامل</li>
+      <li>كيفية تحسين التطبيق خطوة بخطوة</li>
+      <li>كيفية إضافة تصنيف الإلحاح وتصدير التقارير</li>
+      <li>الفرق بين Replit وأدوات البرمجة الوصفية الأخرى</li>
+    </ul>
+  </div>
+  <div class="duration-badge">الوقت المقدر: ٣٠-٤٥ دقيقة</div>
+
+  <!-- القسم ٣ -->
+  <h2><span class="num">٣</span> البدء</h2>
+  <div class="step-box">
+    <h4><span class="step-num">١</span> إنشاء حساب وتسجيل الدخول</h4>
+    <ul class="step-list">
+      <li>افتح المتصفح وانتقل إلى <strong>replit.com</strong></li>
+      <li>انقر على <strong>Sign Up</strong> وأنشئ حساباً مجانياً</li>
+      <li>سجل الدخول لرؤية لوحة التحكم</li>
+    </ul>
+  </div>
+  <div class="step-box">
+    <h4><span class="step-num">٢</span> إنشاء مشروع جديد</h4>
+    <ul class="step-list">
+      <li>انقر على زر <strong>Create Repl</strong> أو <strong>+</strong></li>
+      <li>استخدم <strong>وكيل AI</strong> لوصف ما تريد بناءه</li>
+      <li>ستفتح مساحة العمل مع محرر الكود ومتصفح الملفات ولوحة المعاينة</li>
+    </ul>
+  </div>
+
+  <!-- القسم ٤: مساحة العمل -->
+  <h2><span class="num">٤</span> فهم مساحة عمل Replit</h2>
+  <div class="workspace-box">
+    <h4>مناطق مساحة العمل</h4>
+    <p>
+      <span class="area">متصفح الملفات</span> - رؤية جميع ملفات المشروع<br>
+      <span class="area">محرر الكود</span> - المنطقة الرئيسية لعرض وتحرير الكود<br>
+      <span class="area">معاينة التطبيق</span> - معاينة مباشرة لتطبيقك<br>
+      <span class="area">مساعد AI</span> - لوحة دردشة لإعطاء أوامر<br>
+      <span class="area">وحدة التحكم</span> - طرفية لتشغيل الأوامر (اختياري)
+    </p>
+  </div>
+
+  <!-- القسم ٥ -->
+  <h2><span class="num">٥</span> سيناريو العرض: حالة استخدام صحية</h2>
+  <div class="info-box">
+    <h4>السيناريو</h4>
+    <p>سننشئ <strong>مولّد تقارير سريرية</strong> لطبيب. سيقوم التطبيق بـ:</p>
+    <ul>
+      <li><strong>قبول</strong> أعراض المريض والبيانات السريرية كمدخلات</li>
+      <li><strong>توليد</strong> ملخص سريري منظم</li>
+      <li><strong>تصنيف</strong> مستوى الإلحاح (منخفض، متوسط، عالي)</li>
+      <li><strong>تصدير</strong> التقرير بتنسيق منظم للتوثيق</li>
+    </ul>
+  </div>
+
+  <!-- الأمر ١ -->
+  <h2><span class="num">٦</span> الأمر ١: إنشاء تطبيق الملخص السريري</h2>
+  <div class="prompt-card" data-label="PROMPT 1">
+    <h4>توليد التطبيق الأولي</h4>
+    <p class="prompt-context">الهدف: بناء نموذج يجمع بيانات المريض ويولّد ملخصاً سريرياً</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">نسخ</button>
+      <span class="prompt-inner">Create a simple web app for doctors where they can enter patient symptoms and generate a clinical summary. The app should include input fields for patient name, age, symptoms, and notes. It should have a clean interface and display the generated summary clearly.</span>
+    </div>
+    <p class="prompt-note">انسخ هذا الأمر والصقه في مساعد AI في Replit</p>
+  </div>
+  <div class="expect-box">
+    <h5>ما المتوقع</h5>
+    <ul>
+      <li>تطبيق ويب كامل مع واجهة نموذج</li>
+      <li>حقول إدخال لاسم المريض والعمر والأعراض والملاحظات</li>
+      <li>زر "توليد الملخص"</li>
+      <li>الملخص السريري معروض بوضوح أسفل النموذج</li>
+    </ul>
+  </div>
+
+  <!-- الأمر ٢ -->
+  <h2><span class="num">٧</span> الأمر ٢: إضافة تصنيف الإلحاح</h2>
+  <div class="prompt-card" data-label="PROMPT 2">
+    <h4>تعزيز بمستويات الإلحاح</h4>
+    <p class="prompt-context">الهدف: إضافة تصنيف إلحاح تلقائي</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">نسخ</button>
+      <span class="prompt-inner">Enhance the app by adding an urgency classification section. Based on the entered symptoms, show a simple urgency level such as Low, Medium, or High. Display the urgency clearly below the clinical summary.</span>
+    </div>
+    <p class="prompt-note">الصق هذا كأمر متابعة في نفس المشروع</p>
+  </div>
+  <div class="expect-box">
+    <h5>ما المتوقع</h5>
+    <ul>
+      <li>شارة إلحاح ملونة (أخضر=منخفض، أصفر=متوسط، أحمر=عالي)</li>
+      <li>تصنيف بناءً على كلمات الأعراض المدخلة</li>
+      <li>تمييز بصري يجعل الإلحاح واضحاً فوراً</li>
+    </ul>
+  </div>
+
+  <!-- الأمر ٣ -->
+  <h2><span class="num">٨</span> الأمر ٣: مخرجات منظمة وتنزيل</h2>
+  <div class="prompt-card" data-label="PROMPT 3">
+    <h4>إضافة مخرجات منظمة وتصدير</h4>
+    <p class="prompt-context">الهدف: تنسيق التقرير مهنياً وإضافة وظيفة التنزيل/الطباعة</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">نسخ</button>
+      <span class="prompt-inner">Improve the app by formatting the output into clear sections: patient details, symptoms, clinical summary, and urgency level. Also add a button that allows the doctor to download or print the result for documentation purposes.</span>
+    </div>
+    <p class="prompt-note">الصق هذا كأمر متابعة في نفس المشروع</p>
+  </div>
+
+  <div class="info-box">
+    <h4>ما بنيته</h4>
+    <p>باستخدام <strong>ثلاثة أوامر فقط</strong>، أنشأت مولّد تقارير سريرية يتضمن:</p>
+    <ul>
+      <li>نموذج جمع بيانات المريض</li>
+      <li>توليد ملخص سريري تلقائي</li>
+      <li>تصنيف إلحاح بالذكاء الاصطناعي</li>
+      <li>مخرجات تقرير منظمة ومهنية</li>
+      <li>إمكانية التنزيل/الطباعة للتوثيق الطبي</li>
+    </ul>
+  </div>
+
+  <!-- تمارين -->
+  <h2><span class="num">٩</span> تمارين عملية</h2>
+
+  <div class="exercise-box">
+    <h4>التمرين أ: تحسين مولّد التقارير</h4>
+    <p>استمر في البناء. جرب كل أمر على حدة:</p>
+    <p><strong>إضافة العلامات الحيوية:</strong></p>
+    <div class="prompt-text">Add input fields for vital signs: temperature (in Celsius), heart rate (BPM), blood pressure (systolic/diastolic), and oxygen saturation (%). Include these in the generated report and use them to improve the urgency classification accuracy.</div>
+    <p><strong>إضافة توصيات المتابعة:</strong></p>
+    <div class="prompt-text">Add a section in the report that suggests follow-up actions based on the urgency level. For Low urgency, suggest scheduling a routine follow-up. For Medium, suggest further tests within 48 hours. For High, recommend immediate specialist referral with specific warnings.</div>
+    <p><strong>إضافة سجل التقارير:</strong></p>
+    <div class="prompt-text">Add a history panel on the side that shows previously generated reports. Each entry should show patient name, date, and urgency level. Clicking an entry should display the full report. Add a search bar to find previous reports by patient name.</div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>التمرين ب: بناء أداة صحية جديدة</h4>
+    <p>ابدأ <strong>مشروعاً جديداً</strong> في Replit:</p>
+    <p><strong>الخيار ١ - مفسّر نتائج المختبر:</strong></p>
+    <div class="prompt-text">Create a web app where doctors can enter lab test results including blood count (hemoglobin, WBC, platelets), glucose level, cholesterol (total, HDL, LDL), and creatinine. For each value, show whether it is Normal, Low, or High compared to standard medical reference ranges. Display the results in a clear table with color coding: green for normal, yellow for borderline, and red for abnormal values.</div>
+    <p><strong>الخيار ٢ - أداة تسليم المناوبة:</strong></p>
+    <div class="prompt-text">Create an app for nurses to document patient status during shift handover. Include fields for patient name, room number, current condition, vital signs summary, medications given during the shift, pending tasks for the next shift, and special notes or alerts. Generate a structured handover report that the next shift nurse can review quickly. Include a print button.</div>
+    <p><strong>الخيار ٣ - فاحص الأعراض:</strong></p>
+    <div class="prompt-text">Create a simple symptom checker where patients can enter their symptoms from a list of common symptoms using checkboxes. Based on the selected symptoms, display a general recommendation: "Self-care at home", "Schedule a doctor appointment within a few days", or "Seek emergency medical care". Add a disclaimer that this is not a medical diagnosis. Include a button to generate a printable summary to bring to the doctor.</div>
+  </div>
+
+  <!-- المقارنة -->
+  <h2><span class="num">١٠</span> Lovable مقابل Replit: متى تستخدم أيهما؟</h2>
+  <div class="compare-box">
+    <h4>دليل المقارنة السريعة</h4>
+    <table>
+      <tr><th>الميزة</th><th>Lovable</th><th>Replit</th></tr>
+      <tr><td>الأفضل لـ</td><td>تطبيقات سريعة مركزة على الواجهة</td><td>تطبيقات كاملة بمنطق معقد</td></tr>
+      <tr><td>يحتاج برمجة</td><td>لا - أوامر نصية فقط</td><td>اختياري - AI يساعد والكود مرئي</td></tr>
+      <tr><td>رؤية الكود</td><td>مخفي</td><td>وصول كامل للكود</td></tr>
+      <tr><td>المخرجات</td><td>تطبيق ويب بواجهة مصقولة</td><td>أي نوع من التطبيقات</td></tr>
+      <tr><td>مثال صحي</td><td>تطبيق تتبع المرضى</td><td>مولّد التقارير السريرية</td></tr>
+      <tr><td>استخدم عندما...</td><td>تحتاج نموذج أولي سريع</td><td>تحتاج تحكم أكثر وميزات</td></tr>
+    </table>
+  </div>
+
+  <!-- نصائح -->
+  <h2><span class="num">١١</span> نصائح لنتائج أفضل مع Replit</h2>
+  <div class="tip-box"><p><strong>ابدأ بقصة المستخدم:</strong> ابدأ أمرك بـ "As a doctor, I want to..." لمساعدة الذكاء الاصطناعي على فهم السياق.</p></div>
+  <div class="tip-box"><p><strong>حدد تنسيق المخرجات:</strong> صف كيف يجب عرض البيانات: "show results in a table"، "display as cards".</p></div>
+  <div class="tip-box"><p><strong>أضف ميزة واحدة في كل مرة:</strong> لا تحاول وصف تطبيق معقد في أمر واحد. ابنِ تدريجياً.</p></div>
+  <div class="tip-box"><p><strong>اختبر بعد كل تغيير:</strong> استخدم معاينة Replit المباشرة للتحقق من عمل التطبيق.</p></div>
+  <div class="tip-box"><p><strong>استخدم دردشة AI للمساعدة:</strong> إذا لم يعمل شيء، اسأل المساعد لإصلاح المشكلة.</p></div>
+
+  <div class="warning-box">
+    <p><strong>تذكير مهم:</strong> التطبيقات المبنية في هذا التمرين هي لأغراض التعلم فقط. ليست برمجيات طبية معتمدة ولا ينبغي استخدامها لاتخاذ قرارات سريرية فعلية.</p>
+  </div>
+
+  <!-- قائمة التقييم -->
+  <h2><span class="num">١٢</span> قائمة التقييم الذاتي</h2>
+  <ul class="checklist">
+    <li>أنشأت حساباً على Replit وأستطيع التنقل في مساحة العمل</li>
+    <li>أفهم تخطيط مساحة العمل (متصفح الملفات، محرر الكود، المعاينة، مساعد AI)</li>
+    <li>نجحت في توليد تطبيق الملخص السريري باستخدام الأمر ١</li>
+    <li>أضفت تصنيف الإلحاح باستخدام الأمر ٢ واختبرت السيناريوهات الثلاثة</li>
+    <li>أضفت المخرجات المنظمة والتنزيل باستخدام الأمر ٣</li>
+    <li>أكملت تمريناً عملياً واحداً على الأقل</li>
+    <li>أستطيع شرح الفرق بين Lovable و Replit</li>
+    <li>أستطيع كتابة أوامر فعالة لبناء تطبيقات صحية</li>
+  </ul>
+
+  <div class="info-box">
+    <h4>تهانينا!</h4>
+    <p>لقد أكملت دليل تدريب Replit. أنت الآن تعرف كيفية استخدام التطوير بمساعدة الذكاء الاصطناعي لبناء تطبيقات صحية في المتصفح. النقطة الرئيسية: <strong>بالأوامر الصحيحة، يمكنك بناء أدوات سريرية مهنية بدون أن تكون مبرمجاً.</strong></p>
+  </div>
+
+  <div class="footer">
+    <p>أكاديمية الصحة بالذكاء الاصطناعي - أتمتة الذكاء الاصطناعي والبرمجة الوصفية</p>
+    <p>الوحدة ٤: البرمجة الوصفية | عرض الأداة: Replit</p>
+  </div>
+
+</div>
+</body>
+</html>

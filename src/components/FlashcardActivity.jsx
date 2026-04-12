@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, RotateCw, CheckCircle2, RotateCcw } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FlashcardActivity({ activity, onComplete, completed }) {
+  const { t, isRTL } = useLanguage();
   const [currentCard, setCurrentCard] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [seen, setSeen] = useState(completed ? new Set(activity.cards.map((_, i) => i)) : new Set());
@@ -41,6 +43,10 @@ export default function FlashcardActivity({ activity, onComplete, completed }) {
     setDone(false);
   };
 
+  // RTL-aware navigation
+  const PrevIcon = isRTL ? ChevronRight : ChevronLeft;
+  const NextIcon = isRTL ? ChevronLeft : ChevronRight;
+
   return (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
       <div className="px-5 py-4 border-b border-slate-100 bg-gradient-to-r from-amber-50 to-orange-50">
@@ -51,7 +57,7 @@ export default function FlashcardActivity({ activity, onComplete, completed }) {
           </div>
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 bg-white/80 text-slate-600 rounded-full text-xs font-medium">
-              {seen.size} / {total} reviewed
+              {seen.size} / {total}
             </span>
             {done && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
           </div>
@@ -72,14 +78,14 @@ export default function FlashcardActivity({ activity, onComplete, completed }) {
             {/* Front */}
             <div className="absolute inset-0 backface-hidden" style={{ backfaceVisibility: 'hidden' }}>
               <div className="h-full bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg" style={{ minHeight: '220px' }}>
-                <p className="text-xs text-cyan-100 uppercase tracking-wider mb-3 font-medium">Click to flip</p>
+                <p className="text-xs text-cyan-100 uppercase tracking-wider mb-3 font-medium">{t.flipCard}</p>
                 <h3 className="text-xl font-display font-bold text-white">{cards[currentCard].front}</h3>
               </div>
             </div>
             {/* Back */}
             <div className="absolute inset-0 backface-hidden [transform:rotateY(180deg)]" style={{ backfaceVisibility: 'hidden' }}>
               <div className="h-full bg-white border-2 border-cyan-200 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg" style={{ minHeight: '220px' }}>
-                <p className="text-xs text-cyan-500 uppercase tracking-wider mb-3 font-medium">Answer</p>
+                <p className="text-xs text-cyan-500 uppercase tracking-wider mb-3 font-medium">{isRTL ? 'الإجابة' : 'Answer'}</p>
                 <p className="text-slate-700 text-sm leading-relaxed">{cards[currentCard].back}</p>
               </div>
             </div>
@@ -87,36 +93,36 @@ export default function FlashcardActivity({ activity, onComplete, completed }) {
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between mt-5 max-w-lg mx-auto">
+        <div className={`flex items-center justify-between mt-5 max-w-lg mx-auto`}>
           <button
             onClick={() => goTo(currentCard - 1)}
             disabled={currentCard === 0}
-            className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            className={`flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all`}
           >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
+            <PrevIcon className="w-4 h-4" />
+            {t.previous}
           </button>
           <button onClick={markSeen} className="flex items-center gap-1.5 px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-700 transition-all">
             <CheckCircle2 className="w-4 h-4" />
-            {currentCard < total - 1 ? 'Got it — Next' : 'Complete'}
+            {currentCard < total - 1 ? (isRTL ? 'فهمت — التالي' : 'Got it — Next') : (isRTL ? 'إكمال' : 'Complete')}
           </button>
           <button
             onClick={() => goTo(currentCard + 1)}
             disabled={currentCard === total - 1}
-            className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            className={`flex items-center gap-1.5 px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all`}
           >
-            Next
-            <ChevronRight className="w-4 h-4" />
+            {t.next}
+            <NextIcon className="w-4 h-4" />
           </button>
         </div>
 
         {/* Retry button when completed */}
         {done && (
-          <div className="mt-5 flex items-center justify-between max-w-lg mx-auto">
-            <p className="text-sm text-slate-500">✓ All cards reviewed! Activity completed.</p>
-            <button onClick={reset} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all">
+          <div className={`mt-5 flex items-center justify-between max-w-lg mx-auto`}>
+            <p className="text-sm text-slate-500">✓ {t.activityComplete}</p>
+            <button onClick={reset} className={`flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all`}>
               <RotateCcw className="w-3.5 h-3.5" />
-              Review Again
+              {t.tryAgain}
             </button>
           </div>
         )}

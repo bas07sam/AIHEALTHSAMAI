@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل تدريب Lovable - تطبيق تتبع مرضى السكري | أكاديمية الصحة بالذكاء الاصطناعي</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, 'Tahoma', sans-serif; color: #1e293b; line-height: 1.8; background: #f8fafc; direction: rtl; }
+  .page { max-width: 850px; margin: 0 auto; padding: 40px 32px; background: white; }
+  @media print { body { background: white; } .page { padding: 20px; } .no-print { display: none !important; } .prompt-card, .info-box, .exercise-box, .challenge-box, .tip-box, .step-box, .objective-box { break-inside: avoid; } }
+  @media (max-width: 640px) { .page { padding: 20px 16px; } h1 { font-size: 22px !important; } h2 { font-size: 18px !important; } }
+
+  .header { text-align: center; padding-bottom: 32px; border-bottom: 3px solid #06b6d4; margin-bottom: 32px; }
+  .header .badge { display: inline-block; background: linear-gradient(135deg, #06b6d4, #3b82f6); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; color: #0f172a; margin-bottom: 8px; }
+  .header .subtitle { font-size: 16px; color: #64748b; }
+  .header .tool-name { font-size: 20px; color: #06b6d4; font-weight: 600; margin-top: 8px; }
+  .header .meta { display: flex; justify-content: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .header .meta span { font-size: 12px; color: #94a3b8; }
+
+  h2 { font-size: 20px; color: #0f172a; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #06b6d4; color: white; border-radius: 50%; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  h3 { font-size: 16px; color: #334155; margin: 20px 0 10px; }
+  h4 { font-size: 15px; color: #334155; margin: 16px 0 8px; }
+  p { margin-bottom: 12px; color: #475569; }
+
+  .objective-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 1px solid #7dd3fc; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .objective-box h4 { color: #0369a1; font-size: 14px; margin: 0 0 12px; }
+  .objective-box ul { margin: 0; padding-right: 20px; }
+  .objective-box li { color: #0c4a6e; margin-bottom: 6px; font-size: 14px; }
+
+  .info-box { background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .info-box h4 { color: #0d9488; font-size: 14px; margin-bottom: 8px; }
+  .info-box p { color: #115e59; margin-bottom: 0; }
+  .info-box ul { padding-right: 20px; margin: 8px 0 0; }
+  .info-box li { color: #115e59; margin-bottom: 4px; font-size: 14px; }
+
+  .prompt-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px 20px 20px; margin: 20px 0; position: relative; }
+  .prompt-card::before { content: attr(data-label); position: absolute; top: -10px; right: 20px; background: #f59e0b; color: white; padding: 2px 14px; border-radius: 10px; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+  .prompt-card h4 { color: #92400e; font-size: 15px; margin-bottom: 6px; margin-top: 4px; }
+  .prompt-card .prompt-context { font-size: 13px; color: #a16207; margin-bottom: 10px; font-style: italic; }
+  .prompt-card .prompt-text { background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; color: #78350f; white-space: pre-wrap; direction: ltr; text-align: left; position: relative; }
+  .prompt-card .copy-btn { position: absolute; top: 8px; left: 8px; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .prompt-card .copy-btn:hover { background: #fde68a; }
+  .prompt-card .prompt-note { font-size: 12px; color: #b45309; margin-top: 8px; }
+
+  .step-list { list-style: none; padding: 0; margin: 12px 0; }
+  .step-list li { padding: 10px 32px 10px 0; position: relative; color: #475569; font-size: 14px; }
+  .step-list li::before { content: ''; position: absolute; right: 4px; top: 16px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #06b6d4; background: white; }
+
+  .step-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .step-box h4 { color: #0f172a; font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .step-box .step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #06b6d4; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; }
+
+  .expect-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .expect-box h5 { color: #059669; font-size: 13px; margin-bottom: 8px; }
+  .expect-box ul { padding-right: 20px; margin: 0; }
+  .expect-box li { color: #065f46; font-size: 13px; margin-bottom: 4px; }
+
+  .exercise-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .exercise-box h4 { color: #1d4ed8; font-size: 14px; margin-bottom: 10px; }
+  .exercise-box p { color: #1e40af; margin-bottom: 8px; font-size: 14px; }
+  .exercise-box .prompt-text { background: white; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #1e3a5f; white-space: pre-wrap; margin: 8px 0; direction: ltr; text-align: left; }
+
+  .challenge-box { background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .challenge-box h4 { color: #be185d; font-size: 14px; margin-bottom: 10px; }
+  .challenge-box p { color: #9d174d; font-size: 14px; }
+  .challenge-box .prompt-text { background: white; border: 1px solid #fbcfe8; border-radius: 8px; padding: 14px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #831843; white-space: pre-wrap; margin: 8px 0; direction: ltr; text-align: left; }
+
+  .tip-box { background: #fefce8; border-right: 4px solid #eab308; padding: 14px 16px; margin: 12px 0; border-radius: 8px 0 0 8px; }
+  .tip-box strong { color: #a16207; }
+  .tip-box p { color: #713f12; margin: 0; font-size: 14px; }
+
+  .warning-box { background: #fef2f2; border-right: 4px solid #ef4444; padding: 14px 16px; margin: 12px 0; border-radius: 8px 0 0 8px; }
+  .warning-box strong { color: #dc2626; }
+  .warning-box p { color: #991b1b; margin: 0; font-size: 14px; }
+
+  .checklist { list-style: none; padding: 0; margin: 12px 0; }
+  .checklist li { padding: 6px 28px 6px 0; position: relative; color: #475569; font-size: 14px; }
+  .checklist li::before { content: '\2610'; position: absolute; right: 2px; top: 6px; font-size: 16px; color: #94a3b8; }
+
+  .key-concept { display: inline-block; background: #f0fdfa; border: 1px solid #99f6e4; padding: 2px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #0d9488; margin: 2px 4px 2px 0; }
+
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 2px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 13px; }
+
+  .print-btn { display: inline-flex; align-items: center; gap: 8px; background: #06b6d4; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+  .print-btn:hover { background: #0891b2; }
+
+  .duration-badge { display: inline-block; background: #dbeafe; color: #1d4ed8; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+</style>
+<script>
+  function copyPrompt(btn) {
+    const text = btn.parentElement.querySelector('.prompt-inner').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'تم النسخ!';
+      btn.style.background = '#a7f3d0';
+      setTimeout(() => { btn.textContent = 'نسخ'; btn.style.background = ''; }, 2000);
+    });
+  }
+</script>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="badge">دليل تدريب تكميلي</div>
+    <h1>Lovable - تدريب عملي</h1>
+    <div class="subtitle">أتمتة الذكاء الاصطناعي والبرمجة الوصفية للرعاية الصحية</div>
+    <div class="tool-name">بناء تطبيق تتبع مرضى السكري</div>
+    <div class="meta">
+      <span>المدة: ٣٠-٤٥ دقيقة</span>
+      <span>المستوى: مبتدئ</span>
+      <span>الوحدة ٤: البرمجة الوصفية</span>
+      <span>لا يحتاج برمجة</span>
+    </div>
+    <button class="print-btn no-print" onclick="window.print()">طباعة / حفظ كـ PDF</button>
+  </div>
+
+  <!-- القسم ١: ما هو Lovable -->
+  <h2><span class="num">١</span> ما هو Lovable؟</h2>
+  <div class="info-box">
+    <h4>التعريف</h4>
+    <p>Lovable هو منصة <strong>برمجة وصفية</strong> تتيح للمستخدمين إنشاء تطبيقات من خلال وصف ما يريدونه باللغة الطبيعية. بدلاً من بناء الواجهة يدوياً وكتابة الكود من الصفر، يقوم المستخدم بإعطاء أوامر نصية وتقوم المنصة بتوليد هيكل التطبيق والشاشات والمنطق.</p>
+  </div>
+
+  <h4>الميزات الرئيسية</h4>
+  <ul class="step-list">
+    <li><strong>لا يحتاج برمجة</strong> - صف فكرة تطبيقك باللغة العادية</li>
+    <li><strong>الذكاء الاصطناعي يولّد التطبيق كاملاً</strong> - بما في ذلك الواجهة والمنطق والبيانات</li>
+    <li><strong>تحسين تكراري</strong> - حسّن التطبيق من خلال أوامر متابعة</li>
+    <li><strong>معاينة فورية</strong> - شاهد تطبيقك يعمل في الوقت الفعلي</li>
+    <li><strong>مثالي للنماذج الأولية السريعة</strong> - من الفكرة إلى تطبيق عامل في دقائق</li>
+  </ul>
+
+  <div class="tip-box">
+    <p><strong>ما هي البرمجة الوصفية؟</strong> هي نهج جديد لبناء البرمجيات حيث تصف ما تريده باللغة الطبيعية والذكاء الاصطناعي يولّد الكود. العملية تتبع حلقة بسيطة: <strong>صِف</strong> فكرتك، <strong>ولّد</strong> التطبيق، <strong>راجع</strong> النتيجة، و<strong>حسّن</strong> بأوامر متابعة.</p>
+  </div>
+
+  <!-- القسم ٢: أهداف التعلم -->
+  <h2><span class="num">٢</span> ما ستتعلمه</h2>
+  <div class="objective-box">
+    <h4>أهداف التعلم</h4>
+    <ul>
+      <li>كيف يمكن استخدام أداة البرمجة الوصفية لإنشاء تطبيق صحي بسرعة باستخدام أوامر اللغة الطبيعية</li>
+      <li>كيفية إنشاء حساب وبدء مشروع على Lovable</li>
+      <li>كيفية توليد النسخة الأولى من التطبيق من أمر واحد</li>
+      <li>كيفية تحسين التطبيق خطوة بخطوة باستخدام أوامر المتابعة</li>
+      <li>كيفية إضافة منطق (تنبيهات، شروط) من خلال تعليمات باللغة الطبيعية</li>
+    </ul>
+  </div>
+
+  <div class="duration-badge">الوقت المقدر: ٣٠-٤٥ دقيقة</div>
+
+  <!-- القسم ٣: البدء -->
+  <h2><span class="num">٣</span> البدء</h2>
+  <div class="step-box">
+    <h4><span class="step-num">١</span> إنشاء حساب وتسجيل الدخول</h4>
+    <ul class="step-list">
+      <li>افتح المتصفح وانتقل إلى <strong>lovable.dev</strong></li>
+      <li>انقر على <strong>Sign Up</strong> وأنشئ حساباً مجانياً</li>
+      <li>سجل الدخول لرؤية لوحة التحكم الرئيسية</li>
+      <li>انقر لبدء مشروع جديد</li>
+    </ul>
+  </div>
+
+  <!-- القسم ٤: سيناريو العرض -->
+  <h2><span class="num">٤</span> سيناريو العرض: حالة استخدام صحية</h2>
+  <div class="info-box">
+    <h4>السيناريو</h4>
+    <p>طبيب يريد تطبيقاً بسيطاً لـ:</p>
+    <ul>
+      <li><strong>تسجيل</strong> معلومات مرضى السكري</li>
+      <li><strong>تخزين</strong> قراءات الجلوكوز وضغط الدم اليومية</li>
+      <li><strong>اكتشاف</strong> القيم الخطيرة وعرض تنبيهات</li>
+      <li><strong>مراجعة</strong> سجلات المرضى والاتجاهات بمرور الوقت</li>
+    </ul>
+  </div>
+
+  <!-- الأمر ١ -->
+  <h2><span class="num">٥</span> الأمر ١: تطبيق تسجيل مرضى السكري الأساسي</h2>
+  <p>هذا الأمر الأول ينشئ أساس التطبيق. أنت تخبر Lovable بالبيانات التي يجب أن يجمعها التطبيق.</p>
+
+  <div class="prompt-card" data-label="PROMPT 1">
+    <h4>إنشاء تطبيق تسجيل مرضى السكري</h4>
+    <p class="prompt-context">الهدف: بناء نموذج إدخال بيانات مع قائمة سجلات المرضى</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">نسخ</button>
+      <span class="prompt-inner">Create a healthcare app for doctors to record diabetic patient data. The app should allow the doctor to enter patient name, age, gender, date, blood glucose reading, blood pressure, and notes. It should have a clean and simple interface and save each patient's daily record.</span>
+    </div>
+    <p class="prompt-note">انسخ هذا الأمر والصقه في مربع الأوامر في Lovable</p>
+  </div>
+
+  <div class="expect-box">
+    <h5>ما المتوقع بعد هذا الأمر</h5>
+    <ul>
+      <li>سيولّد Lovable تطبيق ويب كامل مع واجهة نموذج</li>
+      <li>ستظهر حقول إدخال لاسم المريض والعمر والجنس والتاريخ وقراءة الجلوكوز وضغط الدم والملاحظات</li>
+      <li>سيتضمن التطبيق جدولاً أو قائمة تعرض جميع سجلات المرضى المحفوظة</li>
+      <li>ستكون الواجهة نظيفة ومهنية</li>
+    </ul>
+  </div>
+
+  <!-- الأمر ٢ -->
+  <h2><span class="num">٦</span> الأمر ٢: إضافة اكتشاف الطوارئ</h2>
+  <p>الآن نعزز التطبيق بـ<strong>منطق تنبيه ذكي</strong>. هذا يوضح كيف يمكن للبرمجة الوصفية إضافة سلوك شرطي.</p>
+
+  <div class="prompt-card" data-label="PROMPT 2">
+    <h4>إضافة نظام اكتشاف الطوارئ</h4>
+    <p class="prompt-context">الهدف: إضافة تحذيرات مرئية لمستويات الجلوكوز الخطيرة</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">نسخ</button>
+      <span class="prompt-inner">Enhance the app by adding an alert system. If the blood glucose reading is above 180, show a warning message saying "High glucose level - attention required." If the reading is above 250, show a more urgent alert saying "Critical reading - immediate medical attention may be needed." Make these alerts visually clear on the interface.</span>
+    </div>
+    <p class="prompt-note">الصق هذا كأمر متابعة في نفس المشروع</p>
+  </div>
+
+  <div class="expect-box">
+    <h5>ما المتوقع بعد هذا الأمر</h5>
+    <ul>
+      <li>رسائل تحذير صفراء/برتقالية عندما يكون الجلوكوز بين ١٨٠-٢٥٠</li>
+      <li>رسائل تنبيه حمراء/حرجة عندما يتجاوز الجلوكوز ٢٥٠</li>
+      <li>التنبيهات بارزة بصرياً</li>
+    </ul>
+  </div>
+
+  <!-- الأمر ٣ -->
+  <h2><span class="num">٧</span> الأمر ٣: سجل المريض وتتبع الاتجاهات</h2>
+
+  <div class="prompt-card" data-label="PROMPT 3">
+    <h4>إضافة عرض تفصيلي للمريض وتتبع الاتجاهات</h4>
+    <p class="prompt-context">الهدف: إنشاء صفحة تفاصيل المريض مع الاتجاهات التاريخية</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">نسخ</button>
+      <span class="prompt-inner">Add a patient details page where the doctor can click on a patient and view their daily glucose records over time. Show readings by date, display trends clearly, and include notes for each visit. Make the dashboard easy to read and useful for follow-up review.</span>
+    </div>
+    <p class="prompt-note">الصق هذا كأمر متابعة في نفس المشروع</p>
+  </div>
+
+  <div class="info-box">
+    <h4>ما بنيته</h4>
+    <p>باستخدام <strong>ثلاثة أوامر فقط</strong>، أنشأت تطبيقاً صحياً يتضمن:</p>
+    <ul>
+      <li>إدخال بيانات المرضى مع حقول متعددة</li>
+      <li>نظام تنبيه ذكي بمستويين من الشدة</li>
+      <li>عرض سجل المريض مع تتبع الاتجاهات</li>
+      <li>واجهة نظيفة ومهنية مناسبة للاستخدام السريري</li>
+    </ul>
+  </div>
+
+  <!-- تمارين -->
+  <h2><span class="num">٨</span> تمارين عملية</h2>
+
+  <div class="exercise-box">
+    <h4>التمرين أ: تخصيص تطبيقك</h4>
+    <p>استمر في البناء على التطبيق الذي أنشأته. جرب كل أمر على حدة:</p>
+    <p><strong>إضافة تتبع HbA1c:</strong></p>
+    <div class="prompt-text">Add a field for HbA1c reading to the patient form. Display it alongside blood glucose in the records table, and show a warning if HbA1c is above 7.0%.</div>
+    <p><strong>إضافة شارات الحالة:</strong></p>
+    <div class="prompt-text">Add a color-coded badge next to each patient showing their latest status: "Normal" (green) if glucose is below 140, "Warning" (yellow) if between 140-200, and "Critical" (red) if above 200.</div>
+    <p><strong>إضافة البحث:</strong></p>
+    <div class="prompt-text">Add a search bar at the top of the patient list that filters patients by name as the doctor types. The filtering should happen in real time without clicking a button.</div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>التمرين ب: بناء تطبيق صحي جديد من الصفر</h4>
+    <p>ابدأ <strong>مشروعاً جديداً</strong> في Lovable وجرب بناء أحد هذه التطبيقات:</p>
+    <p><strong>الخيار ١ - جدولة المواعيد:</strong></p>
+    <div class="prompt-text">Create an app where patients can book appointments with doctors. Include fields for patient name, preferred date, time slot selection from available times, doctor selection, and reason for visit. Show a confirmation after booking and display all upcoming appointments in a calendar-style view.</div>
+    <p><strong>الخيار ٢ - تتبع الأدوية:</strong></p>
+    <div class="prompt-text">Create an app to track daily medication intake for patients. Include patient name, medication name, dosage, scheduled time, and a checkbox for taken/not taken. Show a daily summary and highlight any missed medications. Add a simple dashboard showing medication adherence percentage.</div>
+    <p><strong>الخيار ٣ - سجل العلامات الحيوية:</strong></p>
+    <div class="prompt-text">Create an app for nurses to log patient vital signs including temperature, heart rate, blood pressure, oxygen saturation level, and respiratory rate. Show alerts for abnormal values using medical guidelines. Display a patient's vitals in a timeline view showing how values change over the shift.</div>
+  </div>
+
+  <!-- التحديات المتقدمة -->
+  <h2><span class="num">٩</span> تحديات متقدمة</h2>
+  <div class="challenge-box">
+    <h4>التحدي: تطبيق فرز غرفة الطوارئ</h4>
+    <p>ابنِ أداة تقييم الفرز في ٣ أوامر:</p>
+    <div class="prompt-text">Create a web app for an emergency room triage nurse. The app should let the nurse enter patient name, age, chief complaint, pain level (1-10), vital signs (temperature, heart rate, blood pressure), and arrival time. The app should automatically assign a triage level: Level 1 (Resuscitation - red) for critical conditions, Level 2 (Emergent - orange) for urgent cases, Level 3 (Urgent - yellow) for less urgent, Level 4 (Less Urgent - green) for minor issues, and Level 5 (Non-urgent - blue) for routine cases. Display a live queue showing all patients sorted by triage level.</div>
+  </div>
+
+  <!-- نصائح -->
+  <h2><span class="num">١٠</span> نصائح لكتابة أوامر أفضل</h2>
+  <div class="tip-box"><p><strong>كن محدداً حول البيانات:</strong> حدد بالضبط الحقول وأنواع البيانات التي تريدها.</p></div>
+  <div class="tip-box"><p><strong>صف المستخدم:</strong> اذكر دائماً من سيستخدم التطبيق ("للأطباء"، "للممرضات"، "للمرضى").</p></div>
+  <div class="tip-box"><p><strong>أضف المنطق بالإنجليزية البسيطة:</strong> صف الشروط بوضوح: "إذا كان الجلوكوز أعلى من ١٨٠، أظهر تحذيراً."</p></div>
+  <div class="tip-box"><p><strong>كرر تدريجياً:</strong> ابدأ بالتطبيق الأساسي، ثم أضف ميزات واحدة تلو الأخرى.</p></div>
+  <div class="tip-box"><p><strong>اطلب إشارات بصرية:</strong> اطلب ترميزاً لونياً وشارات ورسومات بيانية لتسهيل قراءة البيانات.</p></div>
+
+  <!-- قائمة التقييم الذاتي -->
+  <h2><span class="num">١١</span> قائمة التقييم الذاتي</h2>
+  <ul class="checklist">
+    <li>أنشأت حساباً على Lovable وأستطيع التنقل في لوحة التحكم</li>
+    <li>نجحت في توليد تطبيق أساسي باستخدام الأمر ١</li>
+    <li>اختبرت التطبيق بإدخال بيانات مرضى نموذجية</li>
+    <li>أضفت منطق التنبيه باستخدام الأمر ٢ واختبرت جميع السيناريوهات</li>
+    <li>أضفت عرض تفاصيل المريض باستخدام الأمر ٣</li>
+    <li>أكملت تمريناً عملياً واحداً على الأقل</li>
+    <li>أستطيع شرح سير عمل صِف ← ولّد ← حسّن</li>
+    <li>أفهم كيفية كتابة أوامر فعالة لإنشاء التطبيقات</li>
+  </ul>
+
+  <div class="info-box">
+    <h4>تهانينا!</h4>
+    <p>لقد أكملت دليل تدريب Lovable. أنت الآن تعرف كيفية استخدام البرمجة الوصفية لبناء تطبيقات صحية من الصفر باستخدام أوامر اللغة الطبيعية. النقطة الرئيسية: <strong>لا تحتاج أن تكون مبرمجاً لبناء أدوات رقمية مفيدة.</strong></p>
+  </div>
+
+  <div class="footer">
+    <p>أكاديمية الصحة بالذكاء الاصطناعي - أتمتة الذكاء الاصطناعي والبرمجة الوصفية</p>
+    <p>الوحدة ٤: البرمجة الوصفية | عرض الأداة: Lovable</p>
+  </div>
+
+</div>
+</body>
+</html>

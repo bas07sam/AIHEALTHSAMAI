@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
-import { CheckCircle2, XCircle, RotateCcw, ArrowRight } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function MatchActivity({ activity, onComplete, completed }) {
+  const { t, isRTL } = useLanguage();
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [matches, setMatches] = useState({});
   const [feedback, setFeedback] = useState({});
@@ -11,6 +13,8 @@ export default function MatchActivity({ activity, onComplete, completed }) {
 
   const leftItems = activity.pairs.map((p, i) => ({ id: i, text: p.left }));
   const rightItems = [...new Set(activity.pairs.map(p => p.right))];
+
+  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   const handleLeftClick = (id) => {
     if (done || matches[id] !== undefined) return;
@@ -66,23 +70,21 @@ export default function MatchActivity({ activity, onComplete, completed }) {
       </div>
 
       <div className="p-5">
-        {/* Previously completed message with retry */}
         {showPrevResult && (
-          <div className="mb-4 p-4 bg-emerald-50 rounded-lg border border-emerald-100 flex items-center justify-between">
-            <p className="text-sm text-emerald-700">✓ You've already completed this activity.</p>
-            <button onClick={reset} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-emerald-700 hover:text-emerald-800 bg-white border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-all">
+          <div className={`mb-4 p-4 bg-emerald-50 rounded-lg border border-emerald-100 flex items-center justify-between`}>
+            <p className="text-sm text-emerald-700">✓ {t.activityComplete}</p>
+            <button onClick={reset} className={`flex items-center gap-1.5 px-3 py-1.5 text-sm text-emerald-700 hover:text-emerald-800 bg-white border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-all`}>
               <RotateCcw className="w-3.5 h-3.5" />
-              Try Again
+              {t.tryAgain}
             </button>
           </div>
         )}
 
         {!showPrevResult && (
           <>
-            <div className="grid md:grid-cols-2 gap-4">
-              {/* Left column */}
+            <div className={`grid md:grid-cols-2 gap-4 ${isRTL ? 'direction-rtl' : ''}`}>
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Select a concept</p>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{isRTL ? 'اختر مفهوماً' : 'Select a concept'}</p>
                 {leftItems.map(item => {
                   const matched = matches[item.id] !== undefined;
                   const isCorrect = feedback[item.id];
@@ -91,7 +93,7 @@ export default function MatchActivity({ activity, onComplete, completed }) {
                       key={item.id}
                       onClick={() => handleLeftClick(item.id)}
                       disabled={matched || done}
-                      className={`w-full text-left px-4 py-3 rounded-lg border-2 text-sm transition-all ${
+                      className={`w-full text-start px-4 py-3 rounded-lg border-2 text-sm transition-all ${
                         matched
                           ? isCorrect
                             ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
@@ -101,7 +103,7 @@ export default function MatchActivity({ activity, onComplete, completed }) {
                             : 'border-slate-200 hover:border-slate-300 text-slate-700'
                       } ${matched || done ? 'cursor-default' : 'cursor-pointer'}`}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className={`flex items-center gap-2`}>
                         {matched && (isCorrect ? <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> : <XCircle className="w-4 h-4 text-red-500 shrink-0" />)}
                         <span>{item.text}</span>
                       </div>
@@ -110,22 +112,21 @@ export default function MatchActivity({ activity, onComplete, completed }) {
                 })}
               </div>
 
-              {/* Right column */}
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Match with</p>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{isRTL ? 'طابق مع' : 'Match with'}</p>
                 {rightItems.map(text => (
                   <button
                     key={text}
                     onClick={() => handleRightClick(text)}
                     disabled={done || selectedLeft === null}
-                    className={`w-full text-left px-4 py-3 rounded-lg border-2 text-sm transition-all ${
+                    className={`w-full text-start px-4 py-3 rounded-lg border-2 text-sm transition-all ${
                       selectedLeft !== null && !done
                         ? 'border-slate-200 hover:border-cyan-300 hover:bg-cyan-50 cursor-pointer text-slate-700'
                         : 'border-slate-200 text-slate-500 cursor-default'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <ArrowRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <div className={`flex items-center gap-2`}>
+                      <ArrowIcon className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       <span>{text}</span>
                     </div>
                   </button>
@@ -134,13 +135,13 @@ export default function MatchActivity({ activity, onComplete, completed }) {
             </div>
 
             {done && (
-              <div className="mt-5 flex items-center justify-between">
+              <div className={`mt-5 flex items-center justify-between`}>
                 <p className="text-sm text-slate-500">
-                  {score >= 70 ? '✓ Great job! Activity completed.' : 'Review the material and try again.'}
+                  {score >= 70 ? `✓ ${t.activityComplete}` : t.tryAgain}
                 </p>
-                <button onClick={reset} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all">
+                <button onClick={reset} className={`flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all`}>
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Retry
+                  {t.tryAgain}
                 </button>
               </div>
             )}

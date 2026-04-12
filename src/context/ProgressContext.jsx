@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { sections } from '../data/courseData';
 
 const ProgressContext = createContext();
 
@@ -9,8 +10,11 @@ const defaultProgress = {
   tools: {},
   activities: {},
   toolQuizzes: {},
+  moduleQuizzes: {},   // { 'section-1': { completed: true, score: 80, passed: true, completedAt: '...' }, ... }
   finalExam: null,
   currentSlides: {},
+  watchedVideos: {},   // { 'section-1:intro': true, 'section-1:conclusion': true, ... }
+  viewedSlides: {},    // { 'section-1': [0,1,2,...], ... } — set of viewed slide indices per section
   started: false,
   completedAt: null
 };
@@ -40,6 +44,39 @@ export function ProgressProvider({ children }) {
     }));
   }, []);
 
+  // Mark a video as watched: videoKey = 'section-1:intro' or 'section-1:conclusion'
+  const completeVideo = useCallback((sectionId, videoType) => {
+    const key = `${sectionId}:${videoType}`;
+    setProgress(prev => ({
+      ...prev,
+      watchedVideos: { ...prev.watchedVideos, [key]: true }
+    }));
+  }, []);
+
+  const isVideoWatched = useCallback((sectionId, videoType) => {
+    return progress.watchedVideos?.[`${sectionId}:${videoType}`] || false;
+  }, [progress]);
+
+  // Mark a single slide as viewed
+  const markSlideViewed = useCallback((sectionId, slideIndex) => {
+    setProgress(prev => {
+      const existing = prev.viewedSlides?.[sectionId] || [];
+      if (existing.includes(slideIndex)) return prev;
+      return {
+        ...prev,
+        viewedSlides: {
+          ...prev.viewedSlides,
+          [sectionId]: [...existing, slideIndex]
+        }
+      };
+    });
+  }, []);
+
+  const areSlidesCompleted = useCallback((sectionId, totalSlides) => {
+    const viewed = progress.viewedSlides?.[sectionId] || [];
+    return totalSlides > 0 && viewed.length >= totalSlides;
+  }, [progress]);
+
   const completeSection = useCallback((sectionId) => {
     setProgress(prev => ({
       ...prev,
@@ -68,10 +105,32 @@ export function ProgressProvider({ children }) {
     }));
   }, []);
 
-  const submitFinalExam = useCallback((score, total, passed) => {
+  // Module quiz — end-of-module assessment (80% to pass)
+  const completeModuleQuiz = useCallback((sectionId, score) => {
+    const passed = score >= 80;
     setProgress(prev => ({
       ...prev,
-      finalExam: { score, total, passed, percentage: Math.round((score / total) * 100), completedAt: new Date().toISOString() },
+      moduleQuizzes: { ...prev.moduleQuizzes, [sectionId]: { completed: true, score, passed, completedAt: new Date().toISOString() } }
+    }));
+  }, []);
+
+  const isModuleQuizPassed = useCallback((sectionId) => {
+    return progress.moduleQuizzes?.[sectionId]?.passed || false;
+  }, [progress]);
+
+  const isModuleQuizCompleted = useCallback((sectionId) => {
+    return progress.moduleQuizzes?.[sectionId]?.completed || false;
+  }, [progress]);
+
+  const submitFinalExam = useCallback((score, total, passed, detailedResults) => {
+    setProgress(prev => ({
+      ...prev,
+      finalExam: {
+        score, total, passed,
+        percentage: Math.round((score / total) * 100),
+        completedAt: new Date().toISOString(),
+        detailedResults: detailedResults || null
+      },
       completedAt: passed ? new Date().toISOString() : prev.completedAt
     }));
   }, []);
@@ -82,16 +141,50 @@ export function ProgressProvider({ children }) {
   }, []);
 
   const getOverallProgress = useCallback(() => {
-    const sectionCount = 5;
-    const toolCount = 6;
-    const activityCount = 10;
-    const completedSections = Object.keys(progress.sections).filter(k => progress.sections[k]?.completed).length;
-    const completedTools = Object.keys(progress.tools).filter(k => progress.tools[k]?.completed).length;
-    const completedActivities = Object.keys(progress.activities).filter(k => progress.activities[k]?.completed).length;
-    const examDone = progress.finalExam?.passed ? 1 : 0;
-    const total = sectionCount + toolCount + activityCount + 1;
-    const done = completedSections + completedTools + completedActivities + examDone;
-    return Math.round((done / total) * 100);
+    // Granular overall progress:
+    // For each module: intro video + slides + conclusion video + each activity + each tool quiz
+    // Plus the final exam
+    let total = 0;
+    let done = 0;
+
+    sections.forEach(section => {
+      // Intro video
+      total++;
+      if (progress.watchedVideos?.[`${section.id}:intro`]) done++;
+
+      // Slides
+      total++;
+      const viewed = progress.viewedSlides?.[section.id] || [];
+      if (section.totalSlides > 0 && viewed.length >= section.totalSlides) done++;
+
+      // Conclusion video
+      total++;
+      if (progress.watchedVideos?.[`${section.id}:conclusion`]) done++;
+
+      // Each activity
+      section.activities.forEach(a => {
+        total++;
+        if (progress.activities[a.id]?.completed) done++;
+      });
+
+      // Module quiz
+      total++;
+      if (progress.moduleQuizzes?.[section.id]?.passed) done++;
+
+      // Each tool quiz
+      if (section.toolIds?.length) {
+        section.toolIds.forEach(toolId => {
+          total++;
+          if (progress.toolQuizzes[toolId]?.completed) done++;
+        });
+      }
+    });
+
+    // Final exam
+    total++;
+    if (progress.finalExam?.passed) done++;
+
+    return total > 0 ? Math.round((done / total) * 100) : 0;
   }, [progress]);
 
   const isSectionCompleted = useCallback((sectionId) => {
@@ -115,6 +208,13 @@ export function ProgressProvider({ children }) {
       completeActivity,
       completeTool,
       completeToolQuiz,
+      completeVideo,
+      isVideoWatched,
+      markSlideViewed,
+      areSlidesCompleted,
+      completeModuleQuiz,
+      isModuleQuizPassed,
+      isModuleQuizCompleted,
       submitFinalExam,
       resetProgress,
       getOverallProgress,

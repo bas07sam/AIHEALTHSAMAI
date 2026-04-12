@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lovable Practice Guide - Diabetic Patient Tracking App | HealthAI Academy</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; line-height: 1.7; background: #f8fafc; }
+  .page { max-width: 850px; margin: 0 auto; padding: 40px 32px; background: white; }
+  @media print { body { background: white; } .page { padding: 20px; } .no-print { display: none !important; } .prompt-card, .info-box, .exercise-box, .challenge-box, .tip-box, .step-box, .objective-box, .screenshot-hint { break-inside: avoid; } }
+  @media (max-width: 640px) { .page { padding: 20px 16px; } h1 { font-size: 22px !important; } h2 { font-size: 18px !important; } }
+
+  .header { text-align: center; padding-bottom: 32px; border-bottom: 3px solid #06b6d4; margin-bottom: 32px; }
+  .header .badge { display: inline-block; background: linear-gradient(135deg, #06b6d4, #3b82f6); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; color: #0f172a; margin-bottom: 8px; }
+  .header .subtitle { font-size: 16px; color: #64748b; }
+  .header .tool-name { font-size: 20px; color: #06b6d4; font-weight: 600; margin-top: 8px; }
+  .header .meta { display: flex; justify-content: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .header .meta span { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 4px; }
+
+  h2 { font-size: 20px; color: #0f172a; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #06b6d4; color: white; border-radius: 50%; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  h3 { font-size: 16px; color: #334155; margin: 20px 0 10px; }
+  h4 { font-size: 15px; color: #334155; margin: 16px 0 8px; }
+  p { margin-bottom: 12px; color: #475569; }
+
+  .objective-box { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 1px solid #7dd3fc; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .objective-box h4 { color: #0369a1; font-size: 14px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .objective-box ul { margin: 0; padding-left: 20px; }
+  .objective-box li { color: #0c4a6e; margin-bottom: 6px; font-size: 14px; }
+
+  .info-box { background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .info-box h4 { color: #0d9488; font-size: 14px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-box p { color: #115e59; margin-bottom: 0; }
+  .info-box ul { padding-left: 20px; margin: 8px 0 0; }
+  .info-box li { color: #115e59; margin-bottom: 4px; font-size: 14px; }
+
+  .prompt-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px 20px 20px; margin: 20px 0; position: relative; }
+  .prompt-card::before { content: attr(data-label); position: absolute; top: -10px; left: 20px; background: #f59e0b; color: white; padding: 2px 14px; border-radius: 10px; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+  .prompt-card h4 { color: #92400e; font-size: 15px; margin-bottom: 6px; margin-top: 4px; }
+  .prompt-card .prompt-context { font-size: 13px; color: #a16207; margin-bottom: 10px; font-style: italic; }
+  .prompt-card .prompt-text { background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; color: #78350f; white-space: pre-wrap; position: relative; }
+  .prompt-card .copy-btn { position: absolute; top: 8px; right: 8px; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .prompt-card .copy-btn:hover { background: #fde68a; }
+
+  .step-list { list-style: none; padding: 0; margin: 12px 0; }
+  .step-list li { padding: 10px 0 10px 32px; position: relative; color: #475569; font-size: 14px; }
+  .step-list li::before { content: ''; position: absolute; left: 4px; top: 16px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #06b6d4; background: white; }
+
+  .step-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .step-box h4 { color: #0f172a; font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .step-box .step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #06b6d4; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+  .screenshot-hint { background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 12px 16px; margin: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
+  .screenshot-hint .icon { font-size: 18px; line-height: 1; }
+  .screenshot-hint p { color: #5b21b6; font-size: 13px; margin: 0; }
+
+  .expect-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .expect-box h5 { color: #059669; font-size: 13px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .expect-box ul { padding-left: 20px; margin: 0; }
+  .expect-box li { color: #065f46; font-size: 13px; margin-bottom: 4px; }
+
+  .exercise-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .exercise-box h4 { color: #1d4ed8; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .exercise-box h4 .ex-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #3b82f6; color: white; border-radius: 50%; font-size: 12px; font-weight: 700; }
+  .exercise-box p { color: #1e40af; margin-bottom: 8px; font-size: 14px; }
+  .exercise-box ul { margin: 8px 0 0 20px; color: #1e40af; }
+  .exercise-box ul li { margin-bottom: 6px; font-size: 14px; }
+  .exercise-box .prompt-text { background: white; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #1e3a5f; white-space: pre-wrap; margin: 8px 0; }
+
+  .challenge-box { background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .challenge-box h4 { color: #be185d; font-size: 14px; margin-bottom: 10px; }
+  .challenge-box p { color: #9d174d; font-size: 14px; }
+  .challenge-box .prompt-text { background: white; border: 1px solid #fbcfe8; border-radius: 8px; padding: 14px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #831843; white-space: pre-wrap; margin: 8px 0; }
+
+  .tip-box { background: #fefce8; border-left: 4px solid #eab308; padding: 14px 16px; margin: 12px 0; border-radius: 0 8px 8px 0; }
+  .tip-box strong { color: #a16207; }
+  .tip-box p { color: #713f12; margin: 0; font-size: 14px; }
+
+  .warning-box { background: #fef2f2; border-left: 4px solid #ef4444; padding: 14px 16px; margin: 12px 0; border-radius: 0 8px 8px 0; }
+  .warning-box strong { color: #dc2626; }
+  .warning-box p { color: #991b1b; margin: 0; font-size: 14px; }
+
+  .checklist { list-style: none; padding: 0; margin: 12px 0; }
+  .checklist li { padding: 6px 0 6px 28px; position: relative; color: #475569; font-size: 14px; }
+  .checklist li::before { content: '\2610'; position: absolute; left: 2px; top: 6px; font-size: 16px; color: #94a3b8; }
+
+  .key-concept { display: inline-block; background: #f0fdfa; border: 1px solid #99f6e4; padding: 2px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #0d9488; margin: 2px 4px 2px 0; }
+
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 2px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 13px; }
+  .footer .course-name { font-weight: 600; color: #64748b; }
+
+  .print-btn { display: inline-flex; align-items: center; gap: 8px; background: #06b6d4; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+  .print-btn:hover { background: #0891b2; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(6,182,212,0.3); }
+
+  .toc { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 20px 0; }
+  .toc h4 { color: #334155; font-size: 14px; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .toc ol { padding-left: 20px; margin: 0; }
+  .toc li { color: #475569; font-size: 13px; margin-bottom: 4px; }
+  .toc a { color: #0284c7; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .duration-badge { display: inline-block; background: #dbeafe; color: #1d4ed8; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+</style>
+<script>
+  function copyPrompt(btn) {
+    const text = btn.parentElement.querySelector('.prompt-inner').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.style.background = '#a7f3d0';
+      btn.style.color = '#065f46';
+      setTimeout(() => { btn.textContent = 'Copy'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+    });
+  }
+</script>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">Supplemental Practice Guide</div>
+    <h1>Lovable - Hands-On Practice</h1>
+    <div class="subtitle">AI Automation & Vibe Coding for Healthcare</div>
+    <div class="tool-name">Build a Diabetic Patient Tracking App</div>
+    <div class="meta">
+      <span>Duration: 30-45 min</span>
+      <span>Level: Beginner</span>
+      <span>Module 4: Vibe Coding</span>
+      <span>No Coding Required</span>
+    </div>
+    <button class="print-btn no-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc no-print">
+    <h4>Table of Contents</h4>
+    <ol>
+      <li><a href="#what-is-lovable">What is Lovable?</a></li>
+      <li><a href="#learning-objectives">What You Will Learn</a></li>
+      <li><a href="#getting-started">Getting Started - Account Setup</a></li>
+      <li><a href="#demo-scenario">Demo Scenario: Healthcare Use Case</a></li>
+      <li><a href="#prompt1">Prompt 1: Basic Diabetic Patient Recording App</a></li>
+      <li><a href="#prompt2">Prompt 2: Add Emergency Detection</a></li>
+      <li><a href="#prompt3">Prompt 3: Patient History & Trend Tracking</a></li>
+      <li><a href="#exercises">Practice Exercises</a></li>
+      <li><a href="#advanced">Advanced Challenges</a></li>
+      <li><a href="#prompt-tips">Tips for Writing Better Prompts</a></li>
+      <li><a href="#self-assessment">Self-Assessment Checklist</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1: WHAT IS LOVABLE -->
+  <h2 id="what-is-lovable"><span class="num">1</span> What is Lovable?</h2>
+  <div class="info-box">
+    <h4>Definition</h4>
+    <p>Lovable is a <strong>vibe coding platform</strong> that allows users to create applications by describing what they want in natural language. Instead of manually building the interface and writing code from scratch, the user gives prompts, and the platform generates the application structure, screens, and logic.</p>
+  </div>
+
+  <h4>Key Features</h4>
+  <ul class="step-list">
+    <li><strong>No coding required</strong> - Describe your app idea in plain English</li>
+    <li><strong>AI generates the full app</strong> - Complete with UI, logic, and data handling</li>
+    <li><strong>Iterative refinement</strong> - Improve through follow-up conversational prompts</li>
+    <li><strong>Instant preview</strong> - See your app running in real time as it's built</li>
+    <li><strong>One-click deployment</strong> - Publish your app for others to use</li>
+    <li><strong>Ideal for rapid prototyping</strong> - Go from idea to working app in minutes</li>
+  </ul>
+
+  <div class="tip-box">
+    <p><strong>What is Vibe Coding?</strong> Vibe coding is a new approach to building software where you describe what you want in natural language, and AI generates the code. The process follows a simple loop: <strong>Describe</strong> your idea, <strong>Generate</strong> the app, <strong>Review</strong> the result, and <strong>Refine</strong> with follow-up prompts until it meets your needs.</p>
+  </div>
+
+  <p><strong>Key Concepts:</strong></p>
+  <div>
+    <span class="key-concept">Vibe Coding</span>
+    <span class="key-concept">Prompt-Driven Development</span>
+    <span class="key-concept">Rapid Prototyping</span>
+    <span class="key-concept">Describe-Generate-Refine</span>
+    <span class="key-concept">No-Code / Low-Code</span>
+    <span class="key-concept">Iterative Improvement</span>
+  </div>
+
+  <!-- SECTION 2: LEARNING OBJECTIVES -->
+  <h2 id="learning-objectives"><span class="num">2</span> What You Will Learn</h2>
+  <div class="objective-box">
+    <h4>Learning Objectives</h4>
+    <ul>
+      <li>How a vibe coding tool can be used to quickly create a healthcare application using natural language prompts</li>
+      <li>How to create an account and start a project on Lovable</li>
+      <li>How to generate the first version of an application from a single prompt</li>
+      <li>How to improve an application step by step using follow-up prompts</li>
+      <li>How to add logic (alerts, conditions) through natural language instructions</li>
+      <li>How to create data views (history, trends) through conversational prompts</li>
+    </ul>
+  </div>
+
+  <div class="duration-badge">Estimated Time: 30-45 minutes</div>
+
+  <!-- SECTION 3: GETTING STARTED -->
+  <h2 id="getting-started"><span class="num">3</span> Getting Started</h2>
+
+  <div class="step-box">
+    <h4><span class="step-num">1</span> Create Account and Log In</h4>
+    <ul class="step-list">
+      <li>Open your browser and go to <strong>lovable.dev</strong></li>
+      <li>Click <strong>Sign Up</strong> and create a free account using email or Google</li>
+      <li>Verify your email if prompted</li>
+      <li>Log in to see the main <strong>Lovable dashboard</strong></li>
+    </ul>
+    <div class="screenshot-hint">
+      <span class="icon">&#128247;</span>
+      <p>You should see a clean dashboard with an option to start a new project. Look for a text box or "Create" button where you can type your first prompt.</p>
+    </div>
+  </div>
+
+  <div class="step-box">
+    <h4><span class="step-num">2</span> Start a New Project</h4>
+    <ul class="step-list">
+      <li>Click <strong>Start a new project</strong> or the main prompt input area</li>
+      <li>You'll see a text box where you can describe what you want to build</li>
+      <li>This is where you'll paste the prompts from this guide</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Tip:</strong> Lovable's free tier provides enough credits to complete all exercises in this guide. No credit card is needed to get started.</p>
+  </div>
+
+  <!-- SECTION 4: DEMO SCENARIO -->
+  <h2 id="demo-scenario"><span class="num">4</span> Demo Scenario: Healthcare Use Case</h2>
+  <div class="info-box">
+    <h4>Scenario</h4>
+    <p>A doctor wants a simple application to:</p>
+    <ul>
+      <li><strong>Record</strong> diabetic patient information (name, age, gender, readings)</li>
+      <li><strong>Store</strong> daily glucose and blood pressure readings</li>
+      <li><strong>Detect</strong> potentially dangerous glucose values and show alerts</li>
+      <li><strong>Review</strong> detailed patient records and trends over time</li>
+    </ul>
+  </div>
+  <p><strong>Demo Goal:</strong> You will create and progressively improve this healthcare application using <strong>three prompts</strong>. Each prompt adds a new layer of functionality, demonstrating the vibe coding workflow of <em>Describe &rarr; Generate &rarr; Refine</em>.</p>
+
+  <!-- SECTION 5: PROMPT 1 -->
+  <h2 id="prompt1"><span class="num">5</span> Prompt 1: Basic Diabetic Patient Recording App</h2>
+
+  <p>This first prompt creates the foundation of the application. You're telling Lovable exactly what data the app should capture and how it should look.</p>
+
+  <div class="prompt-card" data-label="PROMPT 1">
+    <h4>Create the Initial Diabetic Patient Recording App</h4>
+    <p class="prompt-context">Goal: Build a basic data entry form with a patient records list</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">Copy</button>
+      <span class="prompt-inner">Create a healthcare app for doctors to record diabetic patient data. The app should allow the doctor to enter patient name, age, gender, date, blood glucose reading, blood pressure, and notes. It should have a clean and simple interface and save each patient's daily record.</span>
+    </div>
+  </div>
+
+  <div class="expect-box">
+    <h5>What to expect after this prompt</h5>
+    <ul>
+      <li>Lovable will generate a complete web application with a form interface</li>
+      <li>You should see input fields for: patient name, age, gender, date, blood glucose, blood pressure, and notes</li>
+      <li>The app will include a table or list showing all saved patient records</li>
+      <li>The interface will be clean, professional, and mobile-friendly</li>
+      <li>Data will be stored and displayed in an organized layout</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128270;</span>
+    <p><strong>Check your result:</strong> Try entering sample data (e.g., patient "Ahmed", age 55, glucose 150, BP 130/85) and verify it appears in the records list. This confirms the app is working correctly before moving to Prompt 2.</p>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Why this prompt works:</strong> It specifies the <em>user</em> (doctor), the <em>data fields</em> (name, age, etc.), the <em>action</em> (record and save), and the <em>style</em> (clean and simple). Being specific about these elements helps AI generate a more accurate result.</p>
+  </div>
+
+  <!-- SECTION 6: PROMPT 2 -->
+  <h2 id="prompt2"><span class="num">6</span> Prompt 2: Add Emergency Detection</h2>
+
+  <p>Now we enhance the app with <strong>intelligent alert logic</strong>. This demonstrates how vibe coding can add conditional behavior through natural language.</p>
+
+  <div class="prompt-card" data-label="PROMPT 2">
+    <h4>Add Emergency Detection System</h4>
+    <p class="prompt-context">Goal: Add visual warnings for dangerous glucose levels</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">Copy</button>
+      <span class="prompt-inner">Enhance the app by adding an alert system. If the blood glucose reading is above 180, show a warning message saying "High glucose level - attention required." If the reading is above 250, show a more urgent alert saying "Critical reading - immediate medical attention may be needed." Make these alerts visually clear on the interface.</span>
+    </div>
+  </div>
+
+  <div class="expect-box">
+    <h5>What to expect after this prompt</h5>
+    <ul>
+      <li>Yellow/orange warning messages when glucose is between 180-250 mg/dL</li>
+      <li>Red/critical alert messages when glucose exceeds 250 mg/dL</li>
+      <li>Alerts are visually prominent (colored banners, badges, or modal popups)</li>
+      <li>Alerts appear immediately when a new reading is entered</li>
+      <li>Normal readings (below 180) show no alert</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128270;</span>
+    <p><strong>Test it:</strong> Enter a glucose reading of 150 (no alert should appear), then try 190 (warning alert), then 260 (critical alert). Verify that the correct alert type appears for each value.</p>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Key learning:</strong> You didn't write any code - you described the <em>logic</em> in plain English ("if above 180, show warning"), and the AI translated it into working code with proper conditions, styling, and UI elements.</p>
+  </div>
+
+  <!-- SECTION 7: PROMPT 3 -->
+  <h2 id="prompt3"><span class="num">7</span> Prompt 3: Patient History & Trend Tracking</h2>
+
+  <p>The final prompt adds a <strong>detail view and data visualization</strong>, turning the basic data entry app into a useful clinical tool.</p>
+
+  <div class="prompt-card" data-label="PROMPT 3">
+    <h4>Add Detailed Patient View and Trend Tracking</h4>
+    <p class="prompt-context">Goal: Create a patient detail page with historical trends</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">Copy</button>
+      <span class="prompt-inner">Add a patient details page where the doctor can click on a patient and view their daily glucose records over time. Show readings by date, display trends clearly, and include notes for each visit. Make the dashboard easy to read and useful for follow-up review.</span>
+    </div>
+  </div>
+
+  <div class="expect-box">
+    <h5>What to expect after this prompt</h5>
+    <ul>
+      <li>A clickable patient list or table on the main page</li>
+      <li>Clicking a patient opens a detail view page</li>
+      <li>Detail page shows all historical glucose readings in chronological order</li>
+      <li>Charts or visual trend indicators showing glucose changes over time</li>
+      <li>Notes from each visit displayed alongside the readings</li>
+      <li>A dashboard layout that is easy for doctors to scan quickly</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128270;</span>
+    <p><strong>Test it:</strong> Enter 3-4 records for the same patient with different dates and glucose values. Then click on that patient to see the detail view. You should see a timeline of readings and possibly a chart showing the trend.</p>
+  </div>
+
+  <div class="info-box">
+    <h4>What You've Built</h4>
+    <p>Using just <strong>three prompts</strong>, you created a healthcare application with:</p>
+    <ul>
+      <li>Patient data entry with multiple fields</li>
+      <li>Intelligent alert system with two severity levels</li>
+      <li>Patient history view with trend tracking</li>
+      <li>A clean, professional interface suitable for clinical use</li>
+    </ul>
+    <p style="margin-top: 8px;">This demonstrates the power of <strong>vibe coding</strong>: building functional applications through natural language conversation with AI.</p>
+  </div>
+
+  <!-- SECTION 8: PRACTICE EXERCISES -->
+  <h2 id="exercises"><span class="num">8</span> Practice Exercises</h2>
+  <p>Now it's your turn! Try these exercises to strengthen your vibe coding skills. Each exercise includes ready-to-use prompts you can copy directly into Lovable.</p>
+
+  <div class="exercise-box">
+    <h4><span class="ex-icon">A</span> Exercise 1: Customize Your Diabetic Patient App</h4>
+    <p>Continue building on the app you just created. Try each of these follow-up prompts one at a time:</p>
+    <p><strong>Add HbA1c Tracking:</strong></p>
+    <div class="prompt-text">Add a field for HbA1c reading to the patient form. Display it alongside blood glucose in the records table, and show a warning if HbA1c is above 7.0%.</div>
+    <p><strong>Add Status Badges:</strong></p>
+    <div class="prompt-text">Add a color-coded badge next to each patient showing their latest status: "Normal" (green) if glucose is below 140, "Warning" (yellow) if between 140-200, and "Critical" (red) if above 200.</div>
+    <p><strong>Add Search:</strong></p>
+    <div class="prompt-text">Add a search bar at the top of the patient list that filters patients by name as the doctor types. The filtering should happen in real time without clicking a button.</div>
+  </div>
+
+  <div class="exercise-box">
+    <h4><span class="ex-icon">B</span> Exercise 2: Build a New Healthcare App from Scratch</h4>
+    <p>Start a <strong>new project</strong> in Lovable and try building one of these healthcare applications:</p>
+
+    <p><strong>Option 1 - Appointment Scheduler:</strong></p>
+    <div class="prompt-text">Create an app where patients can book appointments with doctors. Include fields for patient name, preferred date, time slot selection from available times, doctor selection, and reason for visit. Show a confirmation after booking and display all upcoming appointments in a calendar-style view.</div>
+
+    <p><strong>Option 2 - Medication Tracker:</strong></p>
+    <div class="prompt-text">Create an app to track daily medication intake for patients. Include patient name, medication name, dosage, scheduled time, and a checkbox for taken/not taken. Show a daily summary and highlight any missed medications. Add a simple dashboard showing medication adherence percentage.</div>
+
+    <p><strong>Option 3 - Vital Signs Log:</strong></p>
+    <div class="prompt-text">Create an app for nurses to log patient vital signs including temperature, heart rate, blood pressure, oxygen saturation level, and respiratory rate. Show alerts for abnormal values using medical guidelines. Display a patient's vitals in a timeline view showing how values change over the shift.</div>
+  </div>
+
+  <div class="exercise-box">
+    <h4><span class="ex-icon">C</span> Exercise 3: The Iteration Challenge</h4>
+    <p>Practice the <strong>Describe &rarr; Generate &rarr; Refine</strong> workflow by starting simple and building up:</p>
+
+    <p><strong>Start with this prompt:</strong></p>
+    <div class="prompt-text">Create a simple patient feedback form for a healthcare clinic. Include fields for patient name, visit date, department visited, satisfaction rating from 1 to 5, and comments. Display submitted feedback in a summary table.</div>
+
+    <p><strong>Then try these refinement prompts in order:</strong></p>
+    <ol style="margin: 12px 0 0 20px; color: #1e40af;">
+      <li style="margin-bottom: 8px;">"Add a bar chart showing the average satisfaction rating by department"</li>
+      <li style="margin-bottom: 8px;">"Add filtering so the admin can view feedback for a specific department or date range"</li>
+      <li style="margin-bottom: 8px;">"Add a summary card at the top showing total responses, average rating, and the department with the highest and lowest ratings"</li>
+    </ol>
+  </div>
+
+  <!-- SECTION 9: ADVANCED CHALLENGES -->
+  <h2 id="advanced"><span class="num">9</span> Advanced Challenges</h2>
+
+  <div class="challenge-box">
+    <h4>Challenge 1: Emergency Room Triage App</h4>
+    <p>Build a triage assessment tool in 3 prompts:</p>
+    <div class="prompt-text">Create a web app for an emergency room triage nurse. The app should let the nurse enter patient name, age, chief complaint, pain level (1-10), vital signs (temperature, heart rate, blood pressure), and arrival time. The app should automatically assign a triage level: Level 1 (Resuscitation - red) for critical conditions, Level 2 (Emergent - orange) for urgent cases, Level 3 (Urgent - yellow) for less urgent, Level 4 (Less Urgent - green) for minor issues, and Level 5 (Non-urgent - blue) for routine cases. Display a live queue showing all patients sorted by triage level.</div>
+    <p style="margin-top: 10px; font-size: 13px;"><strong>Refine with:</strong></p>
+    <p style="font-size: 13px; color: #9d174d;">"Add a timer next to each patient showing how long they've been waiting, and highlight patients who have waited more than 30 minutes in yellow and more than 60 minutes in red."</p>
+    <p style="font-size: 13px; color: #9d174d;">"Add a dashboard panel showing current ER statistics: total patients, patients per triage level, average wait time, and available beds."</p>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge 2: Prescription Manager</h4>
+    <p>Create a tool for managing prescriptions:</p>
+    <div class="prompt-text">Create a prescription management app for a doctor. The app should allow entering patient name, diagnosis, and one or more medications with name, dosage, frequency, and duration. Generate a formatted prescription document that includes the doctor's name, date, patient details, and all medications in a professional layout. Include a print button.</div>
+    <p style="margin-top: 10px; font-size: 13px;"><strong>Then add:</strong> "Add a drug interaction warning system that shows an alert when two medications that should not be taken together are prescribed to the same patient."</p>
+  </div>
+
+  <!-- SECTION 10: TIPS -->
+  <h2 id="prompt-tips"><span class="num">10</span> Tips for Writing Better Prompts</h2>
+
+  <div class="tip-box"><p><strong>Be specific about data:</strong> List exactly which fields and data types you want (e.g., "patient name, age, gender, date, blood glucose reading, blood pressure, and notes").</p></div>
+
+  <div class="tip-box"><p><strong>Describe the user:</strong> Always mention who will use the app (e.g., "for doctors", "for nurses", "for patients"). This helps the AI make better UI decisions and use appropriate terminology.</p></div>
+
+  <div class="tip-box"><p><strong>Include logic in plain English:</strong> Describe conditions clearly: "If blood glucose is above 180, show a warning." The AI will translate your logic into working code.</p></div>
+
+  <div class="tip-box"><p><strong>Iterate gradually:</strong> Don't try to describe everything in one prompt. Start with the basic app, then add features one at a time. Each prompt should focus on one new capability.</p></div>
+
+  <div class="tip-box"><p><strong>Ask for visual cues:</strong> Request color-coding, badges, icons, or charts to make data easier to read. Example: "Show a color-coded badge: green for normal, yellow for warning, red for critical."</p></div>
+
+  <div class="tip-box"><p><strong>Describe the layout:</strong> If you have a preference, mention it: "Display in a table", "Show as cards", "Use a sidebar layout". This gives the AI better direction.</p></div>
+
+  <div class="tip-box"><p><strong>Mention the action:</strong> Always describe what the user should be able to <em>do</em>: "enter", "search", "filter", "click to view details", "download", "print".</p></div>
+
+  <div class="warning-box">
+    <p><strong>Common mistake:</strong> Writing prompts that are too vague, like "Create a health app." The more specific you are about the data, users, actions, and layout, the better the result will be.</p>
+  </div>
+
+  <!-- SECTION 11: SELF-ASSESSMENT -->
+  <h2 id="self-assessment"><span class="num">11</span> Self-Assessment Checklist</h2>
+  <p>Use this checklist to track your progress through this practice guide:</p>
+
+  <ul class="checklist">
+    <li>I created an account on Lovable and can navigate the dashboard</li>
+    <li>I successfully generated a basic app using Prompt 1</li>
+    <li>I tested the app by entering sample patient data</li>
+    <li>I added alert logic using Prompt 2 and tested all three scenarios (normal, warning, critical)</li>
+    <li>I added the patient detail view using Prompt 3 and verified trend tracking works</li>
+    <li>I completed at least one Practice Exercise (A, B, or C)</li>
+    <li>I can explain the Describe &rarr; Generate &rarr; Refine workflow</li>
+    <li>I understand how to write specific, effective prompts for app creation</li>
+    <li>I can describe what vibe coding is and why it's useful for healthcare professionals</li>
+  </ul>
+
+  <div class="info-box">
+    <h4>Congratulations!</h4>
+    <p>You've completed the Lovable practice guide. You now know how to use vibe coding to build healthcare applications from scratch using natural language prompts. The key takeaway: <strong>you don't need to be a programmer to build useful digital tools.</strong> With clear prompts and iterative refinement, you can create working applications for real healthcare needs.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p class="course-name">HealthAI Academy - AI Automation & Vibe Coding for Healthcare</p>
+    <p>Module 4: Vibe Coding | Tool Demo: Lovable</p>
+    <p style="margin-top: 8px; font-size: 11px;">This is a supplemental practice document for self-study. Visit the course platform for the full learning experience.</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,42 @@
 @import "tailwindcss";
 
+/* DiodrumArabic — Primary Arabic font */
+@font-face {
+  font-family: 'DiodrumArabic';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/DiodrumArabic-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'DiodrumArabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/DiodrumArabic-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'DiodrumArabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/DiodrumArabic-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'DiodrumArabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/DiodrumArabic-Semibold.woff') format('woff');
+}
+@font-face {
+  font-family: 'DiodrumArabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/DiodrumArabic-Bold.woff') format('woff');
+}
+
 @theme {
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
@@ -29,6 +66,7 @@
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-arabic: 'DiodrumArabic', 'Inter', system-ui, sans-serif;
 }
 
 html {
@@ -58,6 +96,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Glossary scrollbar inside chat panel */
+.glossary-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #c4b5fd #f5f3ff;
+}
+.glossary-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.glossary-scroll::-webkit-scrollbar-track {
+  background: #f5f3ff;
+  border-radius: 3px;
+}
+.glossary-scroll::-webkit-scrollbar-thumb {
+  background: #c4b5fd;
+  border-radius: 3px;
+}
+.glossary-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a78bfa;
 }
 
 .slide-enter {
@@ -90,9 +148,171 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeInUp 0.5s ease forwards;
 }
 
+/* Slide content transition for module steps */
+@keyframes slideContentIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+html[dir="rtl"] .animate-slide-content {
+  animation: slideContentInRTL 0.3s ease-out forwards;
+}
+@keyframes slideContentInRTL {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-content {
+  animation: slideContentIn 0.3s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
 .pdf-canvas-container canvas {
   max-width: 100%;
   height: auto !important;
   display: block;
   margin: 0 auto;
+}
+
+/* ── Arabic / RTL support ─────────────────────────────────────
+   Typography scale inspired by sdaia.gov.sa:
+   – modern geometric sans-serif (Markazi Text)
+   – generous base size for Arabic script readability
+   – bold headings with extra line-height
+   – ample body line-height (1.8) for comfortable reading
+   ────────────────────────────────────────────────────────── */
+html[lang="ar"] body,
+html[dir="rtl"] body {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.25em;            /* ↑ Arabic base ~20px vs English 16px (+4px) */
+}
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6 {
+  font-family: var(--font-arabic);
+  line-height: 1.6;             /* ↑ from 1.5 – more breathing room for Arabic */
+  font-weight: 700;             /* bold headings per SDAIA style */
+  letter-spacing: -0.01em;      /* tighten slightly for Arabic clarity */
+}
+html[lang="ar"] p,
+html[lang="ar"] span,
+html[lang="ar"] li,
+html[lang="ar"] button,
+html[lang="ar"] input,
+html[lang="ar"] textarea,
+html[lang="ar"] label,
+html[lang="ar"] a {
+  line-height: 1.8;             /* ↑ from 1.7 – generous body spacing */
+}
+
+/* ── Arabic text-size scale: each class is at least +3px over English ── */
+html[lang="ar"] .text-xs   { font-size: 0.9375rem; }  /* 15px   vs EN 12px  (+3px) */
+html[lang="ar"] .text-sm   { font-size: 1.0625rem; }  /* 17px   vs EN 14px  (+3px) */
+html[lang="ar"] .text-base { font-size: 1.1875rem; }  /* 19px   vs EN 16px  (+3px) */
+html[lang="ar"] .text-lg   { font-size: 1.375rem; }   /* 22px   vs EN 18px  (+4px) */
+html[lang="ar"] .text-xl   { font-size: 1.5625rem; }  /* 25px   vs EN 20px  (+5px) */
+html[lang="ar"] .text-2xl  { font-size: 1.875rem; }   /* 30px   vs EN 24px  (+6px) */
+html[lang="ar"] .text-3xl  { font-size: 2.375rem; }   /* 38px   vs EN 30px  (+8px) */
+html[lang="ar"] .text-4xl  { font-size: 2.875rem; }   /* 46px   vs EN 36px  (+10px) */
+html[lang="ar"] .text-5xl  { font-size: 3.625rem; }   /* 58px   vs EN 48px  (+10px) */
+html[lang="ar"] .text-\[9px\]  { font-size: 12px; }   /* vs EN 9px   (+3px) */
+html[lang="ar"] .text-\[10px\] { font-size: 13px; }   /* vs EN 10px  (+3px) */
+html[lang="ar"] .text-\[11px\] { font-size: 14px; }   /* vs EN 11px  (+3px) */
+html[lang="ar"] .text-\[13px\] { font-size: 16px; }   /* vs EN 13px  (+3px) */
+
+/* Utility class for Arabic text blocks */
+.font-arabic {
+  font-family: var(--font-arabic);
+}
+
+/* ── RTL icon flip: mirrors directional icons (arrows, play, send, etc.) ── */
+html[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+/* Also flip the hover translate animation direction */
+html[dir="rtl"] .rtl-flip-group:hover .rtl-flip-hover {
+  --tw-translate-x: calc(-1 * var(--rtl-hover-x, 0.125rem));
+}
+
+/* ── Accessibility: Dark Theme ── */
+html.theme-dark body {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+html.theme-dark .bg-white { background: #1e293b !important; }
+html.theme-dark .bg-slate-50, html.theme-dark .bg-slate-100 { background: #1e293b !important; }
+html.theme-dark .bg-gradient-to-br.from-cyan-600 { background: linear-gradient(135deg, #0e7490, #1e40af) !important; }
+html.theme-dark .text-slate-800, html.theme-dark .text-slate-700 { color: #e2e8f0 !important; }
+html.theme-dark .text-slate-600, html.theme-dark .text-slate-500 { color: #94a3b8 !important; }
+html.theme-dark .border-slate-200, html.theme-dark .border-slate-100 { border-color: #334155 !important; }
+html.theme-dark .bg-white\/80 { background: rgba(30, 41, 59, 0.9) !important; }
+html.theme-dark .shadow-sm, html.theme-dark .shadow-md { box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important; }
+
+/* ── Accessibility: Sepia Theme ── */
+html.theme-sepia body {
+  background: #f5f0e8;
+  color: #3d3325;
+}
+html.theme-sepia .bg-white { background: #faf6ee !important; }
+html.theme-sepia .bg-slate-50, html.theme-sepia .bg-slate-100 { background: #f0ebe0 !important; }
+html.theme-sepia .text-slate-800, html.theme-sepia .text-slate-700 { color: #3d3325 !important; }
+html.theme-sepia .text-slate-600, html.theme-sepia .text-slate-500 { color: #6b5d4d !important; }
+html.theme-sepia .border-slate-200, html.theme-sepia .border-slate-100 { border-color: #d4c9b8 !important; }
+
+/* ── Accessibility: High Contrast ── */
+html.high-contrast body { color: #000 !important; }
+html.high-contrast .text-slate-500, html.high-contrast .text-slate-400 { color: #1e293b !important; }
+html.high-contrast .text-slate-600 { color: #0f172a !important; }
+html.high-contrast .bg-white { border: 2px solid #000 !important; }
+html.high-contrast .border-slate-200 { border-color: #000 !important; }
+html.high-contrast a, html.high-contrast button { font-weight: 600; }
+
+/* ── Accessibility: Line Spacing ── */
+html.line-relaxed body { line-height: 1.8 !important; }
+html.line-relaxed p, html.line-relaxed span, html.line-relaxed li { line-height: 1.8 !important; }
+html.line-loose body { line-height: 2.2 !important; }
+html.line-loose p, html.line-loose span, html.line-loose li { line-height: 2.2 !important; }
+
+/* ── Accessibility: Reduced Motion ── */
+html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ── Accessibility: Dyslexia Font ── */
+html.dyslexia-font body, html.dyslexia-font h1, html.dyslexia-font h2,
+html.dyslexia-font h3, html.dyslexia-font h4, html.dyslexia-font h5, html.dyslexia-font h6,
+html.dyslexia-font p, html.dyslexia-font span, html.dyslexia-font li, html.dyslexia-font button, html.dyslexia-font input {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', 'Arial', sans-serif !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+
+/* ── Accessibility: Highlight Links ── */
+html.highlight-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  color: #2563eb !important;
+  font-weight: 600;
+}
+html.highlight-links button[onclick] {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* ── Accessibility: Large Cursor ── */
+html.large-cursor, html.large-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 2l20 14-9 2-5 10-2-10-6-2z' fill='%23000' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E") 5 2, auto !important;
 }
