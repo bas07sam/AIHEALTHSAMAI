@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import { CheckCircle2, XCircle, RotateCcw, GripVertical, ArrowDown } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function DragDropActivity({ activity, onComplete, completed }) {
+  const { t, isRTL } = useLanguage();
   const [items, setItems] = useState(() => 
     [...activity.items].sort(() => Math.random() - 0.5)
   );
@@ -44,7 +46,6 @@ export default function DragDropActivity({ activity, onComplete, completed }) {
     setDragOverIdx(null);
   };
 
-  // Touch support - move up/down
   const moveItem = (idx, direction) => {
     const newIdx = idx + direction;
     if (newIdx < 0 || newIdx >= items.length) return;
@@ -92,20 +93,21 @@ export default function DragDropActivity({ activity, onComplete, completed }) {
       </div>
 
       <div className="p-5">
-        {/* Previously completed message with retry */}
         {showPrevResult && (
-          <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-100 flex items-center justify-between">
-            <p className="text-sm text-emerald-700">✓ You've already completed this activity.</p>
-            <button onClick={reset} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-emerald-700 hover:text-emerald-800 bg-white border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-all">
+          <div className={`p-4 bg-emerald-50 rounded-lg border border-emerald-100 flex items-center justify-between`}>
+            <p className="text-sm text-emerald-700">✓ {t.activityComplete}</p>
+            <button onClick={reset} className={`flex items-center gap-1.5 px-3 py-1.5 text-sm text-emerald-700 hover:text-emerald-800 bg-white border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-all`}>
               <RotateCcw className="w-3.5 h-3.5" />
-              Try Again
+              {t.tryAgain}
             </button>
           </div>
         )}
 
         {!showPrevResult && (
           <>
-            <p className="text-xs text-slate-400 mb-3 font-medium">Drag items to arrange in correct order (or use arrows on mobile)</p>
+            <p className="text-xs text-slate-400 mb-3 font-medium">
+              {isRTL ? 'اسحب العناصر لترتيبها بالترتيب الصحيح (أو استخدم الأسهم على الهاتف)' : 'Drag items to arrange in correct order (or use arrows on mobile)'}
+            </p>
             
             <div className="space-y-2 max-w-xl mx-auto">
               {items.map((item, idx) => {
@@ -133,7 +135,7 @@ export default function DragDropActivity({ activity, onComplete, completed }) {
                       <span className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-500 shrink-0">
                         {idx + 1}
                       </span>
-                      <span className="text-sm text-slate-700 flex-1">{item.text}</span>
+                      <span className={`text-sm text-slate-700 flex-1 text-start`}>{item.text}</span>
                       {checked && (
                         result?.correct
                           ? <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -154,24 +156,24 @@ export default function DragDropActivity({ activity, onComplete, completed }) {
               })}
             </div>
 
-            <div className="flex items-center justify-between mt-5">
-              <button onClick={reset} className="flex items-center gap-1.5 px-3 py-2 text-sm text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all">
+            <div className={`flex items-center justify-between mt-5`}>
+              <button onClick={reset} className={`flex items-center gap-1.5 px-3 py-2 text-sm text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all`}>
                 <RotateCcw className="w-3.5 h-3.5" />
-                Shuffle & Reset
+                {t.reset}
               </button>
               <button
                 onClick={checkOrder}
                 className="px-5 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-700 transition-all"
               >
-                Check Order
+                {t.checkAnswers}
               </button>
             </div>
 
             {checked && (
               <div className={`mt-4 p-3 rounded-lg text-sm ${results?.every(r => r.correct) ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
                 {results?.every(r => r.correct)
-                  ? '✓ Perfect! All items are in the correct order.'
-                  : `${results?.filter(r => r.correct).length} of ${items.length} items are in the correct position. Try rearranging the highlighted items.`}
+                  ? `✓ ${t.activityComplete}`
+                  : `${results?.filter(r => r.correct).length} ${t.of} ${items.length} ${isRTL ? 'عناصر في المكان الصحيح. حاول إعادة ترتيب العناصر المميزة.' : 'items are in the correct position. Try rearranging the highlighted items.'}`}
               </div>
             )}
           </>

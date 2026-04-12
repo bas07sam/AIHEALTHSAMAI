@@ -9,7 +9,8 @@ export default defineConfig({
     port: 5173,
     allowedHosts: ['.sandbox.novita.ai'],
     hmr: {
-      host: '5173-iglkcxvhd02rmxuabej7s-cc2fbc16.sandbox.novita.ai',
+      host: '5173-i96qt3azdtx89m6l2dp0b-d0b9e1e2.sandbox.novita.ai',
+      clientPort: 443,
       protocol: 'wss'
     }
   }

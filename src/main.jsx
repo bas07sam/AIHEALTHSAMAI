@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { ProgressProvider } from './context/ProgressContext'
+import { LanguageProvider } from './context/LanguageContext'
 import App from './App.jsx'
 import '@fontsource/inter/300.css'
 import '@fontsource/inter/400.css'
@@ -15,9 +16,11 @@ import './index.css'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <ProgressProvider>
-        <App />
-      </ProgressProvider>
+      <LanguageProvider>
+        <ProgressProvider>
+          <App />
+        </ProgressProvider>
+      </LanguageProvider>
     </BrowserRouter>
   </StrictMode>,
 )

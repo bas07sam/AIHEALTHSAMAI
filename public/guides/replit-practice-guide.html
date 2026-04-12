@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replit Practice Guide - Clinical Report Generator | HealthAI Academy</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; line-height: 1.7; background: #f8fafc; }
+  .page { max-width: 850px; margin: 0 auto; padding: 40px 32px; background: white; }
+  @media print { body { background: white; } .page { padding: 20px; } .no-print { display: none !important; } .prompt-card, .info-box, .exercise-box, .challenge-box, .tip-box, .step-box, .objective-box, .screenshot-hint { break-inside: avoid; } }
+  @media (max-width: 640px) { .page { padding: 20px 16px; } h1 { font-size: 22px !important; } h2 { font-size: 18px !important; } }
+
+  .header { text-align: center; padding-bottom: 32px; border-bottom: 3px solid #f97316; margin-bottom: 32px; }
+  .header .badge { display: inline-block; background: linear-gradient(135deg, #f97316, #ef4444); color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; color: #0f172a; margin-bottom: 8px; }
+  .header .subtitle { font-size: 16px; color: #64748b; }
+  .header .tool-name { font-size: 20px; color: #f97316; font-weight: 600; margin-top: 8px; }
+  .header .meta { display: flex; justify-content: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .header .meta span { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 4px; }
+
+  h2 { font-size: 20px; color: #0f172a; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #f97316; color: white; border-radius: 50%; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  h3 { font-size: 16px; color: #334155; margin: 20px 0 10px; }
+  h4 { font-size: 15px; color: #334155; margin: 16px 0 8px; }
+  p { margin-bottom: 12px; color: #475569; }
+
+  .objective-box { background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1px solid #fdba74; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .objective-box h4 { color: #c2410c; font-size: 14px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .objective-box ul { margin: 0; padding-left: 20px; }
+  .objective-box li { color: #7c2d12; margin-bottom: 6px; font-size: 14px; }
+
+  .info-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .info-box h4 { color: #c2410c; font-size: 14px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-box p { color: #7c2d12; margin-bottom: 0; }
+  .info-box ul { padding-left: 20px; margin: 8px 0 0; }
+  .info-box li { color: #7c2d12; margin-bottom: 4px; font-size: 14px; }
+
+  .prompt-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px 20px 20px; margin: 20px 0; position: relative; }
+  .prompt-card::before { content: attr(data-label); position: absolute; top: -10px; left: 20px; background: #f59e0b; color: white; padding: 2px 14px; border-radius: 10px; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+  .prompt-card h4 { color: #92400e; font-size: 15px; margin-bottom: 6px; margin-top: 4px; }
+  .prompt-card .prompt-context { font-size: 13px; color: #a16207; margin-bottom: 10px; font-style: italic; }
+  .prompt-card .prompt-text { background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; color: #78350f; white-space: pre-wrap; position: relative; }
+  .prompt-card .copy-btn { position: absolute; top: 8px; right: 8px; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .prompt-card .copy-btn:hover { background: #fde68a; }
+
+  .step-list { list-style: none; padding: 0; margin: 12px 0; }
+  .step-list li { padding: 10px 0 10px 32px; position: relative; color: #475569; font-size: 14px; }
+  .step-list li::before { content: ''; position: absolute; left: 4px; top: 16px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #f97316; background: white; }
+
+  .step-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .step-box h4 { color: #0f172a; font-size: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .step-box .step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #f97316; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+  .screenshot-hint { background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 12px 16px; margin: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
+  .screenshot-hint .icon { font-size: 18px; line-height: 1; }
+  .screenshot-hint p { color: #5b21b6; font-size: 13px; margin: 0; }
+
+  .expect-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .expect-box h5 { color: #059669; font-size: 13px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .expect-box ul { padding-left: 20px; margin: 0; }
+  .expect-box li { color: #065f46; font-size: 13px; margin-bottom: 4px; }
+
+  .exercise-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .exercise-box h4 { color: #1d4ed8; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .exercise-box h4 .ex-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #3b82f6; color: white; border-radius: 50%; font-size: 12px; font-weight: 700; }
+  .exercise-box p { color: #1e40af; margin-bottom: 8px; font-size: 14px; }
+  .exercise-box ul { margin: 8px 0 0 20px; color: #1e40af; }
+  .exercise-box ul li { margin-bottom: 6px; font-size: 14px; }
+  .exercise-box .prompt-text { background: white; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #1e3a5f; white-space: pre-wrap; margin: 8px 0; }
+
+  .challenge-box { background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .challenge-box h4 { color: #be185d; font-size: 14px; margin-bottom: 10px; }
+  .challenge-box p { color: #9d174d; font-size: 14px; }
+  .challenge-box .prompt-text { background: white; border: 1px solid #fbcfe8; border-radius: 8px; padding: 14px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #831843; white-space: pre-wrap; margin: 8px 0; }
+
+  .compare-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .compare-box h4 { color: #15803d; font-size: 14px; margin-bottom: 10px; }
+  .compare-box p { color: #166534; font-size: 14px; }
+  .compare-box table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .compare-box th, .compare-box td { padding: 8px 12px; text-align: left; border: 1px solid #bbf7d0; font-size: 13px; }
+  .compare-box th { background: #dcfce7; color: #15803d; font-weight: 600; }
+  .compare-box td { color: #166534; }
+
+  .workspace-box { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .workspace-box h4 { color: #7c3aed; font-size: 14px; margin-bottom: 10px; }
+  .workspace-box p { color: #5b21b6; font-size: 14px; }
+  .workspace-box .area { display: inline-block; background: #ede9fe; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #6d28d9; margin: 2px 4px 2px 0; }
+
+  .tip-box { background: #fefce8; border-left: 4px solid #eab308; padding: 14px 16px; margin: 12px 0; border-radius: 0 8px 8px 0; }
+  .tip-box strong { color: #a16207; }
+  .tip-box p { color: #713f12; margin: 0; font-size: 14px; }
+
+  .warning-box { background: #fef2f2; border-left: 4px solid #ef4444; padding: 14px 16px; margin: 12px 0; border-radius: 0 8px 8px 0; }
+  .warning-box strong { color: #dc2626; }
+  .warning-box p { color: #991b1b; margin: 0; font-size: 14px; }
+
+  .key-concept { display: inline-block; background: #fff7ed; border: 1px solid #fed7aa; padding: 2px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #c2410c; margin: 2px 4px 2px 0; }
+
+  .checklist { list-style: none; padding: 0; margin: 12px 0; }
+  .checklist li { padding: 6px 0 6px 28px; position: relative; color: #475569; font-size: 14px; }
+  .checklist li::before { content: '\2610'; position: absolute; left: 2px; top: 6px; font-size: 16px; color: #94a3b8; }
+
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 2px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 13px; }
+  .footer .course-name { font-weight: 600; color: #64748b; }
+
+  .print-btn { display: inline-flex; align-items: center; gap: 8px; background: #f97316; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+  .print-btn:hover { background: #ea580c; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+
+  .toc { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 20px 0; }
+  .toc h4 { color: #334155; font-size: 14px; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .toc ol { padding-left: 20px; margin: 0; }
+  .toc li { color: #475569; font-size: 13px; margin-bottom: 4px; }
+  .toc a { color: #ea580c; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .duration-badge { display: inline-block; background: #ffedd5; color: #c2410c; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+</style>
+<script>
+  function copyPrompt(btn) {
+    const text = btn.parentElement.querySelector('.prompt-inner').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.style.background = '#a7f3d0';
+      btn.style.color = '#065f46';
+      setTimeout(() => { btn.textContent = 'Copy'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+    });
+  }
+</script>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">Supplemental Practice Guide</div>
+    <h1>Replit - Hands-On Practice</h1>
+    <div class="subtitle">AI Automation & Vibe Coding for Healthcare</div>
+    <div class="tool-name">Build a Clinical Report Generator</div>
+    <div class="meta">
+      <span>Duration: 30-45 min</span>
+      <span>Level: Beginner</span>
+      <span>Module 4: Vibe Coding</span>
+      <span>AI-Assisted Development</span>
+    </div>
+    <button class="print-btn no-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc no-print">
+    <h4>Table of Contents</h4>
+    <ol>
+      <li><a href="#what-is-replit">What is Replit?</a></li>
+      <li><a href="#learning-objectives">What You Will Learn</a></li>
+      <li><a href="#getting-started">Getting Started - Account & Workspace</a></li>
+      <li><a href="#workspace-tour">Understanding the Replit Workspace</a></li>
+      <li><a href="#demo-scenario">Demo Scenario: Healthcare Use Case</a></li>
+      <li><a href="#prompt1">Prompt 1: Create Clinical Summary App</a></li>
+      <li><a href="#prompt2">Prompt 2: Add Urgency Classification</a></li>
+      <li><a href="#prompt3">Prompt 3: Structured Output & Download</a></li>
+      <li><a href="#exercises">Practice Exercises</a></li>
+      <li><a href="#advanced">Advanced Challenges</a></li>
+      <li><a href="#comparison">Lovable vs. Replit: When to Use Which?</a></li>
+      <li><a href="#prompt-tips">Tips for Better Results</a></li>
+      <li><a href="#self-assessment">Self-Assessment Checklist</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1: WHAT IS REPLIT -->
+  <h2 id="what-is-replit"><span class="num">1</span> What is Replit?</h2>
+  <div class="info-box">
+    <h4>Definition</h4>
+    <p>Replit is an <strong>AI-assisted development platform</strong> that allows users to create, edit, run, and test applications in the browser. It combines a coding workspace, AI support, app preview, and rapid prototyping &mdash; all from your browser with no software installation required.</p>
+  </div>
+
+  <h4>Key Features</h4>
+  <ul class="step-list">
+    <li><strong>Cloud-based development</strong> - No installation needed; everything runs in your browser</li>
+    <li><strong>AI-powered code generation</strong> - Describe what you want and the AI writes the code</li>
+    <li><strong>Live app preview</strong> - See your app running in real time as changes are made</li>
+    <li><strong>Multi-language support</strong> - Works with Python, JavaScript, HTML, and many more</li>
+    <li><strong>Collaborative development</strong> - Share your workspace and build together</li>
+    <li><strong>One-click deployment</strong> - Deploy your app and get a public URL instantly</li>
+    <li><strong>AI chat assistant</strong> - Ask AI to explain code, fix bugs, or suggest improvements</li>
+  </ul>
+
+  <div class="tip-box">
+    <p><strong>What makes Replit different from Lovable?</strong> While Lovable is purely prompt-based (you never see code), Replit gives you both an AI assistant <em>and</em> access to the underlying code. This means you can let AI do the heavy lifting and optionally fine-tune the code manually if needed.</p>
+  </div>
+
+  <p><strong>Key Concepts:</strong></p>
+  <div>
+    <span class="key-concept">AI-Assisted Development</span>
+    <span class="key-concept">Cloud IDE</span>
+    <span class="key-concept">Rapid Prototyping</span>
+    <span class="key-concept">Code Generation</span>
+    <span class="key-concept">Browser-Based Development</span>
+    <span class="key-concept">Collaborative Coding</span>
+  </div>
+
+  <!-- SECTION 2: LEARNING OBJECTIVES -->
+  <h2 id="learning-objectives"><span class="num">2</span> What You Will Learn</h2>
+  <div class="objective-box">
+    <h4>Learning Objectives</h4>
+    <ul>
+      <li>How to use Replit as an AI-assisted development tool to create healthcare web applications</li>
+      <li>How to create an account and navigate the Replit workspace</li>
+      <li>How to use AI prompts to generate a complete application from a description</li>
+      <li>How to improve the application step by step using follow-up prompts</li>
+      <li>How to add urgency classification logic through natural language instructions</li>
+      <li>How to create structured output with export/download functionality</li>
+      <li>The differences between Replit and other vibe coding tools</li>
+    </ul>
+  </div>
+
+  <div class="duration-badge">Estimated Time: 30-45 minutes</div>
+
+  <!-- SECTION 3: GETTING STARTED -->
+  <h2 id="getting-started"><span class="num">3</span> Getting Started</h2>
+
+  <div class="step-box">
+    <h4><span class="step-num">1</span> Create Account and Log In</h4>
+    <ul class="step-list">
+      <li>Open your browser and go to <strong>replit.com</strong></li>
+      <li>Click <strong>Sign Up</strong> and create a free account using email, Google, or GitHub</li>
+      <li>Verify your email if prompted</li>
+      <li>Log in to see your Replit <strong>home dashboard</strong></li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <h4><span class="step-num">2</span> Create a New Project</h4>
+    <ul class="step-list">
+      <li>Click the <strong>Create Repl</strong> or <strong>+</strong> button on your dashboard</li>
+      <li>You can either select a template or use the <strong>AI Agent</strong> to describe what you want</li>
+      <li>For this guide, use the AI prompt input to describe your app (we'll do this in the Demo section)</li>
+      <li>The workspace will open with the code editor, file browser, and app preview panel</li>
+    </ul>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Tip:</strong> Replit offers a free tier that is sufficient for this guide. When using the AI Agent, you may have a limited number of prompts per day on the free tier &mdash; plan your prompts carefully.</p>
+  </div>
+
+  <!-- SECTION 4: WORKSPACE TOUR -->
+  <h2 id="workspace-tour"><span class="num">4</span> Understanding the Replit Workspace</h2>
+
+  <div class="workspace-box">
+    <h4>Workspace Areas</h4>
+    <p>Replit's workspace is divided into several key areas:</p>
+    <p>
+      <span class="area">File Browser</span> - See all project files on the left sidebar<br>
+      <span class="area">Code Editor</span> - Main area where code is displayed and edited<br>
+      <span class="area">App Preview</span> - Live preview of your running application<br>
+      <span class="area">AI Assistant</span> - Chat panel for giving AI prompts and instructions<br>
+      <span class="area">Console/Shell</span> - Terminal for running commands (optional, for advanced users)
+    </p>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128247;</span>
+    <p>The workspace layout may vary slightly depending on your screen size. On mobile, panels may be in tabs rather than side by side. Look for the AI chat icon to find the assistant panel.</p>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Key difference from Lovable:</strong> In Replit, you can see the actual code the AI generates. You don't need to read or understand the code &mdash; but having it visible means you (or a developer) can manually adjust things later if needed.</p>
+  </div>
+
+  <!-- SECTION 5: DEMO SCENARIO -->
+  <h2 id="demo-scenario"><span class="num">5</span> Demo Scenario: Healthcare Use Case</h2>
+  <div class="info-box">
+    <h4>Scenario</h4>
+    <p>We will create a <strong>Clinical Report Generator</strong> for a doctor. The application will:</p>
+    <ul>
+      <li><strong>Accept</strong> patient symptoms and clinical data as input</li>
+      <li><strong>Generate</strong> a structured clinical summary from the entered information</li>
+      <li><strong>Classify</strong> urgency level (Low, Medium, High) based on symptoms</li>
+      <li><strong>Export</strong> the report in a structured format for documentation purposes</li>
+    </ul>
+  </div>
+  <p><strong>Demo Goal:</strong> You will create and progressively improve this clinical tool using <strong>three prompts</strong>. Each prompt builds on the previous one, adding new functionality and demonstrating how AI-assisted development works in practice.</p>
+
+  <!-- SECTION 6: PROMPT 1 -->
+  <h2 id="prompt1"><span class="num">6</span> Prompt 1: Create Clinical Summary App</h2>
+
+  <p>This first prompt creates the foundation of your clinical report generator. You're telling Replit what data to collect and what to generate from it.</p>
+
+  <div class="prompt-card" data-label="PROMPT 1">
+    <h4>Generate the Initial Application</h4>
+    <p class="prompt-context">Goal: Build a form that collects patient data and generates a clinical summary</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">Copy</button>
+      <span class="prompt-inner">Create a simple web app for doctors where they can enter patient symptoms and generate a clinical summary. The app should include input fields for patient name, age, symptoms, and notes. It should have a clean interface and display the generated summary clearly.</span>
+    </div>
+  </div>
+
+  <div class="expect-box">
+    <h5>What to expect after this prompt</h5>
+    <ul>
+      <li>Replit will generate a complete web application with a form interface</li>
+      <li>You should see input fields for patient name, age, symptoms, and notes</li>
+      <li>A "Generate Summary" button to create the clinical report</li>
+      <li>The clinical summary displayed clearly below the form</li>
+      <li>A clean, professional interface suitable for clinical use</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128270;</span>
+    <p><strong>Check your result:</strong> Enter sample data (e.g., patient "Sara", age 45, symptoms "headache, fever, fatigue", notes "symptoms started 3 days ago") and click Generate. Verify you see a formatted clinical summary with the entered information.</p>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Why this prompt works:</strong> It specifies the <em>user</em> (doctors), the <em>input fields</em> (name, age, symptoms, notes), the <em>action</em> (generate a clinical summary), and the <em>style</em> (clean interface, displayed clearly). Clear specification leads to better results.</p>
+  </div>
+
+  <!-- SECTION 7: PROMPT 2 -->
+  <h2 id="prompt2"><span class="num">7</span> Prompt 2: Add Urgency Classification</h2>
+
+  <p>Now we add <strong>clinical intelligence</strong> to the app. This prompt teaches the app to assess urgency based on the entered symptoms.</p>
+
+  <div class="prompt-card" data-label="PROMPT 2">
+    <h4>Enhance with Urgency Levels</h4>
+    <p class="prompt-context">Goal: Add automatic urgency classification (Low, Medium, High)</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">Copy</button>
+      <span class="prompt-inner">Enhance the app by adding an urgency classification section. Based on the entered symptoms, show a simple urgency level such as Low, Medium, or High. Display the urgency clearly below the clinical summary.</span>
+    </div>
+  </div>
+
+  <div class="expect-box">
+    <h5>What to expect after this prompt</h5>
+    <ul>
+      <li>A color-coded urgency badge or indicator (green=Low, yellow=Medium, red=High)</li>
+      <li>Urgency displayed prominently below or alongside the clinical summary</li>
+      <li>Classification based on symptom keywords (e.g., "chest pain" = High, "headache" = Low)</li>
+      <li>Visual differentiation making urgency immediately obvious</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128270;</span>
+    <p><strong>Test it:</strong> Try these scenarios to verify classification works:
+    <br>&bull; Enter "mild headache" &rarr; should show Low urgency
+    <br>&bull; Enter "high fever, persistent cough" &rarr; should show Medium urgency
+    <br>&bull; Enter "chest pain, difficulty breathing" &rarr; should show High urgency</p>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Key learning:</strong> By adding urgency classification, you've turned a simple data entry form into an intelligent clinical tool. The AI interpreted "urgency classification" and created logic to categorize symptoms &mdash; all from a natural language prompt.</p>
+  </div>
+
+  <!-- SECTION 8: PROMPT 3 -->
+  <h2 id="prompt3"><span class="num">8</span> Prompt 3: Structured Output & Download</h2>
+
+  <p>The final prompt transforms the output into a <strong>professional, structured report</strong> that can be downloaded or printed for medical documentation.</p>
+
+  <div class="prompt-card" data-label="PROMPT 3">
+    <h4>Add Structured Output and Export</h4>
+    <p class="prompt-context">Goal: Format the report professionally and add download/print functionality</p>
+    <div class="prompt-text">
+      <button class="copy-btn no-print" onclick="copyPrompt(this)">Copy</button>
+      <span class="prompt-inner">Improve the app by formatting the output into clear sections: patient details, symptoms, clinical summary, and urgency level. Also add a button that allows the doctor to download or print the result for documentation purposes.</span>
+    </div>
+  </div>
+
+  <div class="expect-box">
+    <h5>What to expect after this prompt</h5>
+    <ul>
+      <li>Output organized into clearly labeled sections with headers</li>
+      <li>Patient Details section (name, age, date)</li>
+      <li>Symptoms section (listed clearly)</li>
+      <li>Clinical Summary section (the generated report)</li>
+      <li>Urgency Level section (color-coded)</li>
+      <li>A "Download as PDF" or "Print" button</li>
+      <li>Professional report format suitable for medical records</li>
+    </ul>
+  </div>
+
+  <div class="screenshot-hint">
+    <span class="icon">&#128270;</span>
+    <p><strong>Test it:</strong> Generate a report and click the Download/Print button. Verify the output is well-formatted with clear section headers and looks professional enough for medical documentation.</p>
+  </div>
+
+  <div class="info-box">
+    <h4>What You've Built</h4>
+    <p>Using just <strong>three prompts</strong>, you created a clinical report generator with:</p>
+    <ul>
+      <li>Patient data collection form</li>
+      <li>Automatic clinical summary generation</li>
+      <li>AI-powered urgency classification (Low, Medium, High)</li>
+      <li>Structured, professional report output</li>
+      <li>Download/print capability for medical documentation</li>
+    </ul>
+    <p style="margin-top: 8px;">This demonstrates the power of <strong>AI-assisted development</strong>: building functional clinical tools through iterative prompting in the browser.</p>
+  </div>
+
+  <!-- SECTION 9: PRACTICE EXERCISES -->
+  <h2 id="exercises"><span class="num">9</span> Practice Exercises</h2>
+  <p>Now it's your turn! These exercises will strengthen your skills with Replit. Each includes ready-to-use prompts.</p>
+
+  <div class="exercise-box">
+    <h4><span class="ex-icon">A</span> Exercise 1: Enhance Your Clinical Report Generator</h4>
+    <p>Continue building on the app you just created. Try each prompt one at a time:</p>
+
+    <p><strong>Add Vital Signs:</strong></p>
+    <div class="prompt-text">Add input fields for vital signs: temperature (in Celsius), heart rate (BPM), blood pressure (systolic/diastolic), and oxygen saturation (%). Include these in the generated report and use them to improve the urgency classification accuracy.</div>
+
+    <p><strong>Add Follow-up Recommendations:</strong></p>
+    <div class="prompt-text">Add a section in the report that suggests follow-up actions based on the urgency level. For Low urgency, suggest scheduling a routine follow-up. For Medium, suggest further tests within 48 hours. For High, recommend immediate specialist referral with specific warnings.</div>
+
+    <p><strong>Add Report History:</strong></p>
+    <div class="prompt-text">Add a history panel on the side that shows previously generated reports. Each entry should show patient name, date, and urgency level. Clicking an entry should display the full report. Add a search bar to find previous reports by patient name.</div>
+  </div>
+
+  <div class="exercise-box">
+    <h4><span class="ex-icon">B</span> Exercise 2: Build a New Healthcare Tool from Scratch</h4>
+    <p>Start a <strong>new project</strong> in Replit and try building one of these:</p>
+
+    <p><strong>Option 1 - Lab Result Interpreter:</strong></p>
+    <div class="prompt-text">Create a web app where doctors can enter lab test results including blood count (hemoglobin, WBC, platelets), glucose level, cholesterol (total, HDL, LDL), and creatinine. For each value, show whether it is Normal, Low, or High compared to standard medical reference ranges. Display the results in a clear table with color coding: green for normal, yellow for borderline, and red for abnormal values.</div>
+
+    <p><strong>Option 2 - Shift Handover Tool:</strong></p>
+    <div class="prompt-text">Create an app for nurses to document patient status during shift handover. Include fields for patient name, room number, current condition, vital signs summary, medications given during the shift, pending tasks for the next shift, and special notes or alerts. Generate a structured handover report that the next shift nurse can review quickly. Include a print button.</div>
+
+    <p><strong>Option 3 - Symptom Checker:</strong></p>
+    <div class="prompt-text">Create a simple symptom checker where patients can enter their symptoms from a list of common symptoms using checkboxes. Based on the selected symptoms, display a general recommendation: "Self-care at home", "Schedule a doctor appointment within a few days", or "Seek emergency medical care". Add a disclaimer that this is not a medical diagnosis. Include a button to generate a printable summary to bring to the doctor.</div>
+  </div>
+
+  <div class="exercise-box">
+    <h4><span class="ex-icon">C</span> Exercise 3: The Three-Prompt Build</h4>
+    <p>Practice the iterative development workflow with exactly three prompts:</p>
+
+    <p><strong>Prompt 1 (Foundation):</strong></p>
+    <div class="prompt-text">Create a patient registration form for a small healthcare clinic. Include fields for full name, date of birth, gender, phone number, email, emergency contact name and phone, medical conditions (checkbox list), allergies, and current medications. Save registrations and show them in a list.</div>
+
+    <p><strong>Prompt 2 (Intelligence):</strong></p>
+    <div class="prompt-text">Add a patient search feature with filters for name and date of birth. When viewing a patient's record, show a summary card with their key medical information. Highlight any allergies in red. Add a flag for patients with more than 3 medical conditions.</div>
+
+    <p><strong>Prompt 3 (Output):</strong></p>
+    <div class="prompt-text">Add a dashboard view showing total registered patients, gender distribution as a pie chart, most common medical conditions as a bar chart, and a list of recently registered patients. Add an export button to download the patient list as a CSV file.</div>
+  </div>
+
+  <!-- SECTION 10: ADVANCED CHALLENGES -->
+  <h2 id="advanced"><span class="num">10</span> Advanced Challenges</h2>
+
+  <div class="challenge-box">
+    <h4>Challenge 1: Clinical Decision Support Tool</h4>
+    <p>Build a tool that helps doctors with clinical decisions:</p>
+    <div class="prompt-text">Create a clinical decision support web app. The doctor enters patient age, gender, symptoms (free text), vital signs (temperature, heart rate, blood pressure, SpO2), and relevant lab values. The app should generate a structured assessment including: 1) A problem list based on symptoms, 2) Possible differential diagnoses ranked by likelihood, 3) Recommended next steps (tests, referrals, treatments), 4) Urgency level. Format the output as a professional clinical note.</div>
+    <p style="margin-top: 10px; font-size: 13px;"><strong>Refine with:</strong></p>
+    <p style="font-size: 13px; color: #9d174d;">"Add a section for medication suggestions with dosage guidelines. Include a drug allergy check field and show a prominent warning if a suggested medication conflicts with a listed allergy."</p>
+    <p style="font-size: 13px; color: #9d174d;">"Add the ability to save and compare multiple assessments for the same patient over time. Show a timeline view of how the patient's condition has changed."</p>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge 2: Clinic Analytics Dashboard</h4>
+    <p>Build a comprehensive clinic management dashboard:</p>
+    <div class="prompt-text">Create a clinic analytics dashboard that shows: 1) Total patients seen today with a comparison to the weekly average, 2) Distribution of urgency levels (pie chart), 3) Average wait time by hour of day (line chart), 4) Top 10 most common presenting symptoms (bar chart), 5) Department workload comparison. Use realistic sample data. Make the dashboard responsive and visually professional with a dark sidebar navigation.</div>
+    <p style="margin-top: 10px; font-size: 13px;"><strong>Then add:</strong> "Add a date range filter and an export button to download the dashboard data as a PDF report with all charts included."</p>
+  </div>
+
+  <!-- SECTION 11: COMPARISON -->
+  <h2 id="comparison"><span class="num">11</span> Lovable vs. Replit: When to Use Which?</h2>
+  <div class="compare-box">
+    <h4>Quick Comparison Guide</h4>
+    <table>
+      <tr><th>Feature</th><th>Lovable</th><th>Replit</th></tr>
+      <tr><td>Best for</td><td>Quick UI-focused apps and prototypes</td><td>Full-stack apps with complex logic</td></tr>
+      <tr><td>Coding required</td><td>None - purely prompt-based</td><td>Optional - AI assists, code visible</td></tr>
+      <tr><td>Input method</td><td>Natural language prompts only</td><td>Prompts + optional code editing</td></tr>
+      <tr><td>Code visibility</td><td>Hidden (abstracted away)</td><td>Full access to generated code</td></tr>
+      <tr><td>Output</td><td>Web app with polished UI</td><td>Any type of application</td></tr>
+      <tr><td>Customization</td><td>Through follow-up prompts</td><td>Prompts + manual code changes</td></tr>
+      <tr><td>Collaboration</td><td>Share via published link</td><td>Real-time collaborative workspace</td></tr>
+      <tr><td>Deployment</td><td>One-click publish</td><td>Integrated deployment + public URL</td></tr>
+      <tr><td>Healthcare example</td><td>Patient tracking app</td><td>Clinical report generator</td></tr>
+      <tr><td>Use when...</td><td>You need a quick prototype fast</td><td>You need more control & features</td></tr>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Both tools follow the vibe coding approach:</strong> You describe what you want in natural language, and AI generates the solution. The main difference is the level of control and visibility you get over the underlying code.</p>
+  </div>
+
+  <!-- SECTION 12: TIPS -->
+  <h2 id="prompt-tips"><span class="num">12</span> Tips for Better Results with Replit</h2>
+
+  <div class="tip-box"><p><strong>Start with the user story:</strong> Begin your prompt with "As a doctor, I want to..." or "For a nurse who needs to..." This helps the AI understand the context and create appropriate interfaces.</p></div>
+
+  <div class="tip-box"><p><strong>Specify the output format:</strong> Describe exactly how data should be displayed: "show results in a table", "display as cards", "create a chart showing trends". The more visual guidance you give, the better the result.</p></div>
+
+  <div class="tip-box"><p><strong>Add one feature at a time:</strong> Don't try to describe an entire complex app in one prompt. Build incrementally: basic form &rarr; classification logic &rarr; export feature. Each prompt should focus on one new capability.</p></div>
+
+  <div class="tip-box"><p><strong>Test after each change:</strong> Use Replit's live preview panel to verify the app works correctly before adding more features. Fix issues before moving to the next prompt.</p></div>
+
+  <div class="tip-box"><p><strong>Use the AI chat for help:</strong> If something doesn't work as expected, ask the AI assistant: "The urgency classification is not working for 'chest pain'. Can you fix the logic to classify 'chest pain' as High urgency?"</p></div>
+
+  <div class="tip-box"><p><strong>Be specific about medical logic:</strong> When adding clinical features, provide clear rules: "If temperature is above 38.5°C and heart rate is above 100 BPM, classify as High urgency." Medical logic needs precision.</p></div>
+
+  <div class="tip-box"><p><strong>Request professional formatting:</strong> For clinical tools, ask for "professional medical layout", "suitable for patient records", or "formatted like a clinical note". This improves the output quality.</p></div>
+
+  <div class="warning-box">
+    <p><strong>Important reminder:</strong> Applications built in this exercise are for learning purposes only. They are not validated medical software and should not be used for actual clinical decision-making. Always consult healthcare professionals for medical decisions.</p>
+  </div>
+
+  <!-- SECTION 13: SELF-ASSESSMENT -->
+  <h2 id="self-assessment"><span class="num">13</span> Self-Assessment Checklist</h2>
+  <p>Use this checklist to track your progress through this practice guide:</p>
+
+  <ul class="checklist">
+    <li>I created an account on Replit and can navigate the workspace</li>
+    <li>I understand the workspace layout (file browser, code editor, preview, AI assistant)</li>
+    <li>I successfully generated a clinical summary app using Prompt 1</li>
+    <li>I tested the app with sample patient data and verified it works</li>
+    <li>I added urgency classification using Prompt 2 and tested Low, Medium, and High scenarios</li>
+    <li>I added structured output and download using Prompt 3</li>
+    <li>I tested the download/print functionality</li>
+    <li>I completed at least one Practice Exercise (A, B, or C)</li>
+    <li>I can explain the difference between Lovable and Replit</li>
+    <li>I understand how AI-assisted development works and its benefits for healthcare</li>
+    <li>I can write effective prompts for building healthcare applications</li>
+  </ul>
+
+  <div class="info-box">
+    <h4>Congratulations!</h4>
+    <p>You've completed the Replit practice guide. You now know how to use AI-assisted development to build healthcare applications in the browser. The key takeaway: <strong>with the right prompts, you can build professional clinical tools without being a programmer.</strong> The ability to see and optionally modify the code gives you even more flexibility for real-world applications.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p class="course-name">HealthAI Academy - AI Automation & Vibe Coding for Healthcare</p>
+    <p>Module 4: Vibe Coding | Tool Demo: Replit</p>
+    <p style="margin-top: 8px; font-size: 11px;">This is a supplemental practice document for self-study. Visit the course platform for the full learning experience.</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { CheckCircle2, XCircle, RotateCcw } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function QuizComponent({ questions, onComplete, title = "Quiz" }) {
+  const { t, isRTL } = useLanguage();
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -46,10 +48,10 @@ export default function QuizComponent({ questions, onComplete, title = "Quiz" })
         {questions.map((q, qi) => (
           <div key={qi} className="space-y-3">
             <p className="text-sm font-medium text-slate-800">
-              <span className="text-cyan-600 font-semibold mr-2">Q{qi + 1}.</span>
+              <span className="text-cyan-600 font-semibold me-2">Q{qi + 1}.</span>
               {q.question}
             </p>
-            <div className="space-y-2 pl-6">
+            <div className="space-y-2 ps-6">
               {q.options.map((opt, oi) => {
                 const isSelected = answers[qi] === oi;
                 const isCorrect = submitted && q.correct === oi;
@@ -58,14 +60,14 @@ export default function QuizComponent({ questions, onComplete, title = "Quiz" })
                   <button
                     key={oi}
                     onClick={() => selectAnswer(qi, oi)}
-                    className={`w-full text-left px-4 py-2.5 rounded-lg border text-sm transition-all ${
+                    className={`w-full text-start px-4 py-2.5 rounded-lg border text-sm transition-all ${
                       isCorrect ? 'border-emerald-300 bg-emerald-50 text-emerald-700' :
                       isWrong ? 'border-red-300 bg-red-50 text-red-700' :
                       isSelected ? 'border-cyan-400 bg-cyan-50 text-cyan-800' :
                       'border-slate-200 hover:border-slate-300 text-slate-600'
                     } ${submitted ? 'cursor-default' : 'cursor-pointer'}`}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className={`flex items-center gap-2`}>
                       {submitted && isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
                       {submitted && isWrong && <XCircle className="w-4 h-4 text-red-500 shrink-0" />}
                       {!submitted && (
@@ -84,28 +86,28 @@ export default function QuizComponent({ questions, onComplete, title = "Quiz" })
           </div>
         ))}
 
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+        <div className={`flex items-center justify-between pt-4 border-t border-slate-100`}>
           {submitted ? (
             <>
               <p className="text-sm text-slate-500">
-                {score >= 70 ? '✓ Quiz passed!' : 'Review and try again.'}
+                {score >= 70 ? `✓ ${t.activityComplete}` : t.tryAgain}
               </p>
-              <button onClick={reset} className="flex items-center gap-1.5 px-4 py-2 text-sm text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all">
+              <button onClick={reset} className={`flex items-center gap-1.5 px-4 py-2 text-sm text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all`}>
                 <RotateCcw className="w-3.5 h-3.5" />
-                Retry
+                {t.tryAgain}
               </button>
             </>
           ) : (
             <>
               <p className="text-xs text-slate-400">
-                {Object.keys(answers).length} of {questions.length} answered
+                {Object.keys(answers).length} {t.of} {questions.length} {t.answered}
               </p>
               <button
                 onClick={submit}
                 disabled={Object.keys(answers).length < questions.length}
                 className="px-5 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
               >
-                Submit Answers
+                {t.checkAnswers}
               </button>
             </>
           )}
